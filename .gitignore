@@ -73,3 +73,5 @@ Temporary Items
 
 ### Code samples
 samples/*
+node_modules/*
+dist/*

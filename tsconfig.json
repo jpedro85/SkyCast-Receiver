@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+    },
+    "extends": "@tsconfig/recommended/tsconfig.json",
+    "include": ["./public/ts/**/*.ts"],
+    "exclude": ["node_modules", "dist"],
+}
