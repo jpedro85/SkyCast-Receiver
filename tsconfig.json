@@ -1,8 +1,0 @@
-{
-    "compilerOptions": {
-        "outDir": "./public/js",
-    },
-    "extends": "@tsconfig/recommended/tsconfig.json",
-    "include": ["./public/ts/**/*.ts"],
-    "exclude": ["node_modules", "public/js"],
-}
