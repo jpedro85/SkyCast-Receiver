@@ -1,4 +1,5 @@
-import DebuggerConsole  from "./Debugger.js";
+import DebuggerConsole from "./Debugger.js";
+import ChromecastChannel from "./communication/ChromecastChannel.communication.js";
 
 const context = cast.framework.CastReceiverContext.getInstance();
 const playerManager = context.getPlayerManager();
@@ -7,11 +8,13 @@ const playerManager = context.getPlayerManager();
 const debuggerConsole = new DebuggerConsole();
 debuggerConsole.enableDebugOverlay(true);
 
+const communicationChannel = new ChromecastChannel(NAMESPACE);
+
 const NAMESPACE = "urn:x-cast:com.skycast.chromecast.communication";
 let communicationConstants = {};
 
 // Custom Message Handler
-// context.addCustomMessageListener(NAMESPACE, onMessage);
+context.addCustomMessageListener(NAMESPACE, communicationChannel.onMessage);
 
 // playerManager.setMessageInterceptor(cast.framework.messages.MessageType.LOAD, async (request) => {
 //     sendLog("info", "Intercepting LOAD request");

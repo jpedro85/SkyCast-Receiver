@@ -1,12 +1,22 @@
 /**
  * isMessageFormatted
  */
-function isMessageFormatted(message) {
-  const sampleMessage = new messageProtocol();
-  for (const key in sampleMessage) {
-    if (!message.hasOwnProperty(key)) {
-      return false;
+
+export default class MessageProtocol {
+    constructor(type = "", data = "") {
+        this.type = type;
+        this.data = data;
     }
-  }
-  return true;
+
+    static isMessageFormatted(message) {
+        const sampleMessage = new MessageProtocol();
+        
+        for (const key in sampleMessage) {
+            if (!message.hasOwnProperty(key)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
