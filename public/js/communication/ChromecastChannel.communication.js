@@ -11,31 +11,30 @@ import MessageProtocol from "../MessageProtocol.js";
  *
  * @example
  * 
- *      // Example of creating a ChromecastChannel instance
- *      const namespace = 'urn:x-cast:com.example.custom';
- *      const chromecastChannel = new ChromecastChannel(namespace);
+ * // Example of creating a ChromecastChannel instance
+ * const NAMESPACE = 'urn:x-cast:com.example.custom';
+ * const chromecastChannel = new ChromecastChannel(NAMESPACE);
  * 
  * @example
+ * // Example of sending a message using ChromecastChannel
+ * const messageData = { type: 'greeting', data: 'Hello Chromecast!' };
  * 
- *      // Example of sending a message using ChromecastChannel
- *      const messageData = { type: 'greeting', data: 'Hello Chromecast!' };
- *      if (MessageProtocol.isMessageFormatted(messageData)) {
- *        chromecastChannel.sendMessage(messageData);
- *      } else {
- *        console.error('Message data is not properly formatted.');
- *      }
+ * if (MessageProtocol.isMessageFormatted(messageData)) {
+ *      chromecastChannel.sendMessage(messageData);
+ * } else {
+ *      console.error('Message data is not properly formatted.');
+ * }
  * 
  * @example
+ * // Example of defining a dispatcher and handling a message
+ * const dispatcher = {
+ *      communicationConstants: {  "Communication constants" },
+ *      callbacks: [  "Array of callback functions to handle messages" ]
+ * };
  * 
- *      // Example of defining a dispatcher and handling a message
- *      const dispatcher = {
- *        communicationConstants: {  "Communication constants" },
- *        callbacks: [  "Array of callback functions to handle messages" ]
- *      };
- *      // Assuming message received from a sender
- *      const message = { "Message received from a sender"  };
- *      chromecastChannel.onMessage(dispatcher, message);
- * 
+ * // Assuming message received from a sender
+ * const message = { "Message received from a sender"  };
+ * chromecastChannel.onMessage(dispatcher, message);
  */
 class ChromecastChannel {
     constructor(namespace) {

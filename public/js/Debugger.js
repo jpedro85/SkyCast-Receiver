@@ -3,15 +3,14 @@
  * allowing for easy control over log messages and debug overlay.
  *
  * @example
+ * // Initialize (or get existing instance of) DebuggerConsole
+ * const debuggerConsole = new DebuggerConsole();
  *
- *     // Initialize (or get existing instance of) DebuggerConsole
- *     const debuggerConsole = new DebuggerConsole();
+ * // Enable debug overlay with debug logs visible
+ * debuggerConsole.enableDebugOverlay(true);
  *
- *     // Enable debug overlay with debug logs visible
- *     debuggerConsole.enableDebugOverlay(true);
- *
- *     // Send an informational log message
- *     debuggerConsole.sendLog(debuggerConsole.DebugMessagesEnum.INFO, "This is an info message");
+ * // Send an informational log message
+ * debuggerConsole.sendLog(debuggerConsole.DebugMessagesEnum.INFO, "This is an info message");
  *
  */
 class DebuggerConsole {
