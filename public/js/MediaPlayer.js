@@ -1,6 +1,6 @@
 // TODO To implement this class
 
-export default class MediaPlayer {
+class MediaPlayer {
     constructor(){
 
     }
@@ -9,3 +9,5 @@ export default class MediaPlayer {
         
     }
 }
+
+export default MediaPlayer;

@@ -3,7 +3,7 @@
  * allowing for easy control over log messages and debug overlay.
  *
  * @example
- * ```
+ *
  *     // Initialize (or get existing instance of) DebuggerConsole
  *     const debuggerConsole = new DebuggerConsole();
  *
@@ -12,7 +12,7 @@
  *
  *     // Send an informational log message
  *     debuggerConsole.sendLog(debuggerConsole.DebugMessagesEnum.INFO, "This is an info message");
- * ```
+ *
  */
 class DebuggerConsole {
     /**

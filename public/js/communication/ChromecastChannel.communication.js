@@ -10,13 +10,13 @@ import MessageProtocol from "../MessageProtocol.js";
  * It utilizes the Cast framework and has integrated debugging capabilities.
  *
  * @example
- * ```
+ * 
  *      // Example of creating a ChromecastChannel instance
  *      const namespace = 'urn:x-cast:com.example.custom';
  *      const chromecastChannel = new ChromecastChannel(namespace);
- * ```
+ * 
  * @example
- * ```
+ * 
  *      // Example of sending a message using ChromecastChannel
  *      const messageData = { type: 'greeting', data: 'Hello Chromecast!' };
  *      if (MessageProtocol.isMessageFormatted(messageData)) {
@@ -24,9 +24,9 @@ import MessageProtocol from "../MessageProtocol.js";
  *      } else {
  *        console.error('Message data is not properly formatted.');
  *      }
- * ```
+ * 
  * @example
- * ```
+ * 
  *      // Example of defining a dispatcher and handling a message
  *      const dispatcher = {
  *        communicationConstants: {  "Communication constants" },
@@ -35,7 +35,7 @@ import MessageProtocol from "../MessageProtocol.js";
  *      // Assuming message received from a sender
  *      const message = { "Message received from a sender"  };
  *      chromecastChannel.onMessage(dispatcher, message);
- * ```
+ * 
  */
 class ChromecastChannel {
     constructor(namespace) {
