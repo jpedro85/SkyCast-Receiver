@@ -1,3 +1,5 @@
+// TODO: Decide if this file is still needed
+
 // All types of event that the app can request
 const EventTypes = {
     LOADVIDEO : "loadVideo",
@@ -41,17 +43,3 @@ const PlayAtEvent = {
 }
 
 
-// TODO
-function handleChromecastEvent(event) {
-    switch (event.type) {
-        case EventTypes.LOADVIDEO:
-            // Handle load video event
-            break;
-        case EventTypes.NEXTVIDEO:
-            // Handle next video event
-            break;
-        // Add cases for other event types as needed
-        default:
-            console.warn("Unhandled event type:", event.type);
-    }
-}

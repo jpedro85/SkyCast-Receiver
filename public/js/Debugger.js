@@ -1,11 +1,7 @@
 /**
  * A utility class for managing debug logging in a Google Cast application. It encapsulates the Google Cast debug logger,
  * allowing for easy control over log messages and debug overlay.
- */
-/**
- * A utility class for managing debug logging in a Google Cast application. It encapsulates the Google Cast debug logger,
- * allowing for easy control over log messages and debug overlay. 
- * 
+ *
  * @example
  * ```
  *     // Initialize (or get existing instance of) DebuggerConsole
@@ -20,7 +16,8 @@
  */
 class DebuggerConsole {
     /**
-     * Replacing the getInstance() method due to the getInstance method not giving correct autocomplete due to not expc.
+     * Replacing the getInstance() method due to the getInstance method not giving correct autocomplete
+     * due to not having a type return.
      */
     constructor() {
         if (DebuggerConsole.instance instanceof DebuggerConsole) {
@@ -36,6 +33,7 @@ class DebuggerConsole {
         };
         this.console = cast.debug.CastDebugLogger.getInstance();
         this.tag = "DebuggerConsole.LOG";
+        this.errorTag = "ErrorTag.LOG"
         // Keep a reference to the new instance
         DebuggerConsole.instance = this;
 
@@ -76,7 +74,7 @@ class DebuggerConsole {
         } else if (type == this.DebugMessagesEnum.INFO) {
             this.console.info(this.tag, message);
         } else if (type == this.DebugMessagesEnum.ERROR) {
-            this.console.error(this.tag, message);
+            this.console.error(this.errorTag, message);
         } else if (type == this.DebugMessagesEnum.WARN) {
             this.console.warn(this.tag, message);
         } else {

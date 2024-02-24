@@ -1,9 +1,41 @@
-import DebuggerConsole from "../Debugger";
-import MessageProtocol from "../MessageProtocol";
+import DebuggerConsole from "../Debugger.js";
+import MessageProtocol from "../MessageProtocol.js";
 
 /**
  * This class provides the functionality to send and receive messages to and from a Chromecast device using a specified namespace.
  * It utilizes the Cast framework and has integrated debugging capabilities.
+ */
+/**
+ * This class provides functionality to send and receive messages to and from a Chromecast device using a specified namespace.
+ * It utilizes the Cast framework and has integrated debugging capabilities.
+ *
+ * @example
+ * ```
+ *      // Example of creating a ChromecastChannel instance
+ *      const namespace = 'urn:x-cast:com.example.custom';
+ *      const chromecastChannel = new ChromecastChannel(namespace);
+ * ```
+ * @example
+ * ```
+ *      // Example of sending a message using ChromecastChannel
+ *      const messageData = { type: 'greeting', data: 'Hello Chromecast!' };
+ *      if (MessageProtocol.isMessageFormatted(messageData)) {
+ *        chromecastChannel.sendMessage(messageData);
+ *      } else {
+ *        console.error('Message data is not properly formatted.');
+ *      }
+ * ```
+ * @example
+ * ```
+ *      // Example of defining a dispatcher and handling a message
+ *      const dispatcher = {
+ *        communicationConstants: {  "Communication constants" },
+ *        callbacks: [  "Array of callback functions to handle messages" ]
+ *      };
+ *      // Assuming message received from a sender
+ *      const message = { "Message received from a sender"  };
+ *      chromecastChannel.onMessage(dispatcher, message);
+ * ```
  */
 export default class ChromecastChannel {
     constructor(namespace) {
@@ -38,12 +70,12 @@ export default class ChromecastChannel {
     /**
      * Handles messages received by the dispatcher
      * @param {Dispatcher} dispatcher The dispatcher instance handling the message
-     * @param {*} message
+     * @param {MessageProtocol} message
      */
     onMessage(dispatcher, message) {
         const { communicationConstants, callbacks } = dispatcher;
         console.log(message);
         this.debugger.sendLog("info", "Message Received was:\n" + message);
-        // TODO implement the actions for the the message
+        // TODO implement the actions for the the message (messageHandler)
     }
 }
