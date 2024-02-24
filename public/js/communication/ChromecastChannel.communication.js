@@ -37,7 +37,7 @@ import MessageProtocol from "../MessageProtocol.js";
  *      chromecastChannel.onMessage(dispatcher, message);
  * ```
  */
-export default class ChromecastChannel {
+class ChromecastChannel {
     constructor(namespace) {
         this.namespace = namespace;
         this.context = cast.framework.CastReceiverContext.getInstance();
@@ -79,3 +79,5 @@ export default class ChromecastChannel {
         // TODO implement the actions for the the message (messageHandler)
     }
 }
+
+export default ChromecastChannel;

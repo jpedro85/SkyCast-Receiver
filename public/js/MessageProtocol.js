@@ -2,7 +2,7 @@
  * Represents a protocol for message handling.
  * It's used for creating and validating message objects based on a predefined protocol.
  */
-export default class MessageProtocol {
+class MessageProtocol {
     /**
      * @param {string} [type=""] - The type of the message. This parameter specifies the message's category or purpose.
      * @param {string} [data=""] - The data contained in the message. This is the content or information the message carries.
@@ -21,7 +21,7 @@ export default class MessageProtocol {
      */
     static isMessageFormatted(message) {
         const sampleMessage = new MessageProtocol();
-        
+
         for (const key in sampleMessage) {
             if (!message.hasOwnProperty(key)) {
                 return false;
@@ -31,3 +31,5 @@ export default class MessageProtocol {
         return true;
     }
 }
+
+export default MessageProtocol;
