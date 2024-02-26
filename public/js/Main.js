@@ -13,15 +13,13 @@ let communicationConstants = {};
 const debuggerConsole = new DebuggerConsole();
 debuggerConsole.enableDebugOverlay(true);
 
-const communicationChannel = new ChromecastChannel(NAMESPACE);
-
 // Custom Message Handler
-// context.addCustomMessageListener(NAMESPACE, communicationChannel.onMessage);
+const communicationChannel = new ChromecastChannel(NAMESPACE, { communicationConstants, callbacks: debuggerConsole.sendLog });
+context.addCustomMessageListener(NAMESPACE, communicationChannel.onMessage);
 
-debuggerConsole.sendLog("error", "Hello World");
-
+// Report Errors that can occur in readable text
 playerManager.addEventListener(cast.framework.events.EventType.ERROR, (event) => {
-    const error = Object.values(ErrorCodes).find(e => e.code === event.detailedErrorCode);
+    const error = Object.values(ErrorCodes).find((e) => e.code === event.detailedErrorCode);
     const errorMessage = error ? `Error ${error.code}: ${error.message}` : `Unknown Error Code - ${event.detailedErrorCode}`;
     debuggerConsole.sendLog("error", errorMessage);
 });

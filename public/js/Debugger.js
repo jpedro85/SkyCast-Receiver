@@ -19,6 +19,7 @@ class DebuggerConsole {
      * due to not having a type return.
      */
     constructor() {
+
         if (DebuggerConsole.instance instanceof DebuggerConsole) {
             return DebuggerConsole.instance;
         }
@@ -52,14 +53,14 @@ class DebuggerConsole {
         this.console.setEnabled(true);
         this.console.showDebugLogs(debugLogs);
         // Set verbosity level for Core events and custom tags.
-        this.console.loggerLevelByEvents = {
-            "cast.framework.events.category.CORE": cast.framework.LoggerLevel.INFO,
-            "cast.framework.events.EventType.MEDIA_STATUS": cast.framework.LoggerLevel.DEBUG,
-        };
+        // this.console.loggerLevelByEvents = {
+        //     "cast.framework.events.category.CORE": cast.framework.LoggerLevel.INFO,
+        //     "cast.framework.events.EventType.MEDIA_STATUS": cast.framework.LoggerLevel.DEBUG,
+        // };
 
-        this.console.loggerLevelByTags = {
-            logTag: cast.framework.LoggerLevel.DEBUG,
-        };
+        // this.console.loggerLevelByTags = {
+        //     logTag: cast.framework.LoggerLevel.DEBUG,
+        // };
     }
 
     /**
