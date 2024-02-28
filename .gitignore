@@ -75,5 +75,4 @@ Temporary Items
 samples/*
 node_modules/*
 dist/*
-docs/*
 .vscode/*
