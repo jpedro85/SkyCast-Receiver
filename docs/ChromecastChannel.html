@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>ChromecastChannel - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ChromecastChannel.html">ChromecastChannel</a><ul class='methods'><li data-type='method'><a href="ChromecastChannel.html#onMessage">onMessage</a></li><li data-type='method'><a href="ChromecastChannel.html#sendMessage">sendMessage</a></li></ul></li><li><a href="DebuggerConsole.html">DebuggerConsole</a><ul class='methods'><li data-type='method'><a href="DebuggerConsole.html#enableDebugOverlay">enableDebugOverlay</a></li><li data-type='method'><a href="DebuggerConsole.html#sendLog">sendLog</a></li></ul></li><li><a href="ImageCarousel.html">ImageCarousel</a><ul class='methods'><li data-type='method'><a href="ImageCarousel.html#extractImagePairs">extractImagePairs</a></li><li data-type='method'><a href="ImageCarousel.html#fetchAndProcessImages">fetchAndProcessImages</a></li><li data-type='method'><a href="ImageCarousel.html#init">init</a></li><li data-type='method'><a href="ImageCarousel.html#preloadImage">preloadImage</a></li><li data-type='method'><a href="ImageCarousel.html#preloadImagePairs">preloadImagePairs</a></li><li data-type='method'><a href="ImageCarousel.html#startCarousel">startCarousel</a></li></ul></li><li><a href="MessageProtocol.html">MessageProtocol</a><ul class='methods'><li data-type='method'><a href="MessageProtocol.html#.isMessageFormatted">isMessageFormatted</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#ErrorCodes">ErrorCodes</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">ChromecastChannel</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        
+            ChromecastChannel
+        
+        </h2>
+        
+            <div class="class-description usertext"><p>This class provides functionality to send and receive messages to and from a Chromecast device using a specified namespace.
+It utilizes the Cast framework and has integrated debugging capabilities.</p></div>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="ChromecastChannel"><span class="type-signature"></span>new ChromecastChannel<span class="signature">(namespace, dispatcher)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Creates an instance of ChromecastChannel, initializing communication with a Chromecast device.
+This constructor sets up the necessary properties for the channel, including a unique namespace for messaging,
+a dispatcher for handling incoming and outgoing messages, and initializes the Cast receiver context for communication.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="communication_ChromecastChannel.communication.js.html">communication/ChromecastChannel.communication.js</a>, <a href="communication_ChromecastChannel.communication.js.html#line35">line 35</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-examples">Examples</h5>
+    
+    <pre class="prettyprint"><code>// Example of creating a ChromecastChannel instance
+const NAMESPACE = 'urn:x-cast:com.example.custom';
+const chromecastChannel = new ChromecastChannel(NAMESPACE);</code></pre>
+
+    <pre class="prettyprint"><code>// Example of sending a message using ChromecastChannel
+const messageData = { type: 'greeting', data: 'Hello Chromecast!' };
+
+if (MessageProtocol.isMessageFormatted(messageData)) {
+     chromecastChannel.sendMessage(messageData);
+} else {
+     console.error('Message data is not properly formatted.');
+}</code></pre>
+
+    <pre class="prettyprint"><code>// Example of defining a dispatcher and handling a message
+const dispatcher = {
+     communicationConstants: {  "Communication constants" },
+     callbacks: [  "Array of callback functions to handle messages" ]
+};
+
+// Assuming message received from a sender
+const message = { "Message received from a sender"  };
+chromecastChannel.onMessage(dispatcher, message);</code></pre>
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>namespace</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A unique identifier for the messaging channel. This namespace is used to distinguish
+messages intended for this receiver application from those intended for others.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dispatcher</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Dispatcher">Dispatcher</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An object that includes communication constants and callback functions. The
+communicationConstants are used to define various message types or other constants
+needed for message handling. The callbacks array contains functions that are
+executed in response to specific messages or events.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="onMessage"><span class="type-signature"></span>onMessage<span class="signature">(message)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Handles messages received by the dispatcher, logging the received message and performing
+necessary actions based on the message content.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="communication_ChromecastChannel.communication.js.html">communication/ChromecastChannel.communication.js</a>, <a href="communication_ChromecastChannel.communication.js.html#line96">line 96</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>message</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="MessageProtocol.html">MessageProtocol</a></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The message received from the sender, expected to conform
+to a predefined protocol (e.g., JSON object, specific command
+structure). The structure of <code>MessageProtocol</code> should be
+documented separately to define the expected message format
+and contents.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="sendMessage"><span class="type-signature"></span>sendMessage<span class="signature">(data)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Sends a message to all connected senders (e.g., a smartphone app).
+It first checks if the message is properly formatted according to the MessageProtocol.
+If not, logs an error and sends a formatted error message to the debugger console.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="communication_ChromecastChannel.communication.js.html">communication/ChromecastChannel.communication.js</a>, <a href="communication_ChromecastChannel.communication.js.html#line76">line 76</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The data to be sent. Should be formatted as per MessageProtocol.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Wed Feb 28 2024 01:43:01 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

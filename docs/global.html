@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Global - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ChromecastChannel.html">ChromecastChannel</a><ul class='methods'><li data-type='method'><a href="ChromecastChannel.html#onMessage">onMessage</a></li><li data-type='method'><a href="ChromecastChannel.html#sendMessage">sendMessage</a></li></ul></li><li><a href="DebuggerConsole.html">DebuggerConsole</a><ul class='methods'><li data-type='method'><a href="DebuggerConsole.html#enableDebugOverlay">enableDebugOverlay</a></li><li data-type='method'><a href="DebuggerConsole.html#sendLog">sendLog</a></li></ul></li><li><a href="ImageCarousel.html">ImageCarousel</a><ul class='methods'><li data-type='method'><a href="ImageCarousel.html#extractImagePairs">extractImagePairs</a></li><li data-type='method'><a href="ImageCarousel.html#fetchAndProcessImages">fetchAndProcessImages</a></li><li data-type='method'><a href="ImageCarousel.html#init">init</a></li><li data-type='method'><a href="ImageCarousel.html#preloadImage">preloadImage</a></li><li data-type='method'><a href="ImageCarousel.html#preloadImagePairs">preloadImagePairs</a></li><li data-type='method'><a href="ImageCarousel.html#startCarousel">startCarousel</a></li></ul></li><li><a href="MessageProtocol.html">MessageProtocol</a><ul class='methods'><li data-type='method'><a href="MessageProtocol.html#.isMessageFormatted">isMessageFormatted</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#ErrorCodes">ErrorCodes</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Global</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        
+            
+        
+        </h2>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+            
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="ErrorCodes"><span class="type-signature type-signature-constant">(constant) </span>ErrorCodes<span class="type-signature"> :Object</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>This enumeration contains error codes and messages related to different types of errors,
+including application errors, network errors, media errors, and more.
+Each property of the enum is an object containing both a <code>code</code> and a <code>message</code> that
+describes the error.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_ErrorCodes.js.html">utils/ErrorCodes.js</a>, <a href="utils_ErrorCodes.js.html#line9">line 9</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>APP</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Application error, occurs outside of the framework (e.g., event handler errors).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>BREAK_CLIP_LOADING_ERROR</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Break clip load interceptor fails.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>BREAK_SEEK_INTERCEPTOR_ERROR</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Break seek interceptor fails.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>DASH_INVALID_SEGMENT_INFO</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A DASH manifest contains invalid segment info.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>DASH_MANIFEST_NO_MIMETYPE</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A DASH manifest is missing a MimeType.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>DASH_MANIFEST_NO_PERIODS</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A DASH manifest is missing periods.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>DASH_MANIFEST_UNKNOWN</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An unknown error occurs while parsing a DASH manifest.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>DASH_NETWORK</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An unknown network error occurs while handling a DASH stream.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>DASH_NO_INIT</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A DASH stream is missing an init.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>GENERIC</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Generic error, returned when an unknown error occurs.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>HLS_MANIFEST_MASTER</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An error occurs while parsing an HLS master manifest.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>HLS_MANIFEST_PLAYLIST</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An error occurs while parsing an HLS playlist.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>HLS_NETWORK_INVALID_SEGMENT</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An HLS segment is invalid.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>HLS_NETWORK_KEY_LOAD</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A request for an HLS key fails before it is sent.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>HLS_NETWORK_MASTER_PLAYLIST</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An HLS master playlist fails to download.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>HLS_NETWORK_NO_KEY_RESPONSE</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An HLS key fails to download.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>HLS_NETWORK_PLAYLIST</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An HLS playlist fails to download.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>HLS_SEGMENT_PARSING</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An HLS segment fails to parse.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>IMAGE_ERROR</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>When an image fails to load.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>LOAD_FAILED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A load command failed. Verify the load request is set up properly and the media is able to play.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>LOAD_INTERRUPTED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A load was interrupted by an unload, or by another load.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>MANIFEST_UNKNOWN</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An unknown error occurs while parsing a manifest.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>MEDIAKEYS_NETWORK</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>There is a media keys failure due to a network issue.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>MEDIAKEYS_UNKNOWN</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>There is an unknown error with media keys.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>MEDIAKEYS_UNSUPPORTED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A MediaKeySession object cannot be created.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>MEDIAKEYS_WEBCRYPTO</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Crypto failed.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>MEDIA_ABORTED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The fetching process for the media resource was aborted by the user agent at the user's request.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>MEDIA_DECODE</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An error occurred while decoding the media resource, after the resource was established to be usable.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>MEDIA_ERROR_MESSAGE</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An error message was sent to the sender.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>MEDIA_NETWORK</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A network error caused the user agent to stop fetching the media resource, after the resource was established to be usable.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>MEDIA_SRC_NOT_SUPPORTED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The media resource indicated by the src attribute was not suitable.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>MEDIA_UNKNOWN</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The HTMLMediaElement throws an error, but CAF does not recognize the specific error.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>NETWORK_UNKNOWN</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>There was an unknown network issue.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>SEGMENT_NETWORK</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A segment fails to download.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>SEGMENT_UNKNOWN</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An unknown segment error occurs.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>SMOOTH_MANIFEST</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An error occurs while parsing a Smooth manifest.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>SMOOTH_NETWORK</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An unknown network error occurs while handling a Smooth stream.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>SMOOTH_NO_MEDIA_DATA</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A Smooth stream is missing media data.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>SOURCE_BUFFER_FAILURE</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A source buffer cannot be added to the MediaSource.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>TEXT_UNKNOWN</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An error occurs while handling a text track.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description usertext">
+    <p>This enumeration contains error codes and messages related to different types of errors,
+including application errors, network errors, media errors, and more.
+Each property of the enum is an object containing both a <code>code</code> and a <code>message</code> that
+describes the error.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id="Dispatcher">Dispatcher</h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Represents a dispatcher with communication constants and callbacks.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="communication_ChromecastChannel.communication.js.html">communication/ChromecastChannel.communication.js</a>, <a href="communication_ChromecastChannel.communication.js.html#line36">line 36</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>communicationConstants</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The constants used for communication.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callbacks</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;function()></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An array of callback functions.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description usertext">
+    <p>Represents a dispatcher with communication constants and callbacks.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Wed Feb 28 2024 01:43:01 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>
