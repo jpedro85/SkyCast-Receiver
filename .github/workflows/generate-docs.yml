@@ -1,0 +1,44 @@
+name: Generate Docs
+
+# Defines when the action will run. 
+on:
+  push:
+    branches: 
+      - main  # Replace with your default branch if it's not 'main'
+
+permissions:
+  contents: write
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: true 
+
+      # Sets up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20' # Set this to the node version you're using
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Generate documentation
+      - name: Run npm run docs
+        run: npm run docs
+
+      - name: Commit and Push /docs folder
+        run: |
+          git config --global user.email "pedro.games30@gmail.com"
+          git config --global user.name "jpedro85"
+          git add docs/
+          git commit -m "Automatically update docs" || echo "No changes to commit"
+          git push
