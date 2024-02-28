@@ -2,12 +2,29 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <link rel="stylesheet" href="./css/ui.css" media="screen"/>
+        <link rel="stylesheet" href="./css/ui.css" media="screen" />
         <title>Sky Chromecast</title>
     </head>
     <body>
-        <cast-media-player></cast-media-player>
+        <div id="container" class="hidden">
+            <div id="carousel">
+                <img id="background-img" class="background" src="" />
+                <div class="title-container">
+                    <img id="title-img" class="title" alt="Title Image"/>
+                    <p id="text-content" class="text-box">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magni minus nulla, quisquam eaque et culpa animi, fugit molestias facilis odio enim
+                        ducimus, aliquam illo. Corrupti tenetur, dicta quam laborum ea placeat voluptate nam quaerat, culpa eos nihil soluta saepe dolor, laudantium
+                        harum libero molestiae! Beatae error, maxime laborum placeat sint velit unde aspernatur praesentium adipisci expedita nemo ipsum, fugiat dolore,
+                        voluptate nisi odit cupiditate accusamus ab blanditiis debitis porro rem quam dignissimos veritatis. Nihil illo eligendi neque quibusdam magni
+                        hic officia voluptatum eius obcaecati laudantium ipsam odio dolor maxime, libero impedit magnam molestias laborum quis est eum dignissimos!
+                        Quaerat, laudantium!</p>
+                </div>
+            </div>
+            <img id="logo" src="./images/PeacockLogo.png">
+        </div>
+        <!-- <cast-media-player></cast-media-player> -->
+        <!-- <script src="./js/Carrosel.js"></script> -->
         <script type="module" src="./js/Main.js"></script>
+        <!-- <script src="./receivers/new_receiver.js"></script> -->
         <!-- Chromecast SDK -->
         <script src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
         <!-- Cast Debug Logger -->

@@ -78,6 +78,8 @@ playerManager.setMessageInterceptor(cast.framework.messages.MessageType.LOAD, as
     request.media.metadata.title = item.title;
     request.media.metadata.subtitle = item.author;
 
+    console.log(JSON.stringify(request, null, 4))
+
     return request;
   } catch (error) {
     castDebugLogger.error(LOG_TAG, 'Error processing request:', error);
