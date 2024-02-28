@@ -1,56 +1,81 @@
-html, body {
+html,
+body {
     /* --logo-image: url("images/SkyLogo.png"); */
     padding: 0;
     margin: 0;
 }
 
-#carousel {
-    position: relative;
-    min-width: 100vw;
-    min-height: 100vh; /* Adjust as per your requirement */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-#carousel .background {
-    top: 0;
-    left: 0;
-    z-index: 1; /* Keep the background behind the title image */
-}
-
-#carousel .title {
-    position: absolute;
-    width: 80%;
-    top: 30%;
-    left: 10%; /* Adjust as needed for the title to be in the middle left */
-    transform: translateY(-50%); /* Center the title vertically */
-    z-index: 1000; /* Above the background image */
-}
-
-#carousel .text-box {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white; /* Text color */
-    font-size: 2.8rem; /* Text size */
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -10%); /* Adjust the vertical position under the title */
-    z-index: 3; /* Ensure it's above the background and title images */
-    width: 80%; /* Adjust the width as needed */
-    text-align: justify; /* Center the text inside the text-box */
-}
-
-#container #logo {
-    position: fixed; /* Fixed position relative to the viewport */
-    right: 5%; /* Right margin from the viewport */
-    bottom: 5%; /* Bottom margin from the viewport */
-    width: 20%; /* Adjust width as needed */
-}
-
 #container {
+    min-height: 100vw;
+    min-height: 100vh;
     width: 100%;
     height: 100%;
+    background-color: rgb(255, 0, 0);
+    z-index: -10000;
+}
+
+#carousel {
+    width: 100%;
+    height: 100vh;
+}
+
+#carousel .title-container {
+
+    margin-left: 2rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 40%;
+    height: 100vh;
+}
+
+#Test{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.222);
+    z-index: 20;
+}
+
+#background-img
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: inherit;
+    /* display: block; */
+}
+
+.title-container div {
+    width: 100%;
+    height: 50%;
+    display: flex !important;
+    align-items: center;
+    z-index: 21;
+}
+
+.title-container p {
+    color: white;
+    z-index: 21;
+    align-self: end;
+}
+
+.title-container div img {
+    padding: 2rem 0;
+    display: flex !important;
+    flex-wrap: wrap;
+    align-self: flex-end;
+    height: initial;
+    width: 60%;
+}
+
+#logo {
+    display: block !important;
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+    width: 20%;
+    z-index: 100;
 }
 
 .hidden {
