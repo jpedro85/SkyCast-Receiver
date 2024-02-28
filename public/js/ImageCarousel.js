@@ -1,16 +1,29 @@
+/**
+ * Represents an image carousel that fetches and displays a series of images.
+ */
 class ImageCarousel {
+    /**
+     * Creates an instance of the ImageCarousel.
+     * @param {string} apiUrl - The API URL from which to fetch images.
+     * @param {Object} headers - The headers to be sent with the API request.
+     */
     constructor(apiUrl, headers) {
         this.apiUrl = apiUrl;
         this.headers = headers;
         this.imagePairs = [];
     }
 
-    // Start the process
+    /**
+     * Initializes the image carousel by fetching and processing images.
+     */
     init() {
         this.fetchAndProcessImages();
     }
 
-    // Fetch and process images from the API
+    /**
+     * Fetches images from the API and processes them for the carousel.
+     * @async
+     */
     async fetchAndProcessImages() {
         try {
             const response = await fetch(this.apiUrl, { method: "GET", headers: this.headers });
@@ -24,17 +37,26 @@ class ImageCarousel {
         }
     }
 
-    // Extract pairs of landscape and titleLogo images from API data
+    /**
+     * Extracts pairs of landscape and titleLogo images from the API data.
+     * @param {Object} data - The data retrieved from the API.
+     * @return {Object[]} An array of objects containing the URLs for landscape and titleLogo images.
+     */
     extractImagePairs(data) {
         const items = data.data.rail.items;
-        return items.map(item => {
-            const landscapeImage = item.images.find(image => image.type === "landscape")?.url;
-            const titleLogoImage = item.images.find(image => image.type === "titleLogo")?.url;
-            return { landscape: landscapeImage, titleLogo: titleLogoImage };
-        }).filter(pair => pair.landscape && pair.titleLogo); // Ensure both images exist
+        return items
+            .map((item) => {
+                const landscapeImage = item.images.find((image) => image.type === "landscape")?.url;
+                const titleLogoImage = item.images.find((image) => image.type === "titleLogo")?.url;
+                return { landscape: landscapeImage, titleLogo: titleLogoImage };
+            })
+            .filter((pair) => pair.landscape && pair.titleLogo); // Ensure both images exist
     }
 
-    // Preload image pairs
+    /**
+     * Preloads the image pairs to avoid loading delays during the carousel.
+     * @async
+     */
     async preloadImagePairs() {
         const preloadPromises = this.imagePairs.map(({ landscape, titleLogo }) => {
             return Promise.all([this.preloadImage(landscape), this.preloadImage(titleLogo)]);
@@ -42,7 +64,11 @@ class ImageCarousel {
         await Promise.all(preloadPromises);
     }
 
-    // Preload a single image
+    /**
+     * Preloads a single image.
+     * @param {string} url - The URL of the image to preload.
+     * @return {Promise} A promise that resolves when the image is loaded.
+     */
     preloadImage(url) {
         return new Promise((resolve, reject) => {
             const img = new Image();
@@ -52,7 +78,9 @@ class ImageCarousel {
         });
     }
 
-    // Initialize and start the carousel with preloaded image pairs
+    /**
+     * Initializes and starts the carousel with preloaded image pairs.
+     */
     startCarousel() {
         document.querySelector("#container").classList.toggle("hidden");
         let currentIndex = 0;
@@ -70,6 +98,5 @@ class ImageCarousel {
         showNextImagePair(); // Show the first image pair immediately
     }
 }
-
 
 export default ImageCarousel;
