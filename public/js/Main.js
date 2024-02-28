@@ -1,21 +1,61 @@
-import DebuggerConsole from "./Debugger.js";
-import ErrorCodes from "./ErrorCodes.js";
+import DebuggerConsole from "./utils/Debugger.js";
+import ErrorCodes from "./utils/ErrorCodes.js";
+import MediaPlayer from "./MediaPlayer.js";
 import ChromecastChannel from "./communication/ChromecastChannel.communication.js";
+import MessageProtocol from "./communication/MessageProtocol.js";
+import ImageCarousel from "./ImageCarousel.js";
 
 const context = cast.framework.CastReceiverContext.getInstance();
 // The playerManager is what controls the player
 const playerManager = context.getPlayerManager();
+const mediaPlayer = new MediaPlayer();
 
 const NAMESPACE = "urn:x-cast:com.skycast.chromecast.communication";
 let communicationConstants = {};
 
 // Initializing the debugger
 const debuggerConsole = new DebuggerConsole();
-debuggerConsole.enableDebugOverlay(true);
+debuggerConsole.enableDebugOverlay();
 
 // Custom Message Handler
 const communicationChannel = new ChromecastChannel(NAMESPACE, { communicationConstants, callbacks: debuggerConsole.sendLog });
 context.addCustomMessageListener(NAMESPACE, communicationChannel.onMessage);
+
+
+// Start the Image Carousel
+const carousel = new ImageCarousel("https://mobile.clients.peacocktv.com/bff/sections/v1?segment=all_premium_users&node_id=13dba516-9722-11ea-bbcc-234acf5d5a4e", {
+    Host: "mobile.clients.peacocktv.com",
+    "X-SkyOTT-Provider": "NBCU",
+    "X-SkyOTT-Proposition": "NBCUOTT",
+    "X-SkyOTT-Territory": "US",
+    "X-SkyOTT-Language": "en",
+    "X-SkyOTT-Device": "MOBILE",
+    "X-SkyOTT-Platform": "IOS",
+});
+carousel.init();
+
+// TODO Implement the messageInterceptor for the chromecast
+// ! There is a problem of how to initialize the cast media player before the request else it wont load correctly
+// playerManager.setMessageInterceptor(cast.framework.messages.MessageType.LOAD, async (request) => {
+//     // Create the media player
+//     // mediaPlayer.createMediaPlayer();
+
+//     // // console.log(JSON.stringify(media, null, 4));
+//     // console.log(JSON.stringify(request, null, 4));
+
+//     // const copy = request;
+
+//     // // Pass the data or message to see if its a valid format
+//     // if (!MessageProtocol.isMessageFormatted(copy)) {
+//     //     mediaPlayer.destroyMediaPlayer();
+//     // }
+
+//     // // Play the media
+//     // console.log(JSON.stringify(request, null, 4))
+//     // mediaPlayer.playMedia(media, request);
+
+//     // return request;
+// });
 
 // Report Errors that can occur in readable text
 playerManager.addEventListener(cast.framework.events.EventType.ERROR, (event) => {

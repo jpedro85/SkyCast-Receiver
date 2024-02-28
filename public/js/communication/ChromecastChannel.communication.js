@@ -1,5 +1,5 @@
-import DebuggerConsole from "../Debugger.js";
-import MessageProtocol from "../MessageProtocol.js";
+import DebuggerConsole from "../utils/Debugger.js";
+import MessageProtocol from "./MessageProtocol.js";
 
 /**
  * This class provides functionality to send and receive messages to and from a Chromecast device using a specified namespace.
