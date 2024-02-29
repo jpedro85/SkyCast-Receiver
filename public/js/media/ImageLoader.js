@@ -9,8 +9,9 @@ class ImageLoader {
      * @return {Promise<void>} A promise that resolves when all images are loaded successfully. The promise
      * will reject if any image fails to load.
      */
-    static async preloadImages(urls) {
-        return Promise.all(urls.map((url) => ImageLoader.preloadImage(url)));
+    static async preloadImages(imagePairs) {
+        const urls = imagePairs.flatMap((pair) => [pair.landscape, pair.titleLogo]);
+        return Promise.all(urls.map((url) => this.preloadImage(url)));
     }
 
     /**

@@ -4,16 +4,16 @@ import ImageFetcher from "./ImageFetcher.js";
 /**
  * The CarouselDisplay class manages the functionality of an image carousel that fetches and displays images in pairs (landscape and title logo) from a specified API.
  * It leverages ImageLoader to preload images for smooth transitions and ImageFetcher to retrieve the image data. The carousel cycles through these images automatically at a set interval defined by you.
- * 
+ *
  * @example <caption>HTML Setup for CarouselDisplay</caption>
- * 
+ *
  * <div id="carousel-container">
  *     <img id="background-img" src="" alt="background">
  *     <img id="title-img" src="" alt="title logo">
  * </div>
- * 
+ *
  * @example <caption>JavaScript Integration for CarouselDisplay</caption>
- * 
+ *
  * // JavaScript implementation
  * import CarouselDisplay from './CarouselDisplay.js';
  *
@@ -42,12 +42,11 @@ class CarouselDisplay {
         this.container = document.querySelector(containerId);
         this.backgroundImageElement = this.container.querySelector("#background-img");
         this.titleImageElement = this.container.querySelector("#title-img");
-        // this.apiUrl = apiUrl;
-        // this.headers = headers;
         this.currentIndex = 0;
         this.imagePairs = [];
         this.stopCarousel = false;
         this.imageInterval = imageInterval;
+        this.intervalId = null;
     }
 
     /**
@@ -59,17 +58,22 @@ class CarouselDisplay {
      */
     async setupCarousel(apiUrl, headers) {
         const fetcher = new ImageFetcher(apiUrl, headers);
-        const imagePairs = await fetcher.fetchImages();
-        const urls = imagePairs.flatMap((pair) => [pair.landscape, pair.titleLogo]);
 
-        await ImageLoader.preloadImages(urls);
+        // Fetch image pairs as structured
+        const imagePairs = await fetcher.fetchImages();
+
+        await ImageLoader.preloadImages(imagePairs);
         console.log("All images preloaded");
 
+        // Start the carousel with the structured image pairs
         this.startCarousel(imagePairs);
     }
 
     /**
      * Starts the carousel rotation by displaying the first pair of images and setting an interval for subsequent images.
+     * The carousel loop can be stopped by using stopCarousel. The interval between image changes is
+     * determined by `imageInterval` when creating a CarouselDisplay
+     *
      * @param {Array<Object>} imagePairs - An array of image pair objects, each containing `landscape` and `titleLogo` URLs.
      */
     startCarousel(imagePairs) {
@@ -78,15 +82,30 @@ class CarouselDisplay {
 
         // Show the first image pair immediately
         this.showNextImagePair();
-        if (!this.stopCarousel) {
-            setInterval(this.showNextImagePair, this.imageInterval);
-        }
+
+        // Saving the intervalId so we can stop the loop later
+        this.intervalId = setInterval(() => {
+            if (this.stopCarousel) {
+                console.log("Carousel loop stopped.");
+                // Stop the interval
+                clearInterval(this.intervalId);
+            } else {
+                this.showNextImagePair();
+            }
+        }, this.imageInterval);
+    }
+
+    stopCarousel() {
+        this.stopCarousel = true;
     }
 
     /**
      * Displays the next pair of images in the carousel, cycling through the `imagePairs` array.
      */
     showNextImagePair() {
+        if (this.stopCarousel) {
+            return;
+        }
         const { landscape, titleLogo } = this.imagePairs[this.currentIndex];
         this.backgroundImageElement.src = landscape;
         this.titleImageElement.src = titleLogo;
