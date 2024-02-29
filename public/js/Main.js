@@ -1,9 +1,9 @@
 import DebuggerConsole from "./utils/Debugger.js";
 import ErrorCodes from "./utils/ErrorCodes.js";
-import MediaPlayer from "./MediaPlayer.js";
-import ChromecastChannel from "./communication/ChromecastChannel.communication.js";
+import MediaPlayer from "./media/MediaPlayer.js";
+import ChromecastChannel from "./communication/ChromecastChannel.js";
 import MessageProtocol from "./communication/MessageProtocol.js";
-import ImageCarousel from "./ImageCarousel.js";
+import CarouselDisplay from "./media/CarouselDisplay.js";
 
 const context = cast.framework.CastReceiverContext.getInstance();
 // The playerManager is what controls the player
@@ -21,9 +21,9 @@ debuggerConsole.enableDebugOverlay();
 const communicationChannel = new ChromecastChannel(NAMESPACE, { communicationConstants, callbacks: debuggerConsole.sendLog });
 context.addCustomMessageListener(NAMESPACE, communicationChannel.onMessage);
 
-
 // Start the Image Carousel
-const carousel = new ImageCarousel("https://mobile.clients.peacocktv.com/bff/sections/v1?segment=all_premium_users&node_id=13dba516-9722-11ea-bbcc-234acf5d5a4e", {
+const carousel = new CarouselDisplay("#container", 5000);
+carousel.setupCarousel("https://mobile.clients.peacocktv.com/bff/sections/v1?segment=all_premium_users&node_id=13dba516-9722-11ea-bbcc-234acf5d5a4e", {
     Host: "mobile.clients.peacocktv.com",
     "X-SkyOTT-Provider": "NBCU",
     "X-SkyOTT-Proposition": "NBCUOTT",
@@ -32,7 +32,6 @@ const carousel = new ImageCarousel("https://mobile.clients.peacocktv.com/bff/sec
     "X-SkyOTT-Device": "MOBILE",
     "X-SkyOTT-Platform": "IOS",
 });
-carousel.init();
 
 // TODO Implement the messageInterceptor for the chromecast
 // ! There is a problem of how to initialize the cast media player before the request else it wont load correctly
