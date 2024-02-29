@@ -42,9 +42,10 @@ class CarouselDisplay {
         this.container = document.querySelector(containerId);
         this.backgroundImageElement = this.container.querySelector("#background-img");
         this.titleImageElement = this.container.querySelector("#title-img");
+        this.textElement = this.container.querySelector("#text-content");
         this.currentIndex = 0;
         this.imagePairs = [];
-        this.stopCarousel = false;
+        this.shouldStopCarousel = false;
         this.imageInterval = imageInterval;
         this.intervalId = null;
     }
@@ -71,7 +72,7 @@ class CarouselDisplay {
 
     /**
      * Starts the carousel rotation by displaying the first pair of images and setting an interval for subsequent images.
-     * The carousel loop can be stopped by using stopCarousel. The interval between image changes is
+     * The carousel loop can be stopped by using shouldStopCarousel. The interval between image changes is
      * determined by `imageInterval` when creating a CarouselDisplay
      *
      * @param {Array<Object>} imagePairs - An array of image pair objects, each containing `landscape` and `titleLogo` URLs.
@@ -80,12 +81,16 @@ class CarouselDisplay {
         this.imagePairs = imagePairs;
         this.container.classList.toggle("hidden");
 
+        this.titleImageElement.style.backgroundColor = "transparent";
+        this.textElement.style.backgroundColor = "transparent"
+        this.textElement.style.color = "white"
+
         // Show the first image pair immediately
         this.showNextImagePair();
 
         // Saving the intervalId so we can stop the loop later
         this.intervalId = setInterval(() => {
-            if (this.stopCarousel) {
+            if (this.shouldStopCarousel) {
                 console.log("Carousel loop stopped.");
                 // Stop the interval
                 clearInterval(this.intervalId);
@@ -95,17 +100,41 @@ class CarouselDisplay {
         }, this.imageInterval);
     }
 
+    /**
+     * Stops the carousel rotation
+     */
     stopCarousel() {
-        this.stopCarousel = true;
+        this.shouldStopCarousel = true;
+        this.container.classList.toggle("hidden");
+    }
+
+    /**
+     * Restarts the carousel rotation using the previous loaded images
+     */
+    restartCarousel() {
+        console.log("Carousel Restarted");
+        this.shouldStopCarousel = false;
+        this.container.classList.toggle("hidden");
+
+        // Show the first image pair immediately
+        this.showNextImagePair();
+
+        // Saving the intervalId so we can stop the loop later
+        this.intervalId = setInterval(() => {
+            if (this.shouldStopCarousel) {
+                console.log("Carousel loop stopped.");
+                // Stop the interval
+                clearInterval(this.intervalId);
+            } else {
+                this.showNextImagePair();
+            }
+        }, this.imageInterval);
     }
 
     /**
      * Displays the next pair of images in the carousel, cycling through the `imagePairs` array.
      */
     showNextImagePair() {
-        if (this.stopCarousel) {
-            return;
-        }
         const { landscape, titleLogo } = this.imagePairs[this.currentIndex];
         this.backgroundImageElement.src = landscape;
         this.titleImageElement.src = titleLogo;

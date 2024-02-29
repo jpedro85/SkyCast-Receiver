@@ -10,7 +10,7 @@ body {
     min-height: 100vh;
     width: 100%;
     height: 100%;
-    background-color: rgb(255, 0, 0);
+    background-color: rgb(51, 51, 51);
     z-index: -10000;
 }
 
@@ -33,7 +33,7 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.222);
+    background-color: rgba(0, 0, 0, 0.25);
     z-index: 20;
 }
 
@@ -55,12 +55,16 @@ body {
 }
 
 .title-container p {
-    color: white;
+    border-radius: 1.2rem;
+    background-color: lightslategray;
+    color: lightslategray;
     z-index: 21;
     align-self: end;
 }
 
 .title-container div img {
+    border-radius: 1.2rem;
+    background-color: lightslategray;
     padding: 2rem 0;
     display: flex !important;
     flex-wrap: wrap;
