@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>CarouselDisplay - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CarouselDisplay.html">CarouselDisplay</a><ul class='methods'><li data-type='method'><a href="CarouselDisplay.html#restartCarousel">restartCarousel</a></li><li data-type='method'><a href="CarouselDisplay.html#setupCarousel">setupCarousel</a></li><li data-type='method'><a href="CarouselDisplay.html#showNextImagePair">showNextImagePair</a></li><li data-type='method'><a href="CarouselDisplay.html#startCarousel">startCarousel</a></li><li data-type='method'><a href="CarouselDisplay.html#stopCarousel">stopCarousel</a></li></ul></li><li><a href="ChromecastChannel.html">ChromecastChannel</a><ul class='methods'><li data-type='method'><a href="ChromecastChannel.html#onMessage">onMessage</a></li><li data-type='method'><a href="ChromecastChannel.html#sendMessage">sendMessage</a></li></ul></li><li><a href="DebuggerConsole.html">DebuggerConsole</a><ul class='methods'><li data-type='method'><a href="DebuggerConsole.html#enableDebugOverlay">enableDebugOverlay</a></li><li data-type='method'><a href="DebuggerConsole.html#sendLog">sendLog</a></li></ul></li><li><a href="ImageFetcher.html">ImageFetcher</a><ul class='methods'><li data-type='method'><a href="ImageFetcher.html#extractImagePairs">extractImagePairs</a></li><li data-type='method'><a href="ImageFetcher.html#fetchImages">fetchImages</a></li></ul></li><li><a href="ImageLoader.html">ImageLoader</a><ul class='methods'><li data-type='method'><a href="ImageLoader.html#.preloadImage">preloadImage</a></li><li data-type='method'><a href="ImageLoader.html#.preloadImages">preloadImages</a></li></ul></li><li><a href="MessageProtocol.html">MessageProtocol</a><ul class='methods'><li data-type='method'><a href="MessageProtocol.html#.isMessageFormatted">isMessageFormatted</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#ErrorCodes">ErrorCodes</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">CarouselDisplay</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        
+            CarouselDisplay
+        
+        </h2>
+        
+            <div class="class-description usertext"><p>The CarouselDisplay class manages the functionality of an image carousel that fetches and displays images in pairs (landscape and title logo) from a specified API.
+It leverages ImageLoader to preload images for smooth transitions and ImageFetcher to retrieve the image data. The carousel cycles through these images automatically at a set interval defined by you.</p></div>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="CarouselDisplay"><span class="type-signature"></span>new CarouselDisplay<span class="signature">(containerId, imageInterval)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Initializes a new instance of the CarouselDisplay class.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line35">line 35</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-examples">Examples</h5>
+    
+        <p class="code-caption">HTML Setup for CarouselDisplay</p>
+    
+    <pre class="prettyprint"><code>&lt;div id="carousel-container">
+    &lt;img id="background-img" src="" alt="background">
+    &lt;img id="title-img" src="" alt="title logo">
+&lt;/div></code></pre>
+
+        <p class="code-caption">JavaScript Integration for CarouselDisplay</p>
+    
+    <pre class="prettyprint"><code>// JavaScript implementation
+import CarouselDisplay from './CarouselDisplay.js';
+
+// Define the API URL and headers for fetching images
+const apiUrl = 'https://api.example.com/images';
+const headers = { Authorization: 'Bearer YOUR_API_KEY' };
+
+// Create an instance of CarouselDisplay
+const carousel = new CarouselDisplay('#carousel-container');
+
+// Setup the carousel with your API URL and headers
+// This will fetch, preload, and start displaying the images
+carousel.setupCarousel(apiUrl, headers).then(() => {
+    console.log('Carousel is now setup and displaying images.');
+}).catch(error => {
+    console.error('Failed to setup the carousel:', error);
+});</code></pre>
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>containerId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The ID of the DOM element that will contain the carousel.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>imageInterval</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The amount of time in milliseconds you want each image to have of screen time before changing</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="restartCarousel"><span class="type-signature"></span>restartCarousel<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Restarts the carousel rotation using the previous loaded images</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line114">line 114</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="setupCarousel"><span class="type-signature type-signature-async">(async) </span>setupCarousel<span class="signature">(apiUrl, headers)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Sets up the carousel by fetching image pairs from the provided API URL and preloading them.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line60">line 60</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>apiUrl</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The API URL from which to fetch images.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>headers</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The headers to be sent with the API request.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>A promise that resolves once the images have been fetched and preloaded.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;void></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="showNextImagePair"><span class="type-signature"></span>showNextImagePair<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Displays the next pair of images in the carousel, cycling through the <code>imagePairs</code> array.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line137">line 137</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="startCarousel"><span class="type-signature"></span>startCarousel<span class="signature">(imagePairs)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Starts the carousel rotation by displaying the first pair of images and setting an interval for subsequent images.
+The carousel loop can be stopped by using shouldStopCarousel. The interval between image changes is
+determined by <code>imageInterval</code> when creating a CarouselDisplay</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line80">line 80</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>imagePairs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Object></span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An array of image pair objects, each containing <code>landscape</code> and <code>titleLogo</code> URLs.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="stopCarousel"><span class="type-signature"></span>stopCarousel<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Stops the carousel rotation</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line106">line 106</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Thu Feb 29 2024 19:30:24 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>
