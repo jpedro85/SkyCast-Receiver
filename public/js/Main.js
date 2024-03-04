@@ -36,36 +36,85 @@ carousel.setupCarousel("https://mobile.clients.peacocktv.com/bff/sections/v1?seg
     "X-SkyOTT-Platform": "IOS",
 });
 
-// TODO Implement the messageInterceptor for the chromecast
-// ! There is a problem of how to initialize the cast media player before the request else it wont load correctly
-// playerManager.setMessageInterceptor(cast.framework.messages.MessageType.LOAD, async (request) => {
-//     // Create the media player
-//     // mediaPlayer.createMediaPlayer();
+// TODO: Pass this function to the MediaPlayer
+// WARN: For now it loads all media if the request comes with the url of the video eg. *.mp4
+// NOTE: Should return a modified request or a Promise that resolves with the modified request
+playerManager.setMessageInterceptor(cast.framework.messages.MessageType.LOAD, async (request) => {
 
-//     // // console.log(JSON.stringify(media, null, 4));
-//     // console.log(JSON.stringify(request, null, 4));
+    // const { media } = request;
+    // console.log("Before modifying the request", JSON.stringify(request, null, 4));
+    //
+    // // When it receives a LOAD request it will stop the carousel hide it
+    // // And will start the cast-media-player with respective media
+    // carousel.stopCarousel();
+    // mediaPlayer.startPlayer();
+    //
+    // // Create a MediaInfo object
+    // console.log(media.contentUrl)
+    // const mediaInfo = new cast.framework.messages.MediaInformation();
+    // mediaInfo.contentId = media.contentUrl;
+    // mediaInfo.contentType = "video/mp4";
+    // mediaInfo.streamType = cast.framework.messages.StreamType.BUFFERED;
+    //
+    // request.media = mediaInfo;
+    //
+    // console.log("After modifying the request", JSON.stringify(request, null, 4));
+    //
+    // return request;
 
-//     // const copy = request;
+    carousel.stopCarousel();
 
-//     // // Pass the data or message to see if its a valid format
-//     // if (!MessageProtocol.isMessageFormatted(copy)) {
-//     //     mediaPlayer.destroyMediaPlayer();
-//     // }
+    console.log("Before modifying the request", JSON.stringify(request, null, 4));
 
-//     // // Play the media
-//     // console.log(JSON.stringify(request, null, 4))
-//     // mediaPlayer.playMedia(media, request);
+    const {media} = request;
+    const mediaInfo = mediaPlayer.playMedia(media);
+    request.media = mediaInfo;
 
-//     // return request;
-// });
+    console.log("After modifying the request", JSON.stringify(request, null, 4));
+
+    return request;
+});
+
+// FIX: For some its saying its an invalid EventType
+//
+// Detects when the player is in iddle
+// playerManager.addEventListener(cast.framework.events.EventType.PLAYER_STATE_CHANGED, (event) => {
+//
+//     if (event.playerState !== cast.framework.messages.PlayerState.IDLE) {
+//         return;
+//     }
+//
+//     // Check if the player is idle because the video ended, was stopped, or failed to load
+//     if (event.idleReason === cast.framework.messages.IdleReason.FINISHED ||
+//         event.idleReason === cast.framework.messages.IdleReason.CANCELLED ||
+//         event.idleReason === cast.framework.messages.IdleReason.ERROR) {
+//
+//         // TODO: Check for no items in the queue or any other conditions
+//
+//         // Hide the cast-media-player UI
+//         mediaPlayer.startPlayer();
+//
+//         // Restart the carousel
+//         carousel.restartCarousel();
+//     }
+// })
 
 // Report Errors that can occur in readable text
+// Also in case of error can execute custom code
 playerManager.addEventListener(cast.framework.events.EventType.ERROR, (event) => {
     const error = Object.values(ErrorCodes).find((e) => e.code === event.detailedErrorCode);
     const errorMessage = error ? `Error ${error.code}: ${error.message}` : `Unknown Error Code - ${event.detailedErrorCode}`;
     debuggerConsole.sendLog("error", errorMessage);
+
+    // For the event that it was playing a video or doign something else and the player crashes or has an error
+    // it will restart the carousel
+    if (!carousel.isPlaying()) {
+        mediaPlayer.mediaPlayer.classList.toggle("hidden");
+        carousel.restartCarousel();
+    }
 });
 
 context.start({
+    // NOTE: Development only
     disableIdleTimeout: true,
 });

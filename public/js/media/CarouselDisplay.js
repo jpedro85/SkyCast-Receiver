@@ -54,6 +54,10 @@ class CarouselDisplay extends Subject {
         this.ratingIconPath = "./images/Star.png";
     }
 
+    isPlaying() {
+        return this.shouldStopCarousel;
+    }
+
     /**
      * Adds an observer to the carousel, allowing it to receive update notifications.
      * @param {Observer} observer - The observer object that should receive update notifications.
