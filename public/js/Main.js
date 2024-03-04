@@ -36,31 +36,8 @@ carousel.setupCarousel("https://mobile.clients.peacocktv.com/bff/sections/v1?seg
     "X-SkyOTT-Platform": "IOS",
 });
 
-// TODO: Pass this function to the MediaPlayer
 // WARN: For now it loads all media if the request comes with the url of the video eg. *.mp4
-// NOTE: Should return a modified request or a Promise that resolves with the modified request
 playerManager.setMessageInterceptor(cast.framework.messages.MessageType.LOAD, async (request) => {
-
-    // const { media } = request;
-    // console.log("Before modifying the request", JSON.stringify(request, null, 4));
-    //
-    // // When it receives a LOAD request it will stop the carousel hide it
-    // // And will start the cast-media-player with respective media
-    // carousel.stopCarousel();
-    // mediaPlayer.startPlayer();
-    //
-    // // Create a MediaInfo object
-    // console.log(media.contentUrl)
-    // const mediaInfo = new cast.framework.messages.MediaInformation();
-    // mediaInfo.contentId = media.contentUrl;
-    // mediaInfo.contentType = "video/mp4";
-    // mediaInfo.streamType = cast.framework.messages.StreamType.BUFFERED;
-    //
-    // request.media = mediaInfo;
-    //
-    // console.log("After modifying the request", JSON.stringify(request, null, 4));
-    //
-    // return request;
 
     carousel.stopCarousel();
 
