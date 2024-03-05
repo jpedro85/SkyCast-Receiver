@@ -4,7 +4,10 @@ import CarouselDisplay from "./media/CarouselDisplay.js";
 import AssetManager from "./media/AssetManager.js";
 import MediaPlayer from "./media/MediaPlayer.js";
 import ChromecastChannel from "./communication/ChromecastChannel.js";
+// NOTE: Can be used to check if the cast message on the message Interceptor was sent correctly or there was an error in formatting
 import MessageProtocol from "./communication/MessageProtocol.js";
+import CarouselDisplay from "./media/CarouselDisplay.js";
+import IdleEndReason from "./utils/enums/EventEnums.js";
 
 const context = cast.framework.CastReceiverContext.getInstance();
 // The playerManager is what controls the player
@@ -41,40 +44,44 @@ playerManager.setMessageInterceptor(cast.framework.messages.MessageType.LOAD, as
 
     carousel.stopCarousel();
 
+    // NOTE: For Development only
     console.log("Before modifying the request", JSON.stringify(request, null, 4));
+    debuggerConsole.sendLog("warn", request);
 
-    const {media} = request;
+    const { media } = request;
     const mediaInfo = mediaPlayer.playMedia(media);
     request.media = mediaInfo;
 
+    // NOTE: For Development only
     console.log("After modifying the request", JSON.stringify(request, null, 4));
 
     return request;
+
 });
 
-// FIX: For some its saying its an invalid EventType
-//
 // Detects when the player is in iddle
-// playerManager.addEventListener(cast.framework.events.EventType.PLAYER_STATE_CHANGED, (event) => {
-//
-//     if (event.playerState !== cast.framework.messages.PlayerState.IDLE) {
-//         return;
-//     }
-//
-//     // Check if the player is idle because the video ended, was stopped, or failed to load
-//     if (event.idleReason === cast.framework.messages.IdleReason.FINISHED ||
-//         event.idleReason === cast.framework.messages.IdleReason.CANCELLED ||
-//         event.idleReason === cast.framework.messages.IdleReason.ERROR) {
-//
-//         // TODO: Check for no items in the queue or any other conditions
-//
-//         // Hide the cast-media-player UI
-//         mediaPlayer.startPlayer();
-//
-//         // Restart the carousel
-//         carousel.restartCarousel();
-//     }
-// })
+playerManager.addEventListener(cast.framework.events.EventType.MEDIA_FINISHED, (event) => {
+
+    // TODO: Maybe use the MessageProtocol to check the message protocol
+    // Maybe aswell sanitize or check for possible security problems ????
+
+    // WARN: This might change depending on what the sender sends
+    // if (event.type !== cast.framework.messages.PlayerState.IDLE) {
+    //     return;
+    // }
+
+    // Check if the player is idle because the video ended, was stopped, or failed to load
+    if (Object.values(IdleEndReason).find((e) => e === event.endedReason)) {
+
+        // TODO: check for no items in the queue or any other conditions
+
+        // Hide the cast-media-player ui
+        mediaPlayer.hidePlayer();
+
+        // Restart the carousel
+        carousel.restartCarousel();
+    }
+})
 
 // Report Errors that can occur in readable text
 // Also in case of error can execute custom code

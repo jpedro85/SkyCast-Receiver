@@ -1,7 +1,4 @@
-// TODO: To implement this class
-
-class MediaPlayer {
-    constructor() {
+class MediaPlayer { constructor() {
         this.mediaPlayer = document.querySelector(".media");
     }
 
