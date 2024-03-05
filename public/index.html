@@ -1,32 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <link rel="stylesheet" href="./css/ui.css" media="screen" />
-        <title>Sky Chromecast</title>
-    </head>
-    <body>
-        <div id="container" class="hidden">
-            <div id="carousel">
-                <img id="background-img" class="background">
-                <div id="mask">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="./css/ui.css" media="screen" />
+    <title>Sky Chromecast</title>
+</head>
+
+<body>
+    <div id="container">
+        <div id="carousel">
+            <img id="background-img" class="background">
+            <div id="mask">
+            </div>
+            <div class="title-container">
+                <div>
+                    <img id="title-img" class="title loading" />
                 </div>
-                <div class="title-container">
-                    <div>
-                        <img id="title-img" class="title"/>
-                    </div>
-                    <div>
-                        <p id="text-content" class="text-box">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto.</p>
-                    </div>
+                <div>
+                    <!-- TODO: Change how it is displayed on the loading screen or just keep it-->
+                    <p id="text-content" class="text-box loading">Lorem, ipsum dolor sit amet consectetur adipisicing
+                        elit.
+                        Iusto.</p>
                 </div>
             </div>
-            <img id="logo" src="./images/PeacockLogo.png">
         </div>
-        <!-- <cast-media-player></cast-media-player> -->
-        <script type="module" src="./js/Main.js"></script>
-        <!-- Chromecast SDK -->
-        <script src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
-        <!-- Cast Debug Logger -->
-        <script src="//www.gstatic.com/cast/sdk/libs/devtools/debug_layer/caf_receiver_logger.js"></script>
-    </body>
+        <div id="cast-logo" class="hidden">
+            <div id="ready-cast">
+                <img id="cast-icon">
+                <p>
+                    Ready to Cast
+                </p>
+            </div>
+            <img id="logo">
+        </div>
+    </div>
+    <!-- <cast-media-player></cast-media-player> -->
+    <script type="module" src="./js/Main.js"></script>
+    <!-- Chromecast SDK -->
+    <script src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
+    <!-- Cast Debug Logger -->
+    <script src="//www.gstatic.com/cast/sdk/libs/devtools/debug_layer/caf_receiver_logger.js"></script>
+</body>
+
 </html>

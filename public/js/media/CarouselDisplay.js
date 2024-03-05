@@ -43,11 +43,16 @@ class CarouselDisplay {
         this.backgroundImageElement = this.container.querySelector("#background-img");
         this.titleImageElement = this.container.querySelector("#title-img");
         this.textElement = this.container.querySelector("#text-content");
+        this.castImage = this.container.querySelector("#cast-icon");
+        this.logoImage = this.container.querySelector("#logo");
+        this.castLogoDiv = this.container.querySelector("#cast-logo");
         this.currentIndex = 0;
         this.imagePairs = [];
         this.shouldStopCarousel = false;
         this.imageInterval = imageInterval;
         this.intervalId = null;
+        this.castImagePath = "./images/cast-ready-icon.png";
+        this.logoImagePath = "./images/PeacockLogo.png";
     }
 
     /**
@@ -70,6 +75,19 @@ class CarouselDisplay {
         this.startCarousel(imagePairs);
     }
 
+    loadAditionalAssets() {
+        this.castLogoDiv.classList.toggle("hidden");
+        const loadingAssests = this.container.querySelectorAll(".loading");
+
+        loadingAssests.forEach((asset) => {
+            asset.classList.toggle("loading");
+        });
+
+        // TODO: Maybe refactor this part of the code
+        this.castImage.src = this.castImagePath;
+        this.logoImage.src = this.logoImagePath;
+    }
+
     /**
      * Starts the carousel rotation by displaying the first pair of images and setting an interval for subsequent images.
      * The carousel loop can be stopped by using shouldStopCarousel. The interval between image changes is
@@ -79,11 +97,8 @@ class CarouselDisplay {
      */
     startCarousel(imagePairs) {
         this.imagePairs = imagePairs;
-        this.container.classList.toggle("hidden");
 
-        this.titleImageElement.style.backgroundColor = "transparent";
-        this.textElement.style.backgroundColor = "transparent"
-        this.textElement.style.color = "white"
+        this.loadAditionalAssets();
 
         // Show the first image pair immediately
         this.showNextImagePair();
