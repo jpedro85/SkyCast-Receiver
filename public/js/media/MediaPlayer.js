@@ -1,16 +1,6 @@
-// TODO To implement this class
-
-import MediaProviderWeb from "./ImageFetcher.js";
-
+// TODO: Implementation when cast sender is ready
 class MediaPlayer {
     constructor() {}
-
-    createMediaPlayer() {
-        if (!document.querySelector("cast-media-player")) {
-            var mediaPlayer = document.createElement("cast-media-player");
-            document.body.appendChild(mediaPlayer);
-        }
-    }
 
     createMediaInfo(customMediaData, request) {
 

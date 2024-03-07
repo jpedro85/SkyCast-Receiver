@@ -1,8 +1,7 @@
+import ContentFetcher from "./ContentFetcher.js";
 import ImageLoader from "./ImageLoader.js";
-import ImageFetcher from "./ImageFetcher.js";
-import InformationFetcher from "./InformationFetcher.js";
+import Subject from "./Subject.js";
 
-// TODO: Refactor this class and its name because now it doesnt only load image pairs that are preload but aswell its relevant information for the carousel display
 /**
  * The CarouselDisplay class manages the functionality of an image carousel that fetches and displays images in pairs (landscape and title logo) from a specified API.
  * It leverages ImageLoader to preload images for smooth transitions and ImageFetcher to retrieve the image data. The carousel cycles through these images automatically at a set interval defined by you.
@@ -34,69 +33,69 @@ import InformationFetcher from "./InformationFetcher.js";
  *     console.error('Failed to setup the carousel:', error);
  * });
  */
-class CarouselDisplay {
+class CarouselDisplay extends Subject {
     /**
      * Initializes a new instance of the CarouselDisplay class.
      * @param {string} containerId - The ID of the DOM element that will contain the carousel.
      * @param {number} imageInterval - The amount of time in milliseconds you want each image to have of screen time before changing
      */
     constructor(containerId, imageInterval) {
+        super();
         this.container = document.querySelector(containerId);
         this.backgroundImageElement = this.container.querySelector("#background-img");
         this.titleImageElement = this.container.querySelector("#title-img");
-        this.textElement = this.container.querySelector("#text-content");
-        this.castImage = this.container.querySelector("#cast-icon");
-        this.logoImage = this.container.querySelector("#logo");
-        this.castLogoDiv = this.container.querySelector("#cast-logo");
         this.currentIndex = 0;
         this.carouselItems = [];
+        this.observers = [];
         this.shouldStopCarousel = false;
         this.imageInterval = imageInterval;
         this.intervalId = null;
-        this.castImagePath = "./images/cast-ready-icon.png";
-        this.logoImagePath = "./images/PeacockLogo.png";
+        this.ratingIconPath = "./images/Star.png";
+    }
+
+    addObserver(observer) {
+        this.observers.push(observer);
+    }
+
+    removeObserver(observerToRemove) {
+        this.observers = this.observers.filter(observer => observer !== observerToRemove);
+    }
+
+    notifyObserver(event) {
+        this.observers.forEach(observer => observer.update(this, event))
     }
 
     /**
-     * Sets up the carousel by fetching image pairs from the provided API URL and preloading them.
-     * @async
-     * @param {string} apiUrl - The API URL from which to fetch images.
-     * @param {Object} headers - The headers to be sent with the API request.
-     * @returns {Promise<void>} A promise that resolves once the images have been fetched and preloaded.
-     */
+    * Sets up the carousel by fetching content (image pairs and additional information) from the provided API URL
+    * and preloading the images for a smooth carousel experience.
+    *
+    * @async
+    * @param {string} apiUrl - The API URL from which to fetch content.
+    * @param {Object} headers - The headers to be sent with the API request.
+    * @returns {Promise<void>} A promise that resolves once the content has been fetched, processed, and the carousel is ready.
+    */
     async setupCarousel(apiUrl, headers) {
-        // TODO: Clean the imageFetcher class so i only do 1 api fetch instead of 2
-        const fetcher = new ImageFetcher(apiUrl, headers);
 
-        // Fetch image pairs as structured
-        const imagePairs = await fetcher.fetchImages();
+        try {
+            const fetcher = new ContentFetcher(apiUrl, headers);
 
-        await ImageLoader.preloadImages(imagePairs);
-        console.log("All images preloaded");
+            const { imagePairs, contentInfo } = await fetcher.fetchContent();
 
-        const infoFetcher = new InformationFetcher(apiUrl, headers);
-        const imagesInfo = await infoFetcher.fetchInformation();
+            await ImageLoader.preloadImages(imagePairs);
+            console.log("All images preloaded");
 
-        this.carouselItems = imagePairs.map((pair, index) => {
-            return { imagePair: pair, pairInformation: imagesInfo[index] };
-        });
+            this.carouselItems = imagePairs.map((pair, index) => ({
+                imagePair: pair,
+                pairInformation: contentInfo[index]
+            }));
 
-        // Start the carousel with the structured image pairs
-        this.startCarousel();
+            // Start the carousel with the structured image pairs
+            this.startCarousel();
+        } catch (error) {
+            console.error("Failed to setup the carousel:", error)
+        };
     }
 
-    loadAditionalAssets() {
-        this.castLogoDiv.classList.toggle("hidden");
-        const loadingAssests = this.container.querySelectorAll(".loading");
-
-        loadingAssests.forEach((asset) => {
-            asset.classList.toggle("loading");
-        });
-
-        // TODO: Maybe refactor this part of the code
-        this.castImage.src = this.castImagePath;
-        this.logoImage.src = this.logoImagePath;
-    }
 
     /**
      * Starts the carousel rotation by displaying the first pair of images and setting an interval for subsequent images.
@@ -105,19 +104,21 @@ class CarouselDisplay {
      */
     startCarousel() {
 
-        this.loadAditionalAssets();
+        this.notifyObserver("start");
 
-        // Show the first image pair immediately
-        this.showNextImagePair();
+        this.showNextSlide();
 
         // Saving the intervalId so we can stop the loop later
-        this.intervalId = setInterval(() => {
+        this.intervalId = this.createCarouselInterval();;
+    }
+
+    createCarouselInterval() {
+        return setInterval(() => {
             if (this.shouldStopCarousel) {
-                console.log("Carousel loop stopped.");
                 // Stop the interval
                 clearInterval(this.intervalId);
             } else {
-                this.showNextImagePair();
+                this.showNextSlide();
             }
         }, this.imageInterval);
     }
@@ -127,25 +128,32 @@ class CarouselDisplay {
      */
     stopCarousel() {
         this.shouldStopCarousel = true;
-        this.container.classList.toggle("hidden");
+        this.notifyObserver("stop");
     }
 
     /**
      * Displays the next pair of images in the carousel, cycling through the `imagePairs` array.
      */
-    showNextImagePair() {
+    showNextSlide() {
+        const carrouselImagesCount = this.carouselItems.length;
+        if (carrouselImagesCount === 0) return;
+
         const currentItem = this.carouselItems[this.currentIndex];
+        const { imagePair, pairInformation } = currentItem;
 
-        const { landscape, titleLogo } = currentItem.imagePair;
-        this.backgroundImageElement.src = landscape;
-        this.titleImageElement.src = titleLogo;
+        this.backgroundImageElement.src = imagePair.landscape;
+        this.titleImageElement.src = imagePair.titleLogo;
 
-        this.addImagePairInformation(currentItem.pairInformation);
+        this.updateDescriptionContent(pairInformation);
 
         this.currentIndex = (this.currentIndex + 1) % this.carouselItems.length; // Loop through image pairs
     }
 
-    addImagePairInformation(itemDescription) {
+    // TODO: To further improve this part
+    // Need some more logic like for example show only the format if above HD or show the best
+    // Implement somekind of distinction of the between series and movies
+    // How to handle in case of there is no Item Rating
+    updateDescriptionContent(itemDescription) {
         const { itemRating, year, duration, ageRating, seasonCount } = itemDescription;
         const lastElement = this.container.querySelector("#description-content");
         const itemDescriptionElement = lastElement.cloneNode(true);
