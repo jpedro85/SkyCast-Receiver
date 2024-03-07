@@ -53,14 +53,26 @@ class CarouselDisplay extends Subject {
         this.ratingIconPath = "./images/Star.png";
     }
 
+    /**
+     * Adds an observer to the carousel, allowing it to receive update notifications.
+     * @param {Observer} observer - The observer object that should receive update notifications.
+     */
     addObserver(observer) {
         this.observers.push(observer);
     }
 
+    /**
+     * Removes an observer from the carousel, preventing it from receiving further update notifications.
+     * @param {Observer} observerToRemove - The observer object to be removed.
+     */
     removeObserver(observerToRemove) {
         this.observers = this.observers.filter(observer => observer !== observerToRemove);
     }
 
+    /**
+     * Notifies all observers about an event, calling their update method.
+     * @param {string} event - The event that has occurred, triggering the observers' update method.
+     */
     notifyObserver(event) {
         this.observers.forEach(observer => observer.update(this, event))
     }
@@ -112,6 +124,12 @@ class CarouselDisplay extends Subject {
         this.intervalId = this.createCarouselInterval();;
     }
 
+    /**
+     * Creates and starts the interval for cycling through carousel images. The interval will automatically
+     * call `showNextSlide` method at a fixed time interval defined by `imageInterval`.
+     * If `shouldStopCarousel` is set to true, the interval will stop, halting the carousel.
+     * @returns {number} The interval ID which can be used to clearInterval if needed.
+     */
     createCarouselInterval() {
         return setInterval(() => {
             if (this.shouldStopCarousel) {
@@ -124,7 +142,8 @@ class CarouselDisplay extends Subject {
     }
 
     /**
-     * Stops the carousel rotation
+     * Stops the carousel rotation.
+     * This method should be called to halt the carousel before starting it again or when the carousel is no longer needed.
      */
     stopCarousel() {
         this.shouldStopCarousel = true;
@@ -132,7 +151,8 @@ class CarouselDisplay extends Subject {
     }
 
     /**
-     * Displays the next pair of images in the carousel, cycling through the `imagePairs` array.
+     * Advances the carousel to the next slide, updating the display accordingly.
+     * If there are no images in the carousel, this method does nothing.
      */
     showNextSlide() {
         const carrouselImagesCount = this.carouselItems.length;
@@ -153,6 +173,11 @@ class CarouselDisplay extends Subject {
     // Need some more logic like for example show only the format if above HD or show the best
     // Implement somekind of distinction of the between series and movies
     // How to handle in case of there is no Item Rating
+    /**
+     * Updates the carousel's description content based on the current item's information.
+     * This includes displaying item ratings, season counts, age ratings, and video format and so on.
+     * @param {Object} itemDescription - An object containing the description details of the current item.
+     */
     updateDescriptionContent(itemDescription) {
         const { itemRating, year, duration, ageRating, seasonCount } = itemDescription;
         const lastElement = this.container.querySelector("#description-content");

@@ -1,17 +1,29 @@
 import Observer from "./Observer.js";
 
+/**
+ * AssetManager is a subclass of Observer specifically designed to manage visual assets within a carousel.
+ * It handles the loading and display of images and logos associated with the casting feature.
+ * The class responds to events from the carousel to update its assets accordingly.
+ */
 class AssetManager extends Observer {
 
     constructor() {
         super();
         this.carousel = null;
-        this.castimage = null;
-        this.logoimage = null;
+        this.castImage = null;
+        this.logoImage = null;
         this.castLogoDiv = null;
         this.castImagePath = "./images/cast-ready-icon.png";
         this.logoImagePath = "./images/PeacockLogo.png";
     }
 
+    /**
+     * Reacts to update events from the carousel, more precisely when the carousel starts and stops,
+     * initializing carousel assets if not already done, and toggling visibility based on the event
+     * type ('start' or 'stop').
+     * @param {Subject} subject - The subject (carousel) issuing the update.
+     * @param {string} event - The type of event ('start' or 'stop') that triggers the asset update.
+     */
     update(subject, event) {
         if (this.carousel == null) {
             this.carousel = subject;
@@ -32,6 +44,10 @@ class AssetManager extends Observer {
         }
     }
 
+    /**
+     * Loads and toggles visibility of assets including the casting icon and logo images.
+     * Also toggles loading indicators for a smoother user experience.
+     */
     loadAsset() {
 
         // Toggling visibility for assets
