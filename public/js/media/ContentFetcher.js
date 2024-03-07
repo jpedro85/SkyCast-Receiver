@@ -61,7 +61,6 @@ class ContentFetcher {
      * @return {Object[]} An array of objects, each object containing `landscape` and `titleLogo` properties with their respective image URLs.
      */
     extractImagePairs(data) {
-        // TODO: Ask if what I'm using is the real Top 10
         const items = data.data.rail.items;
         return items.map((item) => {
             const landscapeImage = item.images.find((image) => image.type === "landscape")?.url;
