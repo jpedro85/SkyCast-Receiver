@@ -95,12 +95,15 @@ class CarouselDisplay extends Subject {
             const { imagePairs, contentInfo } = await fetcher.fetchContent();
 
             await ImageLoader.preloadImages(imagePairs);
+            console.log(imagePairs);
             console.log("All images preloaded");
 
             this.carouselItems = imagePairs.map((pair, index) => ({
                 imagePair: pair,
                 pairInformation: contentInfo[index]
             }));
+
+            console.log("CarouselItems: ", this.carouselItems);
 
             // Start the carousel with the structured image pairs
             this.startCarousel();
@@ -159,13 +162,46 @@ class CarouselDisplay extends Subject {
         const carrouselImagesCount = this.carouselItems.length;
         if (carrouselImagesCount === 0) return;
 
+        // this.notifyObserver("next");
         const currentItem = this.carouselItems[this.currentIndex];
         const { imagePair, pairInformation } = currentItem;
 
-        this.backgroundImageElement.src = imagePair.landscape;
-        this.titleImageElement.src = imagePair.titleLogo;
+        // NOTE: For Development only
+        // Logging the time it takes to see if its not loading images again
+        // const backgroundStartTime = performance.now();
+        // const titleStartTime = performance.now();
+        // const loadPromises = [
+        //     new Promise(resolve => {
+        //         this.backgroundImageElement.onload = () => {
+        //             const duration = performance.now() - backgroundStartTime;
+        //             console.log(`Background image loaded in ${duration.toFixed(2)} ms`);
+        //             resolve();
+        //         };
+        //         this.backgroundImageElement.src = imagePair.landscape; // This triggers the load
+        //     }),
+        //     new Promise(resolve => {
+        //         this.titleImageElement.onload = () => {
+        //             const duration = performance.now() - titleStartTime;
+        //             console.log(`Title image loaded in ${duration.toFixed(2)} ms`);
+        //             resolve();
+        //         };
+        //         this.titleImageElement.src = imagePair.titleLogo; // This triggers the load
+        //     })
+        // ];
 
-        this.updateDescriptionContent(pairInformation);
+        const loadPromises = [new Promise(resolve => {
+            this.backgroundImageElement.onload = () => resolve();
+            this.backgroundImageElement.src = imagePair.landscape;
+        }), new Promise(resolve => {
+            this.titleImageElement.onload = () => resolve();
+            this.titleImageElement.src = imagePair.titleLogo;
+        })];
+
+        Promise.all(loadPromises).then(() => {
+            this.updateDescriptionContent(pairInformation);
+        }).catch(error => {
+            console.error("Error loading images:", error);
+        });
 
         this.currentIndex = (this.currentIndex + 1) % this.carouselItems.length; // Loop through image pairs
     }
@@ -181,15 +217,13 @@ class CarouselDisplay extends Subject {
     updateDescriptionContent(itemDescription) {
         console.log(itemDescription);
         const { year, ageRating, duration, seasonCount, videoFormats } = itemDescription;
-        let { itemRating } = itemDescription;
+        let itemRating = itemDescription.itemRating ?? "";
 
         const lastElement = this.container.querySelector("#description-content");
         const itemDescriptionElement = lastElement.cloneNode(true);
 
         if (itemRating) {
             itemRating += " / 100";
-        } else {
-            itemRating = "No Rating Yet";
         }
 
 
@@ -208,11 +242,12 @@ class CarouselDisplay extends Subject {
                 `;
 
         } else {
+            const seasonsString = (seasonCount > 1) ? seasonCount + " Seasons" : seasonCount + " Season";
             itemDescriptionElement.innerHTML = `
                 <div id="rating">
                     <span id="item-rating">${itemRating}</span>
                 </div>
-                <span id="season-count">${seasonCount} Seasons</span>
+                <span id="season-count">${seasonsString}</span>
                 <span id="age-rating">${ageRating}</span>
                 <span id="video-format"> ${videoFormats[0]}</span>
                 `;
