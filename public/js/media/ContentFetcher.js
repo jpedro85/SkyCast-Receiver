@@ -81,6 +81,7 @@ class ContentFetcher {
 
         return items.map(item => ({
 
+            type: item.type,
             itemRating: item.fanCriticRatings?.find(source => source.fanScore)?.fanScore,
 
             ...(item.type === ItemType.MOVIE ? {

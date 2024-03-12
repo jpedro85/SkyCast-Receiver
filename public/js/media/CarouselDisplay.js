@@ -1,3 +1,4 @@
+import ItemType from "../utils/enums/ItemTypes.js";
 import ContentFetcher from "./ContentFetcher.js";
 import ImageLoader from "./ImageLoader.js";
 import Subject from "./Subject.js";
@@ -169,34 +170,59 @@ class CarouselDisplay extends Subject {
         this.currentIndex = (this.currentIndex + 1) % this.carouselItems.length; // Loop through image pairs
     }
 
-    // TODO: To further improve this part
-    // Need some more logic like for example show only the format if above HD or show the best
-    // Implement somekind of distinction of the between series and movies
-    // How to handle in case of there is no Item Rating
+    // FIX: It seems theres is a bit of lag on switching to the next slide with the images and its description
+    // TODO: Clean this function
+    // Needs to show the best format avaiable
     /**
      * Updates the carousel's description content based on the current item's information.
      * This includes displaying item ratings, season counts, age ratings, and video format and so on.
      * @param {Object} itemDescription - An object containing the description details of the current item.
      */
     updateDescriptionContent(itemDescription) {
-        const { itemRating, year, duration, ageRating, seasonCount } = itemDescription;
+        console.log(itemDescription);
+        const { year, ageRating, duration, seasonCount, videoFormats } = itemDescription;
+        let { itemRating } = itemDescription;
+
         const lastElement = this.container.querySelector("#description-content");
         const itemDescriptionElement = lastElement.cloneNode(true);
 
-        itemDescriptionElement.innerHTML = `
-        <div id="rating">
-            <span id="item-rating">${itemRating}</span>
-            <img id="item-rating-icon" src="./images/Star.png">
-        </div>
-        <span id="season-count">${seasonCount} Seasons</span>
-        <span id="age-rating">${ageRating}</span>
-        <span id="video-format">${duration}</span>
-        `;
+        if (itemRating) {
+            itemRating += " / 100";
+        } else {
+            itemRating = "No Rating Yet";
+        }
+
+
+        if (itemDescription.type === ItemType.MOVIE) {
+            const slicedDuration = duration.match(/[^:]+/g);
+            const formatedDuration = `${slicedDuration[0]}h${slicedDuration[1]}m`;
+
+            itemDescriptionElement.innerHTML = `
+                <div id="rating">
+                    <span id="item-rating">${itemRating}</span>
+                </div>
+                <span id="year-released">${year}</span>
+                <span id="age-rating">${ageRating}</span>
+                <span id=movie-duration">${formatedDuration}</span>
+                <span id="video-format"> ${videoFormats[0]}</span>
+                `;
+
+        } else {
+            itemDescriptionElement.innerHTML = `
+                <div id="rating">
+                    <span id="item-rating">${itemRating}</span>
+                </div>
+                <span id="season-count">${seasonCount} Seasons</span>
+                <span id="age-rating">${ageRating}</span>
+                <span id="video-format"> ${videoFormats[0]}</span>
+                `;
+        }
 
         lastElement.parentNode.insertBefore(itemDescriptionElement, lastElement);
         lastElement.remove();
 
     }
+
 }
 
 export default CarouselDisplay;
