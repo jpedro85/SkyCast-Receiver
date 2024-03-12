@@ -206,7 +206,6 @@ class CarouselDisplay extends Subject {
         this.currentIndex = (this.currentIndex + 1) % this.carouselItems.length; // Loop through image pairs
     }
 
-    // FIX: It seems theres is a bit of lag on switching to the next slide with the images and its description
     // TODO: Clean this function
     // Needs to show the best format avaiable
     /**

@@ -64,7 +64,6 @@ class AssetManager extends Observer {
         this.logoImage.src = this.logoImagePath;
     }
 
-    // FIX: It seems theres is a bit of lag on switching to the next slide with the images and its description
     // TODO: Clean this function
     // Needs to show the best format avaiable
     /**
