@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>ChromecastChannel - Documentation</title>
+    <title>AssetManager - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">ChromecastChannel</h1>
+    <h1 class="page-title">AssetManager</h1>
     
 
     
@@ -51,12 +51,13 @@
     
         <h2>
         
-            ChromecastChannel
+            AssetManager
         
         </h2>
         
-            <div class="class-description usertext"><p>This class provides functionality to send and receive messages to and from a Chromecast device using a specified namespace.
-It utilizes the Cast framework and has integrated debugging capabilities.</p></div>
+            <div class="class-description usertext"><p>AssetManager is a subclass of Observer specifically designed to manage visual assets within a carousel.
+It handles the loading and display of images and logos associated with the casting feature.
+The class responds to events from the carousel to update its assets accordingly.</p></div>
         
     
 </header>
@@ -71,7 +72,7 @@ It utilizes the Cast framework and has integrated debugging capabilities.</p></d
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="ChromecastChannel"><span class="type-signature"></span>new ChromecastChannel<span class="signature">(namespace, dispatcher)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="AssetManager"><span class="type-signature"></span>new AssetManager<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -80,16 +81,11 @@ It utilizes the Cast framework and has integrated debugging capabilities.</p></d
 
 <dl class="details">
     
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Creates an instance of ChromecastChannel, initializing communication with a Chromecast device.
-This constructor sets up the necessary properties for the channel, including a unique namespace for messaging,
-a dispatcher for handling incoming and outgoing messages, and initializes the Cast receiver context for communication.</p></li></ul></dd>
-    
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_ChromecastChannel.js.html">communication/ChromecastChannel.js</a>, <a href="communication_ChromecastChannel.js.html#line35">line 35</a>
+        <a href="media_AssetManager.js.html">media/AssetManager.js</a>, <a href="media_AssetManager.js.html#line8">line 8</a>
     </li></ul></dd>
     
 
@@ -134,110 +130,6 @@ a dispatcher for handling incoming and outgoing messages, and initializes the Ca
 
 
 
-    <h5 class="h5-examples">Examples</h5>
-    
-    <pre class="prettyprint"><code>// Example of creating a ChromecastChannel instance
-const NAMESPACE = 'urn:x-cast:com.example.custom';
-const chromecastChannel = new ChromecastChannel(NAMESPACE);</code></pre>
-
-    <pre class="prettyprint"><code>// Example of sending a message using ChromecastChannel
-const messageData = { type: 'greeting', data: 'Hello Chromecast!' };
-
-if (MessageProtocol.isMessageFormatted(messageData)) {
-     chromecastChannel.sendMessage(messageData);
-} else {
-     console.error('Message data is not properly formatted.');
-}</code></pre>
-
-    <pre class="prettyprint"><code>// Example of defining a dispatcher and handling a message
-const dispatcher = {
-     communicationConstants: {  "Communication constants" },
-     callbacks: [  "Array of callback functions to handle messages" ]
-};
-
-// Assuming message received from a sender
-const message = { "Message received from a sender"  };
-chromecastChannel.onMessage(dispatcher, message);</code></pre>
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>namespace</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>A unique identifier for the messaging channel. This namespace is used to distinguish
-messages intended for this receiver application from those intended for others.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>dispatcher</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Dispatcher">Dispatcher</a></span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>An object that includes communication constants and callback functions. The
-communicationConstants are used to define various message types or other constants
-needed for message handling. The callbacks array contains functions that are
-executed in response to specific messages or events.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -283,7 +175,7 @@ executed in response to specific messages or events.</p></td>
 
     
 
-    <h4 class="name" id="onMessage"><span class="type-signature"></span>onMessage<span class="signature">(message)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="loadCarouselAssets"><span class="type-signature"></span>loadCarouselAssets<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -293,14 +185,100 @@ executed in response to specific messages or events.</p></td>
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Handles messages received by the dispatcher, logging the received message and performing
-necessary actions based on the message content.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Loads and toggles visibility of assets including the casting icon and logo images.
+Also toggles loading indicators for a smoother user experience.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_ChromecastChannel.js.html">communication/ChromecastChannel.js</a>, <a href="communication_ChromecastChannel.js.html#line96">line 96</a>
+        <a href="media_AssetManager.js.html">media/AssetManager.js</a>, <a href="media_AssetManager.js.html#line53">line 53</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="loadNextSlide"><span class="type-signature"></span>loadNextSlide<span class="signature">(itemDescription)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Updates the carousel's description content based on the current item's information.
+This includes displaying item ratings, season counts, age ratings, and video format and so on.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="media_AssetManager.js.html">media/AssetManager.js</a>, <a href="media_AssetManager.js.html#line74">line 74</a>
     </li></ul></dd>
     
 
@@ -372,13 +350,13 @@ necessary actions based on the message content.</p></li></ul></dd>
 
         <tr>
             
-                <td class="name"><code>message</code></td>
+                <td class="name"><code>itemDescription</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="MessageProtocol.html">MessageProtocol</a></span>
+<span class="param-type">Object</span>
 
 
 
@@ -389,11 +367,7 @@ necessary actions based on the message content.</p></li></ul></dd>
 
             
 
-            <td class="description last"><p>The message received from the sender, expected to conform
-to a predefined protocol (e.g., JSON object, specific command
-structure). The structure of <code>MessageProtocol</code> should be
-documented separately to define the expected message format
-and contents.</p></td>
+            <td class="description last"><p>An object containing the description details of the current item.</p></td>
         </tr>
 
     
@@ -423,7 +397,7 @@ and contents.</p></td>
 
     
 
-    <h4 class="name" id="sendMessage"><span class="type-signature"></span>sendMessage<span class="signature">(data)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="update"><span class="type-signature"></span>update<span class="signature">(subject, event)</span><span class="type-signature"></span></h4>
 
     
 
@@ -433,15 +407,15 @@ and contents.</p></td>
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Sends a message to all connected senders (e.g., a smartphone app).
-It first checks if the message is properly formatted according to the MessageProtocol.
-If not, logs an error and sends a formatted error message to the debugger console.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Reacts to update events from the carousel, more precisely when the carousel starts and stops,
+initializing carousel assets if not already done, and toggling visibility based on the event
+type ('start' or 'stop').</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_ChromecastChannel.js.html">communication/ChromecastChannel.js</a>, <a href="communication_ChromecastChannel.js.html#line76">line 76</a>
+        <a href="media_AssetManager.js.html">media/AssetManager.js</a>, <a href="media_AssetManager.js.html#line27">line 27</a>
     </li></ul></dd>
     
 
@@ -513,13 +487,13 @@ If not, logs an error and sends a formatted error message to the debugger consol
 
         <tr>
             
-                <td class="name"><code>data</code></td>
+                <td class="name"><code>subject</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="Subject.html">Subject</a></span>
 
 
 
@@ -530,7 +504,31 @@ If not, logs an error and sends a formatted error message to the debugger consol
 
             
 
-            <td class="description last"><p>The data to be sent. Should be formatted as per MessageProtocol.</p></td>
+            <td class="description last"><p>The subject (carousel) issuing the update.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The type of event ('start' or 'stop') that triggers the asset update.</p></td>
         </tr>
 
     

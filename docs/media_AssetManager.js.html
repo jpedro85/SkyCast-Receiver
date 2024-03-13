@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>media/ImageLoader.js - Documentation</title>
+    <title>media/AssetManager.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">media/ImageLoader.js</h1>
+    <h1 class="page-title">media/AssetManager.js</h1>
     
 
     
@@ -47,40 +47,125 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * Provides functionality to preload images from URLs. This can be useful for ensuring that images are cached
- * and ready to be displayed in the browser without delay, such as in an image carousel or gallery.
+            <pre class="prettyprint source linenums"><code>import Observer from "./Observer.js";
+
+/**
+ * AssetManager is a subclass of Observer specifically designed to manage visual assets within a carousel.
+ * It handles the loading and display of images and logos associated with the casting feature.
+ * The class responds to events from the carousel to update its assets accordingly.
  */
-class ImageLoader {
-    /**
-     * Preloads an array of image URLs. This method is useful for loading multiple images concurrently.
-     * @param {string[]} urls - An array of image URLs to preload.
-     * @return {Promise&lt;void>} A promise that resolves when all images are loaded successfully. The promise
-     * will reject if any image fails to load.
-     */
-    static async preloadImages(imagePairs) {
-        const urls = imagePairs.flatMap((pair) => [pair.landscape, pair.titleLogo]);
-        return Promise.all(urls.map((url) => this.preloadImage(url)));
+class AssetManager extends Observer {
+
+    constructor() {
+        super();
+        this.carousel = null;
+        this.castImage = null;
+        this.logoImage = null;
+        this.castLogoDiv = null;
+        this.castImagePath = "./images/cast-ready-icon.png";
+        this.logoImagePath = "./images/PeacockLogo.png";
     }
 
     /**
-     * Preloads a single image. This method creates an HTMLImageElement and sets its source to the provided URL.
-     * The method returns a promise that resolves when the image is loaded or rejects if an error occurs.
-     * @param {string} url - The URL of the image to preload.
-     * @return {Promise&lt;HTMLImageElement>} A promise that resolves with the HTMLImageElement once the image is loaded.
-     * The promise rejects if the image fails to load.
+     * Reacts to update events from the carousel, more precisely when the carousel starts and stops,
+     * initializing carousel assets if not already done, and toggling visibility based on the event
+     * type ('start' or 'stop').
+     * @param {Subject} subject - The subject (carousel) issuing the update.
+     * @param {string} event - The type of event ('start' or 'stop') that triggers the asset update.
      */
-    static preloadImage(url) {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.src = url;
-            img.onload = resolve;
-            img.onerror = reject;
+    update(subject, event) {
+        if (this.carousel == null) {
+            this.carousel = subject;
+            this.castImage = this.carousel.container.querySelector("#cast-icon");
+            this.castLogoDiv = this.carousel.container.querySelector("#cast-logo");
+            this.logoImage = this.carousel.container.querySelector("#logo");
+        }
+        if (event == "start") {
+            if (!this.assetsLoaded) {
+                this.loadCarouselAssets();
+                this.assetsLoaded = true;
+            }
+            else {
+                this.carousel.classList.toggle("hidden");
+            }
+        } else if (event == "stop") {
+            this.carousel.classList.toggle("hidden");
+        } else if (event == "next") {
+            this.loadNextSlide(this.carousel);
+        }
+    }
+
+    /**
+     * Loads and toggles visibility of assets including the casting icon and logo images.
+     * Also toggles loading indicators for a smoother user experience.
+     */
+    loadCarouselAssets() {
+
+        // Toggling visibility for assets
+        this.castLogoDiv.classList.toggle("hidden");
+        const loadingAssets = this.carousel.container.querySelectorAll(".loading");
+        loadingAssets.forEach(asset => {
+            asset.classList.toggle("loading");
         });
+
+        // Setting image sources
+        this.castImage.src = this.castImagePath;
+        this.logoImage.src = this.logoImagePath;
+    }
+
+    // TODO: Clean this function
+    // Needs to show the best format avaiable
+    /**
+     * Updates the carousel's description content based on the current item's information.
+     * This includes displaying item ratings, season counts, age ratings, and video format and so on.
+     * @param {Object} itemDescription - An object containing the description details of the current item.
+     */
+    loadNextSlide(itemDescription) {
+        const { year, ageRating, duration, seasonCount, videoFormats } = itemDescription;
+        let { itemRating } = itemDescription;
+
+        const lastElement = this.container.querySelector("#description-content");
+        const itemDescriptionElement = lastElement.cloneNode(true);
+
+        if (itemRating) {
+            itemRating += " / 100";
+        } else {
+            itemRating = "No Rating Yet";
+        }
+
+
+        if (itemDescription.type === ItemType.MOVIE) {
+            const slicedDuration = duration.match(/[^:]+/g);
+            const formatedDuration = `${slicedDuration[0]}h${slicedDuration[1]}m`;
+
+            itemDescriptionElement.innerHTML = `
+                &lt;div id="rating">
+                    &lt;span id="item-rating">${itemRating}&lt;/span>
+                &lt;/div>
+                &lt;span id="year-released">${year}&lt;/span>
+                &lt;span id="age-rating">${ageRating}&lt;/span>
+                &lt;span id=movie-duration">${formatedDuration}&lt;/span>
+                &lt;span id="video-format"> ${videoFormats[0]}&lt;/span>
+                `;
+
+        } else {
+            itemDescriptionElement.innerHTML = `
+                &lt;div id="rating">
+                    &lt;span id="item-rating">${itemRating}&lt;/span>
+                &lt;/div>
+                &lt;span id="season-count">${seasonCount} Seasons&lt;/span>
+                &lt;span id="age-rating">${ageRating}&lt;/span>
+                &lt;span id="video-format"> ${videoFormats[0]}&lt;/span>
+                `;
+        }
+
+        lastElement.parentNode.insertBefore(itemDescriptionElement, lastElement);
+        lastElement.remove();
+
     }
 }
 
-export default ImageLoader;
+export default AssetManager;
 </code></pre>
         </article>
     </section>

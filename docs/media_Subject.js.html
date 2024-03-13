@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>communication/MessageProtocol.js - Documentation</title>
+    <title>media/Subject.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">communication/MessageProtocol.js</h1>
+    <h1 class="page-title">media/Subject.js</h1>
     
 
     
@@ -48,40 +48,34 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Represents a protocol for message handling.
- * It's used for creating and validating message objects based on a predefined protocol.
+ * Defines a basic Subject for an observer pattern implementation.
+ * Allows observers to subscribe or unsubscribe to notifications, and notifies them of events.
+ * This is a class because the lack of capabilitie to implement interfaces in javascript
  */
-class MessageProtocol {
-    /**
-     * @param {string} [type=""] - The type of the message. This parameter specifies the message's category or purpose.
-     * @param {string} [data=""] - The data contained in the message. This is the content or information the message carries.
-     */
-    constructor(type = "", data = "") {
-        this.type = type;
-        this.data = data;
-    }
+class Subject {
 
     /**
-     * Checks if a given message object is formatted correctly according to the MessageProtocol.
-     * This static method ensures that the message object includes all necessary properties defined by the protocol.
-     * @static
-     * @param {Object} message - The message object to be validated.
-     * @returns {boolean} - Returns true if the message object contains all required properties, false otherwise.
+     * Adds an observer to the list of observers.
+     * @param {Observer} observer - The observer to add.
      */
-    static isMessageFormatted(message) {
-        const sampleMessage = new MessageProtocol();
+    addObserver(observer) { };
 
-        for (const key in sampleMessage) {
-            if (!message.hasOwnProperty(key)) {
-                return false;
-            }
-        }
+    /**
+     * Removes an observer from the list of observers.
+     * @param {Observer} observer - The observer to remove.
+     */
+    removeObserver(observer) { };
 
-        return true;
-    }
+    /**
+     * Notifies all subscribed observers of an event.
+     * @param {Subject} subject - The subject instance triggering the notification.
+     * @param {string} event - The event that occurred.
+     */
+    notifyObserver(subject, event) { };
 }
 
-export default MessageProtocol;</code></pre>
+export default Subject;
+</code></pre>
         </article>
     </section>
 

@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>ChromecastChannel - Documentation</title>
+    <title>ContentFetcher - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">ChromecastChannel</h1>
+    <h1 class="page-title">ContentFetcher</h1>
     
 
     
@@ -51,12 +51,12 @@
     
         <h2>
         
-            ChromecastChannel
+            ContentFetcher
         
         </h2>
         
-            <div class="class-description usertext"><p>This class provides functionality to send and receive messages to and from a Chromecast device using a specified namespace.
-It utilizes the Cast framework and has integrated debugging capabilities.</p></div>
+            <div class="class-description usertext"><p>The ContentFetcher class is responsible for fetching both image data and additional information
+from a specified API for use in a content display, such as an image carousel or content list.</p></div>
         
     
 </header>
@@ -71,7 +71,7 @@ It utilizes the Cast framework and has integrated debugging capabilities.</p></d
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="ChromecastChannel"><span class="type-signature"></span>new ChromecastChannel<span class="signature">(namespace, dispatcher)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="ContentFetcher"><span class="type-signature"></span>new ContentFetcher<span class="signature">(url, headers)</span><span class="type-signature"></span></h4>
 
     
 
@@ -81,15 +81,13 @@ It utilizes the Cast framework and has integrated debugging capabilities.</p></d
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Creates an instance of ChromecastChannel, initializing communication with a Chromecast device.
-This constructor sets up the necessary properties for the channel, including a unique namespace for messaging,
-a dispatcher for handling incoming and outgoing messages, and initializes the Cast receiver context for communication.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Constructs a ContentFetcher instance with a specified API URL and request headers.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_ChromecastChannel.js.html">communication/ChromecastChannel.js</a>, <a href="communication_ChromecastChannel.js.html#line35">line 35</a>
+        <a href="media_ContentFetcher.js.html">media/ContentFetcher.js</a>, <a href="media_ContentFetcher.js.html#line25">line 25</a>
     </li></ul></dd>
     
 
@@ -134,30 +132,25 @@ a dispatcher for handling incoming and outgoing messages, and initializes the Ca
 
 
 
-    <h5 class="h5-examples">Examples</h5>
+    <h5 class="h5-examples">Example</h5>
     
-    <pre class="prettyprint"><code>// Example of creating a ChromecastChannel instance
-const NAMESPACE = 'urn:x-cast:com.example.custom';
-const chromecastChannel = new ChromecastChannel(NAMESPACE);</code></pre>
+    <pre class="prettyprint"><code>// How to use the ContentFetcher class
+const contentApiUrl = 'https://api.example.com/content';
+const headers = { Authorization: 'Bearer YOUR_API_KEY' };
 
-    <pre class="prettyprint"><code>// Example of sending a message using ChromecastChannel
-const messageData = { type: 'greeting', data: 'Hello Chromecast!' };
+// Creating an instance of ContentFetcher
+const contentFetcher = new ContentFetcher(contentApiUrl, headers);
 
-if (MessageProtocol.isMessageFormatted(messageData)) {
-     chromecastChannel.sendMessage(messageData);
-} else {
-     console.error('Message data is not properly formatted.');
-}</code></pre>
+// Fetching content and handling it
+contentFetcher.fetchContent().then(({ imagePairs, contentInfo }) => {
+    console.log('Image Pairs:', imagePairs);
+    console.log('Content Information:', contentInfo);
+}).catch(error => {
+    console.error('Failed to fetch content:', error);
+});
 
-    <pre class="prettyprint"><code>// Example of defining a dispatcher and handling a message
-const dispatcher = {
-     communicationConstants: {  "Communication constants" },
-     callbacks: [  "Array of callback functions to handle messages" ]
-};
-
-// Assuming message received from a sender
-const message = { "Message received from a sender"  };
-chromecastChannel.onMessage(dispatcher, message);</code></pre>
+This class makes it easier to manage content fetching by combining image and information retrieval,
+reducing the complexity and number of requests made to the backend.</code></pre>
 
 
 
@@ -187,7 +180,7 @@ chromecastChannel.onMessage(dispatcher, message);</code></pre>
 
         <tr>
             
-                <td class="name"><code>namespace</code></td>
+                <td class="name"><code>url</code></td>
             
 
             <td class="type">
@@ -204,21 +197,20 @@ chromecastChannel.onMessage(dispatcher, message);</code></pre>
 
             
 
-            <td class="description last"><p>A unique identifier for the messaging channel. This namespace is used to distinguish
-messages intended for this receiver application from those intended for others.</p></td>
+            <td class="description last"><p>The URL of the API from which to fetch content.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>dispatcher</code></td>
+                <td class="name"><code>headers</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#Dispatcher">Dispatcher</a></span>
+<span class="param-type">Object</span>
 
 
 
@@ -229,10 +221,7 @@ messages intended for this receiver application from those intended for others.<
 
             
 
-            <td class="description last"><p>An object that includes communication constants and callback functions. The
-communicationConstants are used to define various message types or other constants
-needed for message handling. The callbacks array contains functions that are
-executed in response to specific messages or events.</p></td>
+            <td class="description last"><p>The headers object to include with the API request, used for authorization or content type specification.</p></td>
         </tr>
 
     
@@ -283,7 +272,7 @@ executed in response to specific messages or events.</p></td>
 
     
 
-    <h4 class="name" id="onMessage"><span class="type-signature"></span>onMessage<span class="signature">(message)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="extractImagePairs"><span class="type-signature"></span>extractImagePairs<span class="signature">(data)</span><span class="type-signature"> &rarr; {Array.&lt;Object>}</span></h4>
 
     
 
@@ -293,155 +282,14 @@ executed in response to specific messages or events.</p></td>
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Handles messages received by the dispatcher, logging the received message and performing
-necessary actions based on the message content.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Extracts pairs of landscape and titleLogo images from the fetched API data. This method processes the raw data
+to organize image URLs into a structured format suitable for content displays.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_ChromecastChannel.js.html">communication/ChromecastChannel.js</a>, <a href="communication_ChromecastChannel.js.html#line96">line 96</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>message</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="MessageProtocol.html">MessageProtocol</a></span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The message received from the sender, expected to conform
-to a predefined protocol (e.g., JSON object, specific command
-structure). The structure of <code>MessageProtocol</code> should be
-documented separately to define the expected message format
-and contents.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="sendMessage"><span class="type-signature"></span>sendMessage<span class="signature">(data)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Sends a message to all connected senders (e.g., a smartphone app).
-It first checks if the message is properly formatted according to the MessageProtocol.
-If not, logs an error and sends a formatted error message to the debugger console.</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="communication_ChromecastChannel.js.html">communication/ChromecastChannel.js</a>, <a href="communication_ChromecastChannel.js.html#line76">line 76</a>
+        <a href="media_ContentFetcher.js.html">media/ContentFetcher.js</a>, <a href="media_ContentFetcher.js.html#line63">line 63</a>
     </li></ul></dd>
     
 
@@ -530,7 +378,7 @@ If not, logs an error and sends a formatted error message to the debugger consol
 
             
 
-            <td class="description last"><p>The data to be sent. Should be formatted as per MessageProtocol.</p></td>
+            <td class="description last"><p>The raw data retrieved from the API.</p></td>
         </tr>
 
     
@@ -552,6 +400,297 @@ If not, logs an error and sends a formatted error message to the debugger consol
 
 
 
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>An array of objects, each object containing <code>landscape</code> and <code>titleLogo</code> properties with their respective image URLs.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Object></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="extractInformation"><span class="type-signature"></span>extractInformation<span class="signature">(data)</span><span class="type-signature"> &rarr; {Array.&lt;Object>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Extracts additional information about the content from the fetched API data, such as ratings, year of release, etc.
+This method enhances the content display with relevant information beyond just images.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="media_ContentFetcher.js.html">media/ContentFetcher.js</a>, <a href="media_ContentFetcher.js.html#line79">line 79</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The raw data retrieved from the API.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>An array of objects, each containing detailed information about the content, structured as needed.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Object></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="fetchContent"><span class="type-signature type-signature-async">(async) </span>fetchContent<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;{imagePairs: Array.&lt;Object>, contentInfo: Array.&lt;Object>}>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Fetches content from the configured API URL using the provided headers. After fetching, it processes
+the data to extract both image pairs for the carousel and additional content information.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="media_ContentFetcher.js.html">media/ContentFetcher.js</a>, <a href="media_ContentFetcher.js.html#line42">line 42</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>A promise that resolves to an object containing arrays of image pairs and content information.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;{imagePairs: Array.&lt;Object>, contentInfo: Array.&lt;Object>}></span>
+
+
+
+    </dd>
+</dl>
+
+    
 
 
 
