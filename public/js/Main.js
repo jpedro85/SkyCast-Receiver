@@ -1,9 +1,10 @@
 import DebuggerConsole from "./utils/Debugger.js";
 import ErrorCodes from "./utils/ErrorCodes.js";
+import CarouselDisplay from "./media/CarouselDisplay.js";
+import AssetManager from "./media/AssetManager.js";
 import MediaPlayer from "./media/MediaPlayer.js";
 import ChromecastChannel from "./communication/ChromecastChannel.js";
 import MessageProtocol from "./communication/MessageProtocol.js";
-import CarouselDisplay from "./media/CarouselDisplay.js";
 
 const context = cast.framework.CastReceiverContext.getInstance();
 // The playerManager is what controls the player
@@ -23,6 +24,8 @@ context.addCustomMessageListener(NAMESPACE, communicationChannel.onMessage);
 
 // Start the Image Carousel
 const carousel = new CarouselDisplay("#container", 5000);
+const assetManager = new AssetManager();
+carousel.addObserver(assetManager);
 carousel.setupCarousel("https://mobile.clients.peacocktv.com/bff/sections/v1?segment=all_premium_users&node_id=13dba516-9722-11ea-bbcc-234acf5d5a4e", {
     Host: "mobile.clients.peacocktv.com",
     "X-SkyOTT-Provider": "NBCU",

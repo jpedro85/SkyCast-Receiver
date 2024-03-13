@@ -1,5 +1,7 @@
+import ItemType from "../utils/enums/ItemTypes.js";
+import ContentFetcher from "./ContentFetcher.js";
 import ImageLoader from "./ImageLoader.js";
-import ImageFetcher from "./ImageFetcher.js";
+import Subject from "./Subject.js";
 
 /**
  * The CarouselDisplay class manages the functionality of an image carousel that fetches and displays images in pairs (landscape and title logo) from a specified API.
@@ -32,114 +34,227 @@ import ImageFetcher from "./ImageFetcher.js";
  *     console.error('Failed to setup the carousel:', error);
  * });
  */
-class CarouselDisplay {
+class CarouselDisplay extends Subject {
     /**
      * Initializes a new instance of the CarouselDisplay class.
      * @param {string} containerId - The ID of the DOM element that will contain the carousel.
      * @param {number} imageInterval - The amount of time in milliseconds you want each image to have of screen time before changing
      */
     constructor(containerId, imageInterval) {
+        super();
         this.container = document.querySelector(containerId);
         this.backgroundImageElement = this.container.querySelector("#background-img");
         this.titleImageElement = this.container.querySelector("#title-img");
-        this.textElement = this.container.querySelector("#text-content");
         this.currentIndex = 0;
-        this.imagePairs = [];
+        this.carouselItems = [];
+        this.observers = [];
         this.shouldStopCarousel = false;
         this.imageInterval = imageInterval;
         this.intervalId = null;
+        this.ratingIconPath = "./images/Star.png";
     }
 
     /**
-     * Sets up the carousel by fetching image pairs from the provided API URL and preloading them.
-     * @async
-     * @param {string} apiUrl - The API URL from which to fetch images.
-     * @param {Object} headers - The headers to be sent with the API request.
-     * @returns {Promise<void>} A promise that resolves once the images have been fetched and preloaded.
+     * Adds an observer to the carousel, allowing it to receive update notifications.
+     * @param {Observer} observer - The observer object that should receive update notifications.
      */
-    async setupCarousel(apiUrl, headers) {
-        const fetcher = new ImageFetcher(apiUrl, headers);
-
-        // Fetch image pairs as structured
-        const imagePairs = await fetcher.fetchImages();
-
-        await ImageLoader.preloadImages(imagePairs);
-        console.log("All images preloaded");
-
-        // Start the carousel with the structured image pairs
-        this.startCarousel(imagePairs);
+    addObserver(observer) {
+        this.observers.push(observer);
     }
+
+    /**
+     * Removes an observer from the carousel, preventing it from receiving further update notifications.
+     * @param {Observer} observerToRemove - The observer object to be removed.
+     */
+    removeObserver(observerToRemove) {
+        this.observers = this.observers.filter(observer => observer !== observerToRemove);
+    }
+
+    /**
+     * Notifies all observers about an event, calling their update method.
+     * @param {string} event - The event that has occurred, triggering the observers' update method.
+     */
+    notifyObserver(event) {
+        this.observers.forEach(observer => observer.update(this, event))
+    }
+
+    /**
+    * Sets up the carousel by fetching content (image pairs and additional information) from the provided API URL
+    * and preloading the images for a smooth carousel experience.
+    *
+    * @async
+    * @param {string} apiUrl - The API URL from which to fetch content.
+    * @param {Object} headers - The headers to be sent with the API request.
+    * @returns {Promise<void>} A promise that resolves once the content has been fetched, processed, and the carousel is ready.
+    */
+    async setupCarousel(apiUrl, headers) {
+
+        try {
+            const fetcher = new ContentFetcher(apiUrl, headers);
+
+            const { imagePairs, contentInfo } = await fetcher.fetchContent();
+
+            await ImageLoader.preloadImages(imagePairs);
+            console.log(imagePairs);
+            console.log("All images preloaded");
+
+            this.carouselItems = imagePairs.map((pair, index) => ({
+                imagePair: pair,
+                pairInformation: contentInfo[index]
+            }));
+
+            // Start the carousel with the structured image pairs
+            this.startCarousel();
+        } catch (error) {
+            console.error("Failed to setup the carousel:", error)
+        };
+    }
+
 
     /**
      * Starts the carousel rotation by displaying the first pair of images and setting an interval for subsequent images.
      * The carousel loop can be stopped by using shouldStopCarousel. The interval between image changes is
      * determined by `imageInterval` when creating a CarouselDisplay
-     *
-     * @param {Array<Object>} imagePairs - An array of image pair objects, each containing `landscape` and `titleLogo` URLs.
      */
-    startCarousel(imagePairs) {
-        this.imagePairs = imagePairs;
-        this.container.classList.toggle("hidden");
+    startCarousel() {
 
-        this.titleImageElement.style.backgroundColor = "transparent";
-        this.textElement.style.backgroundColor = "transparent"
-        this.textElement.style.color = "white"
+        this.notifyObserver("start");
 
-        // Show the first image pair immediately
-        this.showNextImagePair();
+        this.showNextSlide();
 
         // Saving the intervalId so we can stop the loop later
-        this.intervalId = setInterval(() => {
+        this.intervalId = this.createCarouselInterval();;
+    }
+
+    /**
+     * Creates and starts the interval for cycling through carousel images. The interval will automatically
+     * call `showNextSlide` method at a fixed time interval defined by `imageInterval`.
+     * If `shouldStopCarousel` is set to true, the interval will stop, halting the carousel.
+     * @returns {number} The interval ID which can be used to clearInterval if needed.
+     */
+    createCarouselInterval() {
+        return setInterval(() => {
             if (this.shouldStopCarousel) {
-                console.log("Carousel loop stopped.");
                 // Stop the interval
                 clearInterval(this.intervalId);
             } else {
-                this.showNextImagePair();
+                this.showNextSlide();
             }
         }, this.imageInterval);
     }
 
     /**
-     * Stops the carousel rotation
+     * Stops the carousel rotation.
+     * This method should be called to halt the carousel before starting it again or when the carousel is no longer needed.
      */
     stopCarousel() {
         this.shouldStopCarousel = true;
-        this.container.classList.toggle("hidden");
+        this.notifyObserver("stop");
     }
 
     /**
-     * Restarts the carousel rotation using the previous loaded images
+     * Advances the carousel to the next slide, updating the display accordingly.
+     * If there are no images in the carousel, this method does nothing.
      */
-    restartCarousel() {
-        console.log("Carousel Restarted");
-        this.shouldStopCarousel = false;
-        this.container.classList.toggle("hidden");
+    showNextSlide() {
+        const carrouselImagesCount = this.carouselItems.length;
+        if (carrouselImagesCount === 0) return;
 
-        // Show the first image pair immediately
-        this.showNextImagePair();
+        // this.notifyObserver("next");
+        const currentItem = this.carouselItems[this.currentIndex];
+        const { imagePair, pairInformation } = currentItem;
 
-        // Saving the intervalId so we can stop the loop later
-        this.intervalId = setInterval(() => {
-            if (this.shouldStopCarousel) {
-                console.log("Carousel loop stopped.");
-                // Stop the interval
-                clearInterval(this.intervalId);
-            } else {
-                this.showNextImagePair();
-            }
-        }, this.imageInterval);
+        // NOTE: For Development only
+        // Logging the time it takes to see if its not loading images again
+        // const backgroundStartTime = performance.now();
+        // const titleStartTime = performance.now();
+        // const loadPromises = [
+        //     new Promise(resolve => {
+        //         this.backgroundImageElement.onload = () => {
+        //             const duration = performance.now() - backgroundStartTime;
+        //             console.log(`Background image loaded in ${duration.toFixed(2)} ms`);
+        //             resolve();
+        //         };
+        //         this.backgroundImageElement.src = imagePair.landscape; // This triggers the load
+        //     }),
+        //     new Promise(resolve => {
+        //         this.titleImageElement.onload = () => {
+        //             const duration = performance.now() - titleStartTime;
+        //             console.log(`Title image loaded in ${duration.toFixed(2)} ms`);
+        //             resolve();
+        //         };
+        //         this.titleImageElement.src = imagePair.titleLogo; // This triggers the load
+        //     })
+        // ];
+
+        const loadPromises = [new Promise(resolve => {
+            this.backgroundImageElement.onload = () => resolve();
+            this.backgroundImageElement.src = imagePair.landscape;
+        }), new Promise(resolve => {
+            this.titleImageElement.onload = () => resolve();
+            this.titleImageElement.src = imagePair.titleLogo;
+        })];
+
+        Promise.all(loadPromises).then(() => {
+            this.updateDescriptionContent(pairInformation);
+        }).catch(error => {
+            console.error("Error loading images:", error);
+        });
+
+        this.currentIndex = (this.currentIndex + 1) % this.carouselItems.length; // Loop through image pairs
     }
 
+    // TODO: Clean this function
+    // Needs to show the best format avaiable
     /**
-     * Displays the next pair of images in the carousel, cycling through the `imagePairs` array.
+     * Updates the carousel's description content based on the current item's information.
+     * This includes displaying item ratings, season counts, age ratings, and video format and so on.
+     * @param {Object} itemDescription - An object containing the description details of the current item.
      */
-    showNextImagePair() {
-        const { landscape, titleLogo } = this.imagePairs[this.currentIndex];
-        this.backgroundImageElement.src = landscape;
-        this.titleImageElement.src = titleLogo;
-        this.currentIndex = (this.currentIndex + 1) % this.imagePairs.length; // Loop through image pairs
+    updateDescriptionContent(itemDescription) {
+        console.log(itemDescription);
+        const { year, ageRating, duration, seasonCount, videoFormats } = itemDescription;
+        let itemRating = itemDescription.itemRating ?? "";
+
+        const lastElement = this.container.querySelector("#description-content");
+        const itemDescriptionElement = lastElement.cloneNode(true);
+
+        if (itemRating) {
+            itemRating += " / 100";
+        }
+
+
+        if (itemDescription.type === ItemType.MOVIE) {
+            const slicedDuration = duration.match(/[^:]+/g);
+            const formatedDuration = `${slicedDuration[0]}h${slicedDuration[1]}m`;
+
+            itemDescriptionElement.innerHTML = `
+                <div id="rating">
+                    <span id="item-rating">${itemRating}</span>
+                </div>
+                <span id="year-released">${year}</span>
+                <span id="age-rating">${ageRating}</span>
+                <span id=movie-duration">${formatedDuration}</span>
+                <span id="video-format"> ${videoFormats[0]}</span>
+                `;
+
+        } else {
+            const seasonsString = (seasonCount > 1) ? seasonCount + " Seasons" : seasonCount + " Season";
+            itemDescriptionElement.innerHTML = `
+                <div id="rating">
+                    <span id="item-rating">${itemRating}</span>
+                </div>
+                <span id="season-count">${seasonsString}</span>
+                <span id="age-rating">${ageRating}</span>
+                <span id="video-format"> ${videoFormats[0]}</span>
+                `;
+        }
+
+        lastElement.parentNode.insertBefore(itemDescriptionElement, lastElement);
+        lastElement.remove();
+
     }
+
 }
 
 export default CarouselDisplay;

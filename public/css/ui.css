@@ -1,6 +1,5 @@
 html,
 body {
-    /* --logo-image: url("images/SkyLogo.png"); */
     padding: 0;
     margin: 0;
 }
@@ -19,17 +18,17 @@ body {
     height: 100vh;
 }
 
-#carousel .title-container {
-
+#carousel .title-description-container {
+    width: 40%;
+    height: 100vh;
     margin-left: 2rem;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 40%;
-    height: 100vh;
+    row-gap: 1.5em;
 }
 
-#mask{
+#mask {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -37,40 +36,37 @@ body {
     z-index: 20;
 }
 
-#background-img
-{
+#background-img {
     position: absolute;
     width: 100%;
     height: 100%;
     z-index: inherit;
-    /* display: block; */
 }
 
-.title-container div {
-    width: 100%;
+.title-description-container div {
     height: 50%;
     display: flex !important;
-    align-items: center;
     z-index: 21;
 }
 
-.title-container p {
+.title-description-container p {
     border-radius: 1.2rem;
-    background-color: lightslategray;
-    color: lightslategray;
     z-index: 21;
     align-self: end;
+    color: white;
 }
 
-.title-container div img {
-    border-radius: 1.2rem;
-    background-color: lightslategray;
+.title-description-container div img {
     padding: 2rem 0;
-    display: flex !important;
+    display: flex;
     flex-wrap: wrap;
     align-self: flex-end;
     height: initial;
     width: 60%;
+}
+
+#title-image-container {
+    width: 100%;
 }
 
 #logo {
@@ -84,4 +80,63 @@ body {
 
 .hidden {
     display: none;
+}
+
+#cast-icon {
+    position: absolute;
+    bottom: 5%;
+    left: 3%;
+    width: 5%;
+    z-index: 100;
+}
+
+#ready-cast p {
+    position: absolute;
+    color: white;
+    bottom: 3%;
+    left: 12%;
+    font-size: 1.5em;
+}
+
+.loading {
+    background-color: #373737 !important;
+    color: transparent !important;
+    border-radius: 1.2rem;
+}
+
+#description-content {
+    color: white;
+    height: 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 25px;
+}
+
+#item-rating-icon {
+    padding: 0;
+    display: flex;
+    width: 25px;
+    height: auto;
+    align-self: flex-start;
+}
+
+#rating {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+}
+
+#age-rating {
+    background-color: #4d4c4c;
+    padding: 0.2em 0.4em;
+    border-radius: 0.5em;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#video-format {
+    background-color: #333131;
+    padding: 0.2em 0.4em;
+    border-radius: 0.5em;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
