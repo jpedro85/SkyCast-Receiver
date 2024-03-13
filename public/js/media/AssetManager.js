@@ -37,10 +37,10 @@ class AssetManager extends Observer {
                 this.assetsLoaded = true;
             }
             else {
-                this.carousel.classList.toggle("hidden");
+                this.carousel.container.classList.toggle("hidden");
             }
         } else if (event == "stop") {
-            this.carousel.classList.toggle("hidden");
+            this.carousel.container.classList.toggle("hidden");
         } else if (event == "next") {
             this.loadNextSlide(this.carousel);
         }

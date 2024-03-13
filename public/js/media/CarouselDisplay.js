@@ -126,6 +126,8 @@ class CarouselDisplay extends Subject {
 
         this.showNextSlide();
 
+        this.shouldStopCarousel = false;
+
         // Saving the intervalId so we can stop the loop later
         this.intervalId = this.createCarouselInterval();;
     }
