@@ -103,8 +103,6 @@ class CarouselDisplay extends Subject {
                 pairInformation: contentInfo[index]
             }));
 
-            console.log("CarouselItems: ", this.carouselItems);
-
             // Start the carousel with the structured image pairs
             this.startCarousel();
         } catch (error) {
