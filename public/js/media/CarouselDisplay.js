@@ -54,6 +54,10 @@ class CarouselDisplay extends Subject {
         this.ratingIconPath = "./images/Star.png";
     }
 
+    isPlaying() {
+        return this.shouldStopCarousel;
+    }
+
     /**
      * Adds an observer to the carousel, allowing it to receive update notifications.
      * @param {Observer} observer - The observer object that should receive update notifications.
@@ -95,7 +99,7 @@ class CarouselDisplay extends Subject {
             const { imagePairs, contentInfo } = await fetcher.fetchContent();
 
             await ImageLoader.preloadImages(imagePairs);
-            console.log(imagePairs);
+            console.log("Preloaded Images: ", imagePairs);
             console.log("All images preloaded");
 
             this.carouselItems = imagePairs.map((pair, index) => ({
@@ -120,7 +124,12 @@ class CarouselDisplay extends Subject {
 
         this.notifyObserver("start");
 
+        const carouselElement = this.container.querySelector("#carousel");
+        carouselElement.classList.add("slide-in");
+
         this.showNextSlide();
+
+        this.shouldStopCarousel = false;
 
         // Saving the intervalId so we can stop the loop later
         this.intervalId = this.createCarouselInterval();;
@@ -160,99 +169,9 @@ class CarouselDisplay extends Subject {
         const carrouselImagesCount = this.carouselItems.length;
         if (carrouselImagesCount === 0) return;
 
-        // this.notifyObserver("next");
-        const currentItem = this.carouselItems[this.currentIndex];
-        const { imagePair, pairInformation } = currentItem;
+        this.notifyObserver("next");
 
-        // NOTE: For Development only
-        // Logging the time it takes to see if its not loading images again
-        // const backgroundStartTime = performance.now();
-        // const titleStartTime = performance.now();
-        // const loadPromises = [
-        //     new Promise(resolve => {
-        //         this.backgroundImageElement.onload = () => {
-        //             const duration = performance.now() - backgroundStartTime;
-        //             console.log(`Background image loaded in ${duration.toFixed(2)} ms`);
-        //             resolve();
-        //         };
-        //         this.backgroundImageElement.src = imagePair.landscape; // This triggers the load
-        //     }),
-        //     new Promise(resolve => {
-        //         this.titleImageElement.onload = () => {
-        //             const duration = performance.now() - titleStartTime;
-        //             console.log(`Title image loaded in ${duration.toFixed(2)} ms`);
-        //             resolve();
-        //         };
-        //         this.titleImageElement.src = imagePair.titleLogo; // This triggers the load
-        //     })
-        // ];
-
-        const loadPromises = [new Promise(resolve => {
-            this.backgroundImageElement.onload = () => resolve();
-            this.backgroundImageElement.src = imagePair.landscape;
-        }), new Promise(resolve => {
-            this.titleImageElement.onload = () => resolve();
-            this.titleImageElement.src = imagePair.titleLogo;
-        })];
-
-        Promise.all(loadPromises).then(() => {
-            this.updateDescriptionContent(pairInformation);
-        }).catch(error => {
-            console.error("Error loading images:", error);
-        });
-
-        this.currentIndex = (this.currentIndex + 1) % this.carouselItems.length; // Loop through image pairs
-    }
-
-    // TODO: Clean this function
-    // Needs to show the best format avaiable
-    /**
-     * Updates the carousel's description content based on the current item's information.
-     * This includes displaying item ratings, season counts, age ratings, and video format and so on.
-     * @param {Object} itemDescription - An object containing the description details of the current item.
-     */
-    updateDescriptionContent(itemDescription) {
-        console.log(itemDescription);
-        const { year, ageRating, duration, seasonCount, videoFormats } = itemDescription;
-        let itemRating = itemDescription.itemRating ?? "";
-
-        const lastElement = this.container.querySelector("#description-content");
-        const itemDescriptionElement = lastElement.cloneNode(true);
-
-        if (itemRating) {
-            itemRating += " / 100";
-        }
-
-
-        if (itemDescription.type === ItemType.MOVIE) {
-            const slicedDuration = duration.match(/[^:]+/g);
-            const formatedDuration = `${slicedDuration[0]}h${slicedDuration[1]}m`;
-
-            itemDescriptionElement.innerHTML = `
-                <div id="rating">
-                    <span id="item-rating">${itemRating}</span>
-                </div>
-                <span id="year-released">${year}</span>
-                <span id="age-rating">${ageRating}</span>
-                <span id=movie-duration">${formatedDuration}</span>
-                <span id="video-format"> ${videoFormats[0]}</span>
-                `;
-
-        } else {
-            const seasonsString = (seasonCount > 1) ? seasonCount + " Seasons" : seasonCount + " Season";
-            itemDescriptionElement.innerHTML = `
-                <div id="rating">
-                    <span id="item-rating">${itemRating}</span>
-                </div>
-                <span id="season-count">${seasonsString}</span>
-                <span id="age-rating">${ageRating}</span>
-                <span id="video-format"> ${videoFormats[0]}</span>
-                `;
-        }
-
-        lastElement.parentNode.insertBefore(itemDescriptionElement, lastElement);
-        lastElement.remove();
-
+        this.currentIndex = (this.currentIndex + 1) % this.carouselItems.length;
     }
 
 }

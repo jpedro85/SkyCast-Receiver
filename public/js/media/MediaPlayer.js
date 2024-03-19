@@ -1,6 +1,6 @@
-// TODO: Implementation when cast sender is ready
-class MediaPlayer {
-    constructor() {}
+class MediaPlayer { constructor() {
+        this.mediaPlayer = document.querySelector(".media");
+    }
 
     createMediaInfo(customMediaData, request) {
 
@@ -14,22 +14,30 @@ class MediaPlayer {
 
     }
 
-    playMedia(media, request) {
+    // WARN: For now its playing only by the media url
+    playMedia(media) {
 
-        // this.createMediaInfo(media.contentUrl);;
+        // Showing the media Player
+        this.mediaPlayer.classList.toggle("hidden");
 
-        request.media.contentId = customMediaData;
-        request.media.streamType = cast.framework.messages.StreamType.BUFFERED;
-        request.media.contentType = "application/x-mpegurl"; // Adjust based on your video content type
+        console.log(media.contentUrl)
 
-        // Add any additional metadata as needed
-        request.media.metadata = new cast.framework.messages.GenericMediaMetadata();
-        request.media.metadata.title = customMediaData.title || "Unknown Title"; // Add title if available
+        // Create a MediaInfo object
+        const mediaInfo = new cast.framework.messages.MediaInformation();
+        mediaInfo.contentId = media.contentUrl;
+        // Change type as needed
+        // INFO: Maybe it can come with the Load request for easier media fetching
+        mediaInfo.contentType = "video/mp4";
+        mediaInfo.streamType = cast.framework.messages.StreamType.BUFFERED;
 
-        // Play the video automatically when loaded
-        request.autoplay = true;
-        request.currentTime = media.currentTime || 0;
+
+        return mediaInfo;
     }
+
+    hidePlayer(){
+        this.mediaPlayer.classList.toggle("hidden");
+    }
+
 }
 
 export default MediaPlayer;
