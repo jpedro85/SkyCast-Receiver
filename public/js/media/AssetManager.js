@@ -1,3 +1,4 @@
+import ItemType from "../utils/enums/ItemTypes.js";
 import Observer from "./Observer.js";
 
 /**
@@ -64,6 +65,63 @@ class AssetManager extends Observer {
         this.logoImage.src = this.logoImagePath;
     }
 
+    loadNextSlide() {
+
+        const currentItem = this.carousel.carouselItems[this.carousel.currentIndex];
+        const { imagePair, pairInformation } = currentItem;
+
+        // this.checkLoadingPerformance(imagePair, pairInformation);
+
+        const loadPromises = [new Promise(resolve => {
+            this.carousel.backgroundImageElement.onload = () => resolve();
+            this.carousel.backgroundImageElement.src = imagePair.landscape;
+        }), new Promise(resolve => {
+            this.carousel.titleImageElement.onload = () => resolve();
+            this.carousel.titleImageElement.src = imagePair.titleLogo;
+        })];
+
+        Promise.all(loadPromises).then(() => {
+            this.loadSlideDescription(pairInformation);
+        }).catch(error => {
+            console.error("Error loading images:", error);
+        });
+
+    }
+
+    // NOTE: For Development only
+    // Logging the time it takes to see if its not loading images again
+    checkLoadingPerformance(imagePair, pairInformation) {
+
+        console.log("Slide: ", this.carousel.currentIndex);
+        const backgroundStartTime = performance.now();
+        const titleStartTime = performance.now();
+        const loadPromises = [
+            new Promise(resolve => {
+                this.carousel.backgroundImageElement.onload = () => {
+                    const duration = performance.now() - backgroundStartTime;
+                    console.log(`Background image loaded in ${duration.toFixed(2)} ms`);
+                    resolve();
+                };
+                this.carousel.backgroundImageElement.src = imagePair.landscape;
+            }),
+            new Promise(resolve => {
+                this.carousel.titleImageElement.onload = () => {
+                    const duration = performance.now() - titleStartTime;
+                    console.log(`Title image loaded in ${duration.toFixed(2)} ms`);
+                    resolve();
+                };
+                this.carousel.titleImageElement.src = imagePair.titleLogo;
+
+            })
+        ];
+
+        Promise.all(loadPromises).then(() => {
+            this.loadSlideDescription(pairInformation);
+        }).catch(error => {
+            console.error("Error loading images:", error);
+        });
+    }
+
     // TODO: Clean this function
     // Needs to show the best format avaiable
     /**
@@ -71,17 +129,16 @@ class AssetManager extends Observer {
      * This includes displaying item ratings, season counts, age ratings, and video format and so on.
      * @param {Object} itemDescription - An object containing the description details of the current item.
      */
-    loadNextSlide(itemDescription) {
-        const { year, ageRating, duration, seasonCount, videoFormats } = itemDescription;
-        let { itemRating } = itemDescription;
+    loadSlideDescription(itemDescription) {
 
-        const lastElement = this.container.querySelector("#description-content");
+        const { year, ageRating, duration, seasonCount, videoFormats } = itemDescription;
+        let itemRating = itemDescription.itemRating ?? "";
+
+        const lastElement = this.carousel.container.querySelector("#description-content");
         const itemDescriptionElement = lastElement.cloneNode(true);
 
         if (itemRating) {
             itemRating += " / 100";
-        } else {
-            itemRating = "No Rating Yet";
         }
 
 
@@ -100,11 +157,12 @@ class AssetManager extends Observer {
                 `;
 
         } else {
+            const seasonsString = (seasonCount > 1) ? seasonCount + " Seasons" : seasonCount + " Season";
             itemDescriptionElement.innerHTML = `
                 <div id="rating">
                     <span id="item-rating">${itemRating}</span>
                 </div>
-                <span id="season-count">${seasonCount} Seasons</span>
+                <span id="season-count">${seasonsString}</span>
                 <span id="age-rating">${ageRating}</span>
                 <span id="video-format"> ${videoFormats[0]}</span>
                 `;
@@ -114,6 +172,6 @@ class AssetManager extends Observer {
         lastElement.remove();
 
     }
-}
 
+}
 export default AssetManager;
