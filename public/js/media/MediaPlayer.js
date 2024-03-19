@@ -34,7 +34,6 @@ class MediaPlayer { constructor() {
         return mediaInfo;
     }
 
-    // TODO: Have a way to wide both the player and the control
     hidePlayer(){
         this.mediaPlayer.classList.toggle("hidden");
     }

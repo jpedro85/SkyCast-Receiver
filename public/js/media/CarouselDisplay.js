@@ -124,6 +124,9 @@ class CarouselDisplay extends Subject {
 
         this.notifyObserver("start");
 
+        const carouselElement = this.container.querySelector("#carousel");
+        carouselElement.classList.add("slide-in");
+
         this.showNextSlide();
 
         this.shouldStopCarousel = false;

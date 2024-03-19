@@ -63,9 +63,15 @@ class AssetManager extends Observer {
         // Setting image sources
         this.castImage.src = this.castImagePath;
         this.logoImage.src = this.logoImagePath;
+        this.carousel.container.style.backgroundColor = "black";
     }
 
     loadNextSlide() {
+
+        // So theres is no flicker from changing image
+        // And so that in that there are no cases of the previous image still being there
+        this.carousel.backgroundImageElement.src = null;
+        this.carousel.titleImageElement.src = null;
 
         const currentItem = this.carousel.carouselItems[this.carousel.currentIndex];
         const { imagePair, pairInformation } = currentItem;
@@ -82,6 +88,10 @@ class AssetManager extends Observer {
 
         Promise.all(loadPromises).then(() => {
             this.loadSlideDescription(pairInformation);
+            const carouselElement = this.carousel.container.querySelector("#carousel");
+            carouselElement.classList.remove("slide-in");
+            carouselElement.offsetWidth;
+            carouselElement.classList.add("slide-in");
         }).catch(error => {
             console.error("Error loading images:", error);
         });
