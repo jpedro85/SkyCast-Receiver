@@ -126,6 +126,7 @@ body {
     bottom: 3%;
     left: 12%;
     font-size: 1.5em;
+    z-index: 21;
 }
 
 .loading {

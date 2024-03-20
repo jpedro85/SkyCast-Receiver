@@ -1,4 +1,3 @@
-import ItemType from "../utils/enums/ItemTypes.js";
 import ContentFetcher from "./ContentFetcher.js";
 import ImageLoader from "./ImageLoader.js";
 import Subject from "./Subject.js";
@@ -35,23 +34,25 @@ import Subject from "./Subject.js";
  * });
  */
 class CarouselDisplay extends Subject {
+
     /**
      * Initializes a new instance of the CarouselDisplay class.
      * @param {string} containerId - The ID of the DOM element that will contain the carousel.
      * @param {number} imageInterval - The amount of time in milliseconds you want each image to have of screen time before changing
+     * @param {string} titleImageId - The id that is used for the image element that is going to contain the titleImage
+     * @param {string} backgroundImageId - The id that is used for the image element that is going to contain the backgroundImage
      */
-    constructor(containerId, imageInterval) {
+    constructor(containerId, imageInterval, backgroundImageId, titleImageId) {
         super();
         this.container = document.querySelector(containerId);
-        this.backgroundImageElement = this.container.querySelector("#background-img");
-        this.titleImageElement = this.container.querySelector("#title-img");
+        this.backgroundImageElement = this.container.querySelector(backgroundImageId);
+        this.titleImageElement = this.container.querySelector(titleImageId);
         this.currentIndex = 0;
         this.carouselItems = [];
         this.observers = [];
         this.shouldStopCarousel = false;
         this.imageInterval = imageInterval;
         this.intervalId = null;
-        this.ratingIconPath = "./images/Star.png";
     }
 
     isPlaying() {
@@ -99,7 +100,6 @@ class CarouselDisplay extends Subject {
             const { imagePairs, contentInfo } = await fetcher.fetchContent();
 
             await ImageLoader.preloadImages(imagePairs);
-            console.log("Preloaded Images: ", imagePairs);
             console.log("All images preloaded");
 
             this.carouselItems = imagePairs.map((pair, index) => ({

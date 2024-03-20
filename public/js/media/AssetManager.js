@@ -87,11 +87,11 @@ class AssetManager extends Observer {
         })];
 
         Promise.all(loadPromises).then(() => {
-            this.loadSlideDescription(pairInformation);
             const carouselElement = this.carousel.container.querySelector("#carousel");
             carouselElement.classList.remove("slide-in");
             carouselElement.offsetWidth;
             carouselElement.classList.add("slide-in");
+            this.loadSlideDescription(pairInformation);
         }).catch(error => {
             console.error("Error loading images:", error);
         });

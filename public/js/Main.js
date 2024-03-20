@@ -16,10 +16,17 @@ const context = cast.framework.CastReceiverContext.getInstance();
 const communicationChannel = new ChromecastChannel(NAMESPACE, { communicationConstants, callbacks: debuggerConsole.sendLog });
 context.addCustomMessageListener(NAMESPACE, communicationChannel.onMessage);
 
-// Start the Image Carousel
-const carousel = new CarouselDisplay("#container", 5000);
+// Initializing Carousel
+const containerId = "#container";
+const imageInterval = 5000;
+const backgroundImageId = "#background-img";
+const titleImageId = "#title-img";
+
+const carousel = new CarouselDisplay(containerId, imageInterval, backgroundImageId, titleImageId);
 const assetManager = new AssetManager();
 carousel.addObserver(assetManager);
+
+// Start the Image Carousel
 carousel.setupCarousel("https://mobile.clients.peacocktv.com/bff/sections/v1?segment=all_premium_users&node_id=13dba516-9722-11ea-bbcc-234acf5d5a4e", {
     Host: "mobile.clients.peacocktv.com",
     "X-SkyOTT-Provider": "NBCU",
@@ -32,3 +39,4 @@ carousel.setupCarousel("https://mobile.clients.peacocktv.com/bff/sections/v1?seg
 
 initPlayerManager(carousel);
 startContext();
+
