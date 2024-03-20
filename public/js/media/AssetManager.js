@@ -78,15 +78,12 @@ class AssetManager extends Observer {
 
         // this.checkLoadingPerformance(imagePair, pairInformation);
 
-        const loadPromises = [new Promise(resolve => {
+        new Promise(resolve => {
             this.carousel.backgroundImageElement.onload = () => resolve();
             this.carousel.backgroundImageElement.src = imagePair.landscape;
-        }), new Promise(resolve => {
             this.carousel.titleImageElement.onload = () => resolve();
             this.carousel.titleImageElement.src = imagePair.titleLogo;
-        })];
-
-        Promise.all(loadPromises).then(() => {
+        }).then(() => {
             const carouselElement = this.carousel.container.querySelector("#carousel");
             carouselElement.classList.remove("slide-in");
             carouselElement.offsetWidth;
@@ -105,27 +102,26 @@ class AssetManager extends Observer {
         console.log("Slide: ", this.carousel.currentIndex);
         const backgroundStartTime = performance.now();
         const titleStartTime = performance.now();
-        const loadPromises = [
-            new Promise(resolve => {
-                this.carousel.backgroundImageElement.onload = () => {
-                    const duration = performance.now() - backgroundStartTime;
-                    console.log(`Background image loaded in ${duration.toFixed(2)} ms`);
-                    resolve();
-                };
-                this.carousel.backgroundImageElement.src = imagePair.landscape;
-            }),
-            new Promise(resolve => {
-                this.carousel.titleImageElement.onload = () => {
-                    const duration = performance.now() - titleStartTime;
-                    console.log(`Title image loaded in ${duration.toFixed(2)} ms`);
-                    resolve();
-                };
-                this.carousel.titleImageElement.src = imagePair.titleLogo;
+        let durationBackground = 0;
+        new Promise(resolve => {
+            this.carousel.backgroundImageElement.onload = () => {
+                durationBackground = performance.now() - backgroundStartTime;
+                console.log(`Background image loaded in ${durationBackground.toFixed(2)} ms`);
+                resolve();
+            };
+            this.carousel.backgroundImageElement.src = imagePair.landscape;
+            this.carousel.titleImageElement.onload = () => {
+                const duration = performance.now() - titleStartTime - durationBackground;
+                console.log(`Title image loaded in ${duration.toFixed(2)} ms`);
+                resolve();
+            };
+            this.carousel.titleImageElement.src = imagePair.titleLogo;
 
-            })
-        ];
-
-        Promise.all(loadPromises).then(() => {
+        }).then(() => {
+            const carouselElement = this.carousel.container.querySelector("#carousel");
+            carouselElement.classList.remove("slide-in");
+            carouselElement.offsetWidth;
+            carouselElement.classList.add("slide-in");
             this.loadSlideDescription(pairInformation);
         }).catch(error => {
             console.error("Error loading images:", error);

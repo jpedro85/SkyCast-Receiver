@@ -99,16 +99,19 @@ class CarouselDisplay extends Subject {
 
             const { imagePairs, contentInfo } = await fetcher.fetchContent();
 
-            await ImageLoader.preloadImages(imagePairs);
-            console.log("All images preloaded");
+            ImageLoader.preloadImages(imagePairs).then(() => {
 
-            this.carouselItems = imagePairs.map((pair, index) => ({
-                imagePair: pair,
-                pairInformation: contentInfo[index]
-            }));
+                console.log("All images preloaded");
 
-            // Start the carousel with the structured image pairs
-            this.startCarousel();
+                this.carouselItems = imagePairs.map((pair, index) => ({
+                    imagePair: pair,
+                    pairInformation: contentInfo[index]
+                }));
+
+                // Start the carousel with the structured image pairs
+                this.startCarousel();
+            });
+
         } catch (error) {
             console.error("Failed to setup the carousel:", error)
         };
