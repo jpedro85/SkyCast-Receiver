@@ -71,7 +71,7 @@ It leverages ImageLoader to preload images for smooth transitions and ImageFetch
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="CarouselDisplay"><span class="type-signature"></span>new CarouselDisplay<span class="signature">(containerId, imageInterval)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="CarouselDisplay"><span class="type-signature"></span>new CarouselDisplay<span class="signature">(containerId, imageInterval, titleImageId, backgroundImageId)</span><span class="type-signature"></span></h4>
 
     
 
@@ -87,7 +87,7 @@ It leverages ImageLoader to preload images for smooth transitions and ImageFetch
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line37">line 37</a>
+        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line36">line 36</a>
     </li></ul></dd>
     
 
@@ -234,6 +234,54 @@ carousel.setupCarousel(apiUrl, headers).then(() => {
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>titleImageId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The id that is used for the image element that is going to contain the titleImage</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>backgroundImageId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The id that is used for the image element that is going to contain the backgroundImage</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -297,7 +345,7 @@ carousel.setupCarousel(apiUrl, headers).then(() => {
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line65">line 65</a>
+        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line66">line 66</a>
     </li></ul></dd>
     
 
@@ -434,7 +482,7 @@ If <code>shouldStopCarousel</code> is set to true, the interval will stop, halti
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line144">line 144</a>
+        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line147">line 147</a>
     </li></ul></dd>
     
 
@@ -542,7 +590,7 @@ If <code>shouldStopCarousel</code> is set to true, the interval will stop, halti
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line81">line 81</a>
+        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line82">line 82</a>
     </li></ul></dd>
     
 
@@ -677,7 +725,7 @@ If <code>shouldStopCarousel</code> is set to true, the interval will stop, halti
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line73">line 73</a>
+        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line74">line 74</a>
     </li></ul></dd>
     
 
@@ -813,7 +861,7 @@ and preloading the images for a smooth carousel experience.</p></li></ul></dd>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line94">line 94</a>
+        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line95">line 95</a>
     </li></ul></dd>
     
 
@@ -996,7 +1044,7 @@ If there are no images in the carousel, this method does nothing.</p></li></ul><
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line168">line 168</a>
+        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line171">line 171</a>
     </li></ul></dd>
     
 
@@ -1083,7 +1131,7 @@ determined by <code>imageInterval</code> when creating a CarouselDisplay</p></li
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line123">line 123</a>
+        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line126">line 126</a>
     </li></ul></dd>
     
 
@@ -1169,7 +1217,7 @@ This method should be called to halt the carousel before starting it again or wh
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line159">line 159</a>
+        <a href="media_CarouselDisplay.js.html">media/CarouselDisplay.js</a>, <a href="media_CarouselDisplay.js.html#line162">line 162</a>
     </li></ul></dd>
     
 
@@ -1253,7 +1301,7 @@ This method should be called to halt the carousel before starting it again or wh
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Tue Mar 19 2024 11:38:15 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Wed Mar 20 2024 19:09:15 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
