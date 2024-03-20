@@ -8,6 +8,7 @@
 </head>
 
 <body>
+
     <div id="container">
         <div id="carousel">
             <img id="background-img" class="background">
@@ -28,6 +29,7 @@
                 </div>
             </div>
         </div>
+
         <div id="cast-logo" class="hidden">
             <div id="ready-cast">
                 <img id="cast-icon">
@@ -38,7 +40,12 @@
             <img id="logo">
         </div>
     </div>
+
     <cast-media-player class="media hidden"></cast-media-player>
+
+    <script>
+        document.cookie = "SameSite=None;secure";
+    </script>
     <script type="module" src="./js/Main.js"></script>
     <!-- Chromecast SDK -->
     <script src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>

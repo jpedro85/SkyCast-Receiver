@@ -63,8 +63,8 @@ class ContentFetcher {
     extractImagePairs(data) {
         const items = data.data.rail.items;
         return items.map((item) => {
-            const landscapeImage = item.images.find((image) => image.type === "landscape")?.url;
-            const titleLogoImage = item.images.find((image) => image.type === "titleLogo")?.url;
+            const landscapeImage = item.images.find((image) => image.type === "landscape")?.url + "&format=webp";
+            const titleLogoImage = item.images.find((image) => image.type === "titleLogo")?.url + "&format=webp";
 
             return { landscape: landscapeImage, titleLogo: titleLogoImage };
         }).filter((pair) => pair.landscape && pair.titleLogo);
