@@ -36,18 +36,29 @@ import Subject from "./Subject.js";
 class CarouselDisplay extends Subject {
 
     /**
-     * Initializes a new instance of the CarouselDisplay class.
-     * @param {string} containerId - The ID of the DOM element that will contain the carousel.
-     * @param {number} imageInterval - The amount of time in milliseconds you want each image to have of screen time before changing
-     * @param {string} titleImageId - The id that is used for the image element that is going to contain the titleImage
-     * @param {string} backgroundImageId - The id that is used for the image element that is going to contain the backgroundImage
+     * Constructs a new instance of the CarouselDisplay class, initializing it with the necessary properties for functionality.
+     * This constructor sets up the carousel within a specified container in the DOM, using given IDs to reference specific elements
+     * within the carousel (such as background and title image elements, and a slide description element). It also configures the carousel's
+     * behavior, such as the duration each image is displayed and initializes properties for managing the carousel's state and observers.
+     *
+     * @param {number} imageInterval The duration (in milliseconds) that each image will be displayed on the screen before automatically transitioning
+     * to the next image. This setting controls the pace at which the carousel cycles through its items.
+     * @param {Object} elementsId An object containing specific IDs for elements within the carousel. These elements include the IDs for the background image,
+     * title image, and slide description elements. This allows for flexible configuration of the carousel's components.
+     * @param {string} elementsId.containerId The Id of the element that will serve as the container for the carousel. This is where the caorousel's
+     * content will be displayed.
+     * @param {string} elementsId.backgroundImageId The ID used to identify the background image element within the carousel.
+     * @param {string} elementsId.titleImageId The ID used to identify the title image element within the carousel.
+     * @param {string} elementsId.slideDescriptionId The ID used to identify the slide description element within the carousel.
+     * @param {string} elementsId.carouselId The ID used to identify the carousel itself
      */
-    constructor(containerId, imageInterval, backgroundImageId, titleImageId, slideDescriptionId) {
+    constructor(imageInterval, elementsId) {
         super();
-        this.container = document.querySelector(containerId);
-        this.backgroundImageId = backgroundImageId;
-        this.titleImageId = titleImageId;
-        this.slideDescriptionId = slideDescriptionId;
+        this.container = document.querySelector(elementsId.containerId);
+        this.backgroundImageId = elementsId.backgroundImageId;
+        this.titleImageId = elementsId.titleImageId;
+        this.slideDescriptionId = elementsId.slideDescriptionId;
+        this.carouselId = elementsId.carouselId;
         this.currentIndex = 0;
         this.carouselItems = [];
         this.observers = [];
@@ -128,7 +139,7 @@ class CarouselDisplay extends Subject {
 
         this.notifyObserver("start");
 
-        const carouselElement = this.container.querySelector("#carousel");
+        const carouselElement = this.container.querySelector(this.carouselId);
         carouselElement.classList.add("slide-in");
 
         this.showNextSlide();

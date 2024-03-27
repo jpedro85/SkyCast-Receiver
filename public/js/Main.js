@@ -7,23 +7,26 @@ import { initPlayerManager, startContext } from "./PlayerManager.js";
 const NAMESPACE = "urn:x-cast:com.skycast.chromecast.communication";
 let communicationConstants = {};
 
-// Initializing the debugger
-const debuggerConsole = new DebuggerConsole();
-debuggerConsole.enableDebugOverlay();
-
-// Custom Message Handler
-const context = cast.framework.CastReceiverContext.getInstance();
-const communicationChannel = new ChromecastChannel(NAMESPACE, { communicationConstants, callbacks: debuggerConsole.sendLog });
-context.addCustomMessageListener(NAMESPACE, communicationChannel.onMessage);
+// // Initializing the debugger
+// const debuggerConsole = new DebuggerConsole();
+// debuggerConsole.enableDebugOverlay();
+//
+// // Custom Message Handler
+// const context = cast.framework.CastReceiverContext.getInstance();
+// const communicationChannel = new ChromecastChannel(NAMESPACE, { communicationConstants, callbacks: debuggerConsole.sendLog });
+// context.addCustomMessageListener(NAMESPACE, communicationChannel.onMessage);
 
 // Initializing Carousel
-const containerId = "#container";
 const imageInterval = 5000;
-const backgroundImageId = "#background-img";
-const titleImageId = "#title-img";
-const slideDescriptionId = "#description-content";
+const elementsId = {
+    containerId: "#container",
+    backgroundImageId: "#background-img",
+    titleImageId: "#title-img",
+    slideDescriptionId: "#description-content",
+    carouselId: "#carousel",
+};
 
-const carousel = new CarouselDisplay(containerId, imageInterval, backgroundImageId, titleImageId, slideDescriptionId);
+const carousel = new CarouselDisplay(imageInterval, elementsId);
 const assetManager = new AssetManager();
 carousel.addObserver(assetManager);
 
@@ -38,6 +41,6 @@ carousel.setupCarousel("https://mobile.clients.peacocktv.com/bff/sections/v1?seg
     "X-SkyOTT-Platform": "IOS",
 });
 
-initPlayerManager(carousel);
-startContext();
+// initPlayerManager(carousel);
+// startContext();
 
