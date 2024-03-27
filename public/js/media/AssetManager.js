@@ -14,8 +14,8 @@ class AssetManager extends Observer {
         this.castImage = null;
         this.logoImage = null;
         this.castLogoDiv = null;
-        this.castImagePath = "./images/cast-ready-icon.png";
-        this.logoImagePath = "./images/PeacockLogo.png";
+        this.slideDescription = null;
+        this.assetsLoaded = false;
     }
 
     /**
@@ -28,9 +28,8 @@ class AssetManager extends Observer {
     update(subject, event) {
         if (this.carousel == null) {
             this.carousel = subject;
-            this.castImage = this.carousel.container.querySelector("#cast-icon");
             this.castLogoDiv = this.carousel.container.querySelector("#cast-logo");
-            this.logoImage = this.carousel.container.querySelector("#logo");
+            this.slideDescription = this.carousel.container.querySelector(this.carousel.slideDescriptionId);
         }
         if (event == "start") {
             if (!this.assetsLoaded) {
@@ -53,37 +52,53 @@ class AssetManager extends Observer {
      */
     loadCarouselAssets() {
 
-        // Toggling visibility for assets
         this.castLogoDiv.classList.toggle("hidden");
         const loadingAssets = this.carousel.container.querySelectorAll(".loading");
         loadingAssets.forEach(asset => {
             asset.classList.toggle("loading");
         });
 
-        // Setting image sources
-        this.castImage.src = this.castImagePath;
-        this.logoImage.src = this.logoImagePath;
+        this.slideDescription.innerHTML = "";
+
         this.carousel.container.style.backgroundColor = "black";
+
+        this.assetsLoaded = true;
+        console.log("Assets Loaded");
     }
 
     loadNextSlide() {
 
         // So theres is no flicker from changing image
         // And so that in that there are no cases of the previous image still being there
-        this.carousel.backgroundImageElement.src = null;
-        this.carousel.titleImageElement.src = null;
+        const lastBackgroundElement = this.carousel.container.querySelector(this.carousel.backgroundImageId);
+        const lastTitleElement = this.carousel.container.querySelector(this.carousel.titleImageId);
+
+        const backgroundElement = lastBackgroundElement.cloneNode(true);
+        const titleImageElement = lastTitleElement.cloneNode(true);
+        backgroundElement.src = null;
+        titleImageElement.src = null;
 
         const currentItem = this.carousel.carouselItems[this.carousel.currentIndex];
         const { imagePair, pairInformation } = currentItem;
 
         // this.checkLoadingPerformance(imagePair, pairInformation);
 
-        new Promise(resolve => {
-            this.carousel.backgroundImageElement.onload = () => resolve();
-            this.carousel.backgroundImageElement.src = imagePair.landscape;
-            this.carousel.titleImageElement.onload = () => resolve();
-            this.carousel.titleImageElement.src = imagePair.titleLogo;
-        }).then(() => {
+        Promise.all([
+            new Promise(resolve => {
+                backgroundElement.src = imagePair.landscape;
+                backgroundElement.onload = () => resolve();
+            }),
+            new Promise(resolve => {
+                titleImageElement.src = imagePair.titleLogo;
+                titleImageElement.onload = () => resolve();
+            })
+        ]).then(() => {
+
+            lastBackgroundElement.parentNode.insertBefore(backgroundElement, lastBackgroundElement);
+            lastBackgroundElement.remove();
+            lastTitleElement.parentNode.insertBefore(titleImageElement, lastTitleElement);
+            lastTitleElement.remove();
+
             const carouselElement = this.carousel.container.querySelector("#carousel");
             carouselElement.classList.remove("slide-in");
             carouselElement.offsetWidth;
@@ -140,7 +155,7 @@ class AssetManager extends Observer {
         const { year, ageRating, duration, seasonCount, videoFormats } = itemDescription;
         let itemRating = itemDescription.itemRating ?? "";
 
-        const lastElement = this.carousel.container.querySelector("#description-content");
+        const lastElement = document.querySelector(this.carousel.slideDescriptionId);
         const itemDescriptionElement = lastElement.cloneNode(true);
 
         if (itemRating) {

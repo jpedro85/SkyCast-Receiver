@@ -21,8 +21,9 @@ const containerId = "#container";
 const imageInterval = 5000;
 const backgroundImageId = "#background-img";
 const titleImageId = "#title-img";
+const slideDescriptionId = "#description-content";
 
-const carousel = new CarouselDisplay(containerId, imageInterval, backgroundImageId, titleImageId);
+const carousel = new CarouselDisplay(containerId, imageInterval, backgroundImageId, titleImageId, slideDescriptionId);
 const assetManager = new AssetManager();
 carousel.addObserver(assetManager);
 

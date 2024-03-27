@@ -42,11 +42,12 @@ class CarouselDisplay extends Subject {
      * @param {string} titleImageId - The id that is used for the image element that is going to contain the titleImage
      * @param {string} backgroundImageId - The id that is used for the image element that is going to contain the backgroundImage
      */
-    constructor(containerId, imageInterval, backgroundImageId, titleImageId) {
+    constructor(containerId, imageInterval, backgroundImageId, titleImageId, slideDescriptionId) {
         super();
         this.container = document.querySelector(containerId);
-        this.backgroundImageElement = this.container.querySelector(backgroundImageId);
-        this.titleImageElement = this.container.querySelector(titleImageId);
+        this.backgroundImageId = backgroundImageId;
+        this.titleImageId = titleImageId;
+        this.slideDescriptionId = slideDescriptionId;
         this.currentIndex = 0;
         this.carouselItems = [];
         this.observers = [];
