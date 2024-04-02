@@ -175,7 +175,7 @@ class CarouselDisplay extends Subject {
      * This method should be called to halt the carousel before starting it again or when the carousel is no longer needed.
      */
     stopCarousel() {
-        this.isCarouselPlaying = false;carou
+        this.isCarouselPlaying = false;
         this.notifyObserver("stop");
     }
 
@@ -186,7 +186,7 @@ class CarouselDisplay extends Subject {
     showNextSlide() {
         const carrouselImagesCount = this.carouselItems.length;
         if (carrouselImagesCount === 0) return;
-carou
+
         this.notifyObserver("next");
 
         this.currentIndex = (this.currentIndex + 1) % this.carouselItems.length;

@@ -67,7 +67,7 @@ export function initPlayerManager(carousel) {
         // it will restart the carousel
         if (!carousel.isPlaying()) {
             mediaPlayer.mediaPlayer.classList.toggle("hidden");
-            carousel.restartCarousel();
+            carousel.startCarousel();
         }
     });
 }
