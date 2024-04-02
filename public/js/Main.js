@@ -7,14 +7,14 @@ import { initPlayerManager, startContext } from "./PlayerManager.js";
 const NAMESPACE = "urn:x-cast:com.skycast.chromecast.communication";
 let communicationConstants = {};
 
-// // Initializing the debugger
+// Initializing the debugger
 // const debuggerConsole = new DebuggerConsole();
 // debuggerConsole.enableDebugOverlay();
-//
-// // Custom Message Handler
-// const context = cast.framework.CastReceiverContext.getInstance();
-// const communicationChannel = new ChromecastChannel(NAMESPACE, { communicationConstants, callbacks: debuggerConsole.sendLog });
-// context.addCustomMessageListener(NAMESPACE, communicationChannel.onMessage);
+
+// Custom Message Handler
+const context = cast.framework.CastReceiverContext.getInstance();
+const communicationChannel = new ChromecastChannel(NAMESPACE, { communicationConstants/* , callbacks: debuggerConsole.sendLog */ });
+context.addCustomMessageListener(NAMESPACE, communicationChannel.onMessage);
 
 // Initializing Carousel
 const imageInterval = 5000;
@@ -41,6 +41,5 @@ carousel.setupCarousel("https://mobile.clients.peacocktv.com/bff/sections/v1?seg
     "X-SkyOTT-Platform": "IOS",
 });
 
-// initPlayerManager(carousel);
-// startContext();
-
+initPlayerManager(carousel);
+startContext();
