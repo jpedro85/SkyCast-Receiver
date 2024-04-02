@@ -41,7 +41,7 @@ class CarouselDisplay extends Subject {
      * within the carousel (such as background and title image elements, and a slide description element). It also configures the carousel's
      * behavior, such as the duration each image is displayed and initializes properties for managing the carousel's state and observers.
      *
-     * @param {number} imageInterval The duration (in milliseconds) that each image will be displayed on the screen before automatically transitioning
+     * @param {number} slideInterval The duration (in milliseconds) that each image will be displayed on the screen before automatically transitioning
      * to the next image. This setting controls the pace at which the carousel cycles through its items.
      * @param {Object} elementsId An object containing specific IDs for elements within the carousel. These elements include the IDs for the background image,
      * title image, and slide description elements. This allows for flexible configuration of the carousel's components.
@@ -52,7 +52,7 @@ class CarouselDisplay extends Subject {
      * @param {string} elementsId.slideDescriptionId The ID used to identify the slide description element within the carousel.
      * @param {string} elementsId.carouselId The ID used to identify the carousel itself
      */
-    constructor(imageInterval, elementsId) {
+    constructor(slideInterval, elementsId) {
         super();
         this.container = document.querySelector(elementsId.containerId);
         this.backgroundImageId = elementsId.backgroundImageId;
@@ -62,13 +62,17 @@ class CarouselDisplay extends Subject {
         this.currentIndex = 0;
         this.carouselItems = [];
         this.observers = [];
-        this.shouldStopCarousel = false;
-        this.imageInterval = imageInterval;
+        this.isCarouselPlaying = false;
+        this.slideInterval = slideInterval;
         this.intervalId = null;
     }
 
+    /**
+     * Checks whether the carousel is playing or not
+     * @return {Boolean} isCarouselPlaying -  The boolean representing the current state of the carousel
+     */
     isPlaying() {
-        return this.shouldStopCarousel;
+        return this.isCarouselPlaying;
     }
 
     /**
@@ -111,18 +115,17 @@ class CarouselDisplay extends Subject {
 
             const { imagePairs, contentInfo } = await fetcher.fetchContent();
 
-            ImageLoader.preloadImages(imagePairs).then(() => {
+            ImageLoader.preloadImages(imagePairs)
+                .then(() => {
+                    console.log("All images preloaded");
 
-                console.log("All images preloaded");
+                    this.carouselItems = imagePairs.map((pair, index) => ({
+                        imagePair: pair,
+                        pairInformation: contentInfo[index]
+                    }));
 
-                this.carouselItems = imagePairs.map((pair, index) => ({
-                    imagePair: pair,
-                    pairInformation: contentInfo[index]
-                }));
-
-                // Start the carousel with the structured image pairs
-                this.startCarousel();
-            });
+                    this.startCarousel();
+                });
 
         } catch (error) {
             console.error("Failed to setup the carousel:", error)
@@ -144,7 +147,7 @@ class CarouselDisplay extends Subject {
 
         this.showNextSlide();
 
-        this.shouldStopCarousel = false;
+        this.isCarouselPlaying = true;
 
         // Saving the intervalId so we can stop the loop later
         this.intervalId = this.createCarouselInterval();;
@@ -158,13 +161,13 @@ class CarouselDisplay extends Subject {
      */
     createCarouselInterval() {
         return setInterval(() => {
-            if (this.shouldStopCarousel) {
+            if (!this.isCarouselPlaying) {
                 // Stop the interval
                 clearInterval(this.intervalId);
             } else {
                 this.showNextSlide();
             }
-        }, this.imageInterval);
+        }, this.slideInterval);
     }
 
     /**
@@ -172,7 +175,7 @@ class CarouselDisplay extends Subject {
      * This method should be called to halt the carousel before starting it again or when the carousel is no longer needed.
      */
     stopCarousel() {
-        this.shouldStopCarousel = true;
+        this.isCarouselPlaying = false;carou
         this.notifyObserver("stop");
     }
 
@@ -183,7 +186,7 @@ class CarouselDisplay extends Subject {
     showNextSlide() {
         const carrouselImagesCount = this.carouselItems.length;
         if (carrouselImagesCount === 0) return;
-
+carou
         this.notifyObserver("next");
 
         this.currentIndex = (this.currentIndex + 1) % this.carouselItems.length;
