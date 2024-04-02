@@ -6,7 +6,6 @@ import MediaPlayer from "./media/MediaPlayer.js";
 const context = cast.framework.CastReceiverContext.getInstance();
 const playerManager = context.getPlayerManager();
 
-
 const debuggerConsole = new DebuggerConsole();
 
 export function initPlayerManager(carousel) {
@@ -35,18 +34,8 @@ export function initPlayerManager(carousel) {
     // Detects when the player is in iddle
     playerManager.addEventListener(cast.framework.events.EventType.MEDIA_FINISHED, (event) => {
 
-        // TODO: Maybe use the MessageProtocol to check the message protocol
-        // Maybe aswell sanitize or check for possible security problems ????
-
-        // WARN: This might change depending on what the sender sends
-        // if (event.type !== cast.framework.messages.PlayerState.IDLE) {
-        //     return;
-        // }
-
         // Check if the player is idle because the video ended, was stopped, or failed to load
         if (Object.values(IdleEndReason).find((e) => e === event.endedReason)) {
-
-            // TODO: check for no items in the queue or any other conditions
 
             // Hide the cast-media-player ui
             mediaPlayer.hidePlayer();
