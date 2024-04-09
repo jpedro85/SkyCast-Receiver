@@ -1,4 +1,5 @@
-class MediaPlayer { constructor() {
+class MediaPlayer {
+    constructor() {
         this.mediaPlayer = document.querySelector(".media");
     }
 
@@ -25,16 +26,17 @@ class MediaPlayer { constructor() {
         // Create a MediaInfo object
         const mediaInfo = new cast.framework.messages.MediaInformation();
         mediaInfo.contentId = media.contentUrl;
-        // Change type as needed
-        // INFO: Maybe it can come with the Load request for easier media fetching
-        mediaInfo.contentType = "video/mp4";
-        mediaInfo.streamType = cast.framework.messages.StreamType.BUFFERED;
+        mediaInfo.contentType = media.contentType;
+        mediaInfo.hlsSegmentFormat = cast.framework.messages.HlsSegmentFormat.FMP4;
+        mediaInfo.hlsVideoSegmentFormat = cast.framework.messages.HlsVideoSegmentFormat.FMP4;
+        mediaInfo.metadata = media.metadata;
+        // mediaInfo.streamType = cast.framework.messages.StreamType.BUFFERED;
 
 
         return mediaInfo;
     }
 
-    hidePlayer(){
+    hidePlayer() {
         this.mediaPlayer.classList.toggle("hidden");
     }
 

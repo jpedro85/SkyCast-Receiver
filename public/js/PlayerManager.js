@@ -11,7 +11,7 @@ const debuggerConsole = new DebuggerConsole();
 export function initPlayerManager(carousel) {
     // The playerManager is what controls the player
     const mediaPlayer = new MediaPlayer();
-    // WARN: For now it loads all media if the request comes with the url of the video eg. *.mp4
+
     playerManager.setMessageInterceptor(cast.framework.messages.MessageType.LOAD, async (request) => {
 
         carousel.stopCarousel();
