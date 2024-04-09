@@ -17,6 +17,7 @@ class AssetManager extends Observer {
         this.castLogoDiv = null;
         this.slideDescription = null;
         this.assetsLoaded = false;
+        this.firstSlide = true;
     }
 
     /**
@@ -108,9 +109,14 @@ class AssetManager extends Observer {
             const carouselId = this.carousel.carouselId;
             const carouselElement = this.carousel.container.querySelector(carouselId);
 
-            carouselElement.classList.remove("slide-in");
-            carouselElement.offsetWidth;
-            carouselElement.classList.add("slide-in");
+            if (!this.firstSlide) {
+                carouselElement.classList.remove("slide-in");
+                carouselElement.offsetWidth;
+                carouselElement.classList.add("slide-in");
+            }
+            else {
+                this.firstSlide = false;
+            }
 
             this.loadSlideDescription(pairInformation);
         }).catch(error => {
@@ -128,8 +134,8 @@ class AssetManager extends Observer {
         const lastBackgroundElement = this.carousel.container.querySelector(this.carousel.backgroundImageId);
         const lastTitleElement = this.carousel.container.querySelector(this.carousel.titleImageId);
 
-        const backgroundElement = lastBackgroundElement.cloneNode(true);
-        const titleImageElement = lastTitleElement.cloneNode(true);
+        const backgroundElement = lastBackgroundElement.cloneNode();
+        const titleImageElement = lastTitleElement.cloneNode();
         backgroundElement.src = null;
         titleImageElement.src = null;
 
@@ -161,9 +167,15 @@ class AssetManager extends Observer {
 
             const carouselId = this.carousel.carouselId;
             const carouselElement = this.carousel.container.querySelector(carouselId);
-            carouselElement.classList.remove("slide-in");
-            carouselElement.offsetWidth;
-            carouselElement.classList.add("slide-in");
+
+            if (!this.firstSlide) {
+                carouselElement.classList.remove("slide-in");
+                carouselElement.offsetWidth;
+                carouselElement.classList.add("slide-in");
+            }
+            else {
+                this.firstSlide = false;
+            }
             this.loadSlideDescription(pairInformation);
         }).catch(error => {
             console.error("Error loading images:", error);

@@ -150,7 +150,7 @@ class CarouselDisplay extends Subject {
         this.isCarouselPlaying = true;
 
         // Saving the intervalId so we can stop the loop later
-        // this.intervalId = this.createCarouselInterval();;
+        this.intervalId = this.createCarouselInterval();;
     }
 
     /**
