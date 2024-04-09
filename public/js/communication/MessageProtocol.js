@@ -1,6 +1,7 @@
 /**
  * Represents a protocol for message handling.
  * It's used for creating and validating message objects based on a predefined protocol.
+ * It's used in conjunction with the Chromecast Custom Channel.
  */
 class MessageProtocol {
     /**

@@ -34,12 +34,6 @@ import MessageProtocol from "./MessageProtocol.js";
  */
 class ChromecastChannel {
     /**
-     * Represents a dispatcher with communication constants and callbacks.
-     * @typedef {Object} Dispatcher
-     * @property {object} communicationConstants - The constants used for communication.
-     * @property {Function[]} callbacks - An array of callback functions.
-     */
-    /**
      * Creates an instance of ChromecastChannel, initializing communication with a Chromecast device.
      * This constructor sets up the necessary properties for the channel, including a unique namespace for messaging,
      * a dispatcher for handling incoming and outgoing messages, and initializes the Cast receiver context for communication.
