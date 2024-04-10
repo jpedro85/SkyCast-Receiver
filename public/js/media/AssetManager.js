@@ -17,7 +17,6 @@ class AssetManager extends Observer {
         this.castLogoDiv = null;
         this.slideDescription = null;
         this.assetsLoaded = false;
-        this.firstSlide = true;
     }
 
     /**
@@ -109,14 +108,9 @@ class AssetManager extends Observer {
             const carouselId = this.carousel.carouselId;
             const carouselElement = this.carousel.container.querySelector(carouselId);
 
-            if (!this.firstSlide) {
-                carouselElement.classList.remove("slide-in");
-                carouselElement.offsetWidth;
-                carouselElement.classList.add("slide-in");
-            }
-            else {
-                this.firstSlide = false;
-            }
+            carouselElement.classList.remove("slide-in");
+            carouselElement.offsetWidth;
+            carouselElement.classList.add("slide-in");
 
             this.loadSlideDescription(pairInformation);
         }).catch(error => {
@@ -168,14 +162,9 @@ class AssetManager extends Observer {
             const carouselId = this.carousel.carouselId;
             const carouselElement = this.carousel.container.querySelector(carouselId);
 
-            if (!this.firstSlide) {
-                carouselElement.classList.remove("slide-in");
-                carouselElement.offsetWidth;
-                carouselElement.classList.add("slide-in");
-            }
-            else {
-                this.firstSlide = false;
-            }
+            carouselElement.classList.remove("slide-in");
+            carouselElement.offsetWidth;
+            carouselElement.classList.add("slide-in");
             this.loadSlideDescription(pairInformation);
         }).catch(error => {
             console.error("Error loading images:", error);
@@ -193,7 +182,7 @@ class AssetManager extends Observer {
         const { year, ageRating, duration, seasonCount, videoFormats } = itemDescription;
 
         const itemRating = itemDescription.itemRating ?? "";
-        const formattedItemRating = itemRating ? `${itemRating} / 100` : itemRating;
+        const formattedItemRating = itemRating ? `${itemRating}%` : itemRating;
 
         const carouselSlideDescriptionId = this.carousel.slideDescriptionId;
         const lastElement = document.querySelector(carouselSlideDescriptionId);

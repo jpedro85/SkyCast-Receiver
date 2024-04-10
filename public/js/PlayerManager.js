@@ -18,7 +18,6 @@ export function initPlayerManager(carousel) {
 
         // NOTE: For Development only
         console.log("Before modifying the request", JSON.stringify(request, null, 4));
-        debuggerConsole.sendLog("warn", request);
 
         const { media } = request;
         const mediaInfo = mediaPlayer.playMedia(media);
@@ -50,6 +49,7 @@ export function initPlayerManager(carousel) {
     playerManager.addEventListener(cast.framework.events.EventType.ERROR, (event) => {
         const error = Object.values(ErrorCodes).find((e) => e.code === event.detailedErrorCode);
         const errorMessage = error ? `Error ${error.code}: ${error.message}` : `Unknown Error Code - ${event.detailedErrorCode}`;
+        console.error(errorMessage);
         debuggerConsole.sendLog("error", errorMessage);
 
         // For the event that it was playing a video or doign something else and the player crashes or has an error
