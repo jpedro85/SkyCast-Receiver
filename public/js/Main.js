@@ -1,20 +1,6 @@
-import DebuggerConsole from "./utils/Debugger.js";
 import CarouselDisplay from "./media/CarouselDisplay.js";
 import AssetManager from "./media/AssetManager.js";
-import ChromecastChannel from "./communication/ChromecastChannel.js";
 import { initPlayerManager, startContext } from "./PlayerManager.js";
-
-const NAMESPACE = "urn:x-cast:com.skycast.chromecast.communication";
-let communicationConstants = {};
-
-// Initializing the debugger
-// const debuggerConsole = new DebuggerConsole();
-// debuggerConsole.enableDebugOverlay();
-
-// Custom Message Handler
-const context = cast.framework.CastReceiverContext.getInstance();
-const communicationChannel = new ChromecastChannel(NAMESPACE, { communicationConstants/* , callbacks: debuggerConsole.sendLog */ });
-context.addCustomMessageListener(NAMESPACE, communicationChannel.onMessage);
 
 // Initializing Carousel
 const imageInterval = 5000;
