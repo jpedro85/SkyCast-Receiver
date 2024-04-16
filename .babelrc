@@ -1,0 +1,16 @@
+{
+    "presets": [
+        "@babel/preset-env"
+    ],
+    "plugins": [
+        [
+            "@babel/plugin-transform-runtime",
+            {
+                "corejs": 3,
+                "helpers": true,
+                "regenerator": true,
+                "useESModules": true // Set to false if you're not using ES modules
+            }
+        ]
+    ],
+}

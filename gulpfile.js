@@ -1,32 +1,45 @@
-const { src, dest, watch } = require("gulp");
+const gulp = require('gulp');
+const babel = require('gulp-babel');
+const terser = require('gulp-terser');
+const concat = require('gulp-concat');
 const minifyCss = require("gulp-clean-css");
-const sourceMap = require("gulp-sourcemaps");
-const minifyJs = require("gulp-uglify");
-const concat = require("gulp-concat");
+const sourcemaps = require("gulp-sourcemaps");
+const rename = require('gulp-rename');
+const uglify = require('gulp-uglify');
+const through2 = require("through2");
+const path = require("path");
 
-const bundleCss = () => {
-    return src("./public/css/**/*.css")
-        .pipe(sourceMap.init())
-        .pipe(minifyCss())
+// const SRC_DIR = 'public/js/**/*.js';
+const SRC_DIR = [
+    "public/js/enums/**/*.js",
+    "public/js/media/**/*.js",
+    "public/js/utils/**/*.js",
+    "public/js/Main.js",
+    "public/js/PlayerManager.js",
+];
+const DEST_DIR = 'public/dist';
+
+gulp.task("minifyCss", () => {
+    return gulp.src("./public/css/**/*.css")
         .pipe(concat("bundle.css"))
-        .pipe(sourceMap.write())
-        .pipe(dest("./dist/public/css"));
-}
+        .pipe(minifyCss())
+        .pipe(gulp.dest(DEST_DIR))
+})
 
-const bundleJs = () => {
-    return src("./public/js/**/*.js")
-        .pipe(sourceMap.init())
-        .pipe(minifyJs())
-        .pipe(concat("bundle.js"))
-        .pipe(sourceMap.write())
-        .pipe(dest("./dist/public/js"));
-}
+gulp.task('scripts', () =>
+    gulp.src(SRC_DIR)
+        .pipe(babel({
+            presets: ['@babel/env'],
+            plugins: [['@babel/plugin-transform-runtime', {
+                "corejs": false,
+                "helpers": true,
+                "regenerator": true,
+                "useESModules": true
+            }]]
+        }))
+        .pipe(concat('all.min.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest(DEST_DIR))
+);
 
-const devWatch = () => {
-    watch("./public/css/**/*.css", bundleCss);
-    watch("./public/js/**/*.js", bundleJs);
-}
-
-exports.bundleCss = bundleCss;
-exports.bundleJs = bundleJs;
-exports.devWatch = devWatch;
+gulp.task('default', gulp.series("minifyCss"));
