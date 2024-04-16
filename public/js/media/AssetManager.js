@@ -1,5 +1,5 @@
-import ItemType from "../utils/enums/ItemTypes.js";
-import VideoFormatsEnum from "../utils/enums/VideoFormats.js";
+import ItemType from "../enums/ItemTypes.js";
+import VideoFormatsEnum from "../enums/VideoFormats.js";
 import Observer from "./Observer.js";
 
 /**
