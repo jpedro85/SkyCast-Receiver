@@ -1,0 +1,19 @@
+{
+    "debuggerConsole": false,
+    "debuggerOverlay": false,
+    "chromecastChannel": {
+        "NAMESPACE": "urn:x-cast:com.skycast.chromecast.communication",
+        "communicationConstants": {}
+    },
+    "imageInterval": 5000,
+    "carouselUrl": "https://mobile.clients.peacocktv.com/bff/sections/v1?segment=all_premium_users&node_id=13dba516-9722-11ea-bbcc-234acf5d5a4e",
+    "carouselHeaders": {
+        "Host": "mobile.clients.peacocktv.com",
+        "X-SkyOTT-Provider": "NBCU",
+        "X-SkyOTT-Proposition": "NBCUOTT",
+        "X-SkyOTT-Territory": "US",
+        "X-SkyOTT-Language": "en",
+        "X-SkyOTT-Device": "MOBILE",
+        "X-SkyOTT-Platform": "IOS"
+    }
+}
