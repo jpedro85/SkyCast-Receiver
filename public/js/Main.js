@@ -1,6 +1,10 @@
 import CarouselDisplay from "./media/CarouselDisplay.js";
 import AssetManager from "./media/AssetManager.js";
-import { initPlayerManager, startContext } from "./PlayerManager.js";
+import PlayerManager from "./PlayerManager.js";
+import DebuggerConsole from "./utils/Debugger.js";
+
+const debuggerConsole = new DebuggerConsole();
+debuggerConsole.enableDebugOverlay();
 
 // Initializing Carousel
 const imageInterval = 5000;
@@ -27,5 +31,6 @@ carousel.setupCarousel("https://mobile.clients.peacocktv.com/bff/sections/v1?seg
     "X-SkyOTT-Platform": "IOS",
 });
 
-initPlayerManager(carousel);
-startContext();
+const playerManager = new PlayerManager(carousel);
+playerManager.initPlayerManager();
+playerManager.startContext();
