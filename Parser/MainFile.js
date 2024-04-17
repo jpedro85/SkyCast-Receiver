@@ -13,7 +13,7 @@ module.exports = class MainFile extends ConfigFile {
 
         if (debuggerConsole) {
             content += `
-import DebuggerConsole from "./utils/Debugger.js";
+import DebuggerConsole from "../utils/Debugger.js";
 
 const debuggerConsole = new DebuggerConsole();
 debuggerConsole.enableDebugOverlay(${debuggerOverlay ?? false});
@@ -22,7 +22,7 @@ debuggerConsole.enableDebugOverlay(${debuggerOverlay ?? false});
         if (Object.keys(chromecastChannel).length !== 0) {
             const { NAMESPACE, communicationConstants } = chromecastChannel;
             content += `
-import ChromecastChannel from "./communication/ChromecastChannel.js";
+import ChromecastChannel from "../communication/channels/ChromecastChannel.js";
 
 let communicationConstants = ${JSON.stringify(communicationConstants)};
 const communicationChannel = new ChromecastChannel("${NAMESPACE}", { communicationConstants, callbacks: debuggerConsole.sendLog });
@@ -43,8 +43,8 @@ context.addCustomMessageListener("${NAMESPACE}", communicationChannel.onMessage)
 
     getCarouselSetupCode(carouselUrl, carouselHeaders, imageInterval) {
         return `
-import CarouselDisplay from "./media/CarouselDisplay.js";
-import AssetManager from "./media/AssetManager.js";
+import CarouselDisplay from "../media/display/CarouselDisplay.js";
+import AssetManager from "../media/AssetManager.js";
 
 const elementsId = {
     containerId: "#container",
@@ -64,7 +64,7 @@ carousel.setupCarousel("${carouselUrl}", ${JSON.stringify(carouselHeaders)});
 
     getPlayerManagerSetupCode() {
         return `
-import PlayerManager from "./PlayerManager.js";
+import PlayerManager from "../core/PlayerManager.js";
 
 const playerManager = new PlayerManager(carousel);
 playerManager.initPlayerManager();
