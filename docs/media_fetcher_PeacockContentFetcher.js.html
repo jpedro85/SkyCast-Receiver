@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>utils/Debugger.js - Documentation</title>
+    <title>media/fetcher/PeacockContentFetcher.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">utils/Debugger.js</h1>
+    <h1 class="page-title">media/fetcher/PeacockContentFetcher.js</h1>
     
 
     
@@ -47,93 +47,107 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * A utility class for managing debug logging in a Google Cast application. It encapsulates the Google Cast debug logger,
- * allowing for easy control over log messages and debug overlay.
+            <pre class="prettyprint source linenums"><code>import ItemType from "../utils/enums/ItemTypes.js";
+
+/**
+ * The ContentFetcher class is responsible for fetching both image data and additional information
+ * from a specified API for use in a content display, such as an image carousel or content list.
  *
  * @example
- * // Initialize (or get existing instance of) DebuggerConsole
- * const debuggerConsole = new DebuggerConsole();
+ * // How to use the ContentFetcher class
+ * const contentApiUrl = 'https://api.example.com/content';
+ * const headers = { Authorization: 'Bearer YOUR_API_KEY' };
  *
- * // Enable debug overlay with debug logs visible
- * debuggerConsole.enableDebugOverlay(true);
+ * // Creating an instance of ContentFetcher
+ * const contentFetcher = new ContentFetcher(contentApiUrl, headers);
  *
- * // Send an informational log message
- * debuggerConsole.sendLog(debuggerConsole.DebugMessagesEnum.INFO, "This is an info message");
+ * // Fetching content and handling it
+ * contentFetcher.fetchContent().then(({ imagePairs, contentInfo }) => {
+ *     console.log('Image Pairs:', imagePairs);
+ *     console.log('Content Information:', contentInfo);
+ * }).catch(error => {
+ *     console.error('Failed to fetch content:', error);
+ * });
  *
+ * This class makes it easier to manage content fetching by combining image and information retrieval,
+ * reducing the complexity and number of requests made to the backend.
  */
-class DebuggerConsole {
+class PeacockContentFetcher {
     /**
-     * Replacing the getInstance() method due to the getInstance method not giving correct autocomplete
-     * due to not having a type return.
-     */
-    constructor() {
-
-        if (DebuggerConsole.instance instanceof DebuggerConsole) {
-            return DebuggerConsole.instance;
-        }
-
-        // Initialize your class instance here
-        this.DebugMessagesEnum = {
-            INFO: "info",
-            DEBUG: "debug",
-            ERROR: "error",
-            WARN: "warn",
-        };
-        this.console = cast.debug.CastDebugLogger.getInstance();
-        this.tag = "DebuggerConsole.LOG";
-        this.errorTag = "ErrorTag.LOG"
-        // Keep a reference to the new instance
-        DebuggerConsole.instance = this;
-
-        // Explicitly return the instance
-        return this;
+    * Constructs a ContentFetcher instance with a specified API URL and request headers.
+    * @param {string} url - The URL of the API from which to fetch content.
+    * @param {Object} headers - The headers object to include with the API request, used for authorization or content type specification.
+    */
+    constructor(url, headers) {
+        this.apiUrl = url;
+        this.headers = headers;
     }
 
     /**
-     * Enables the debug overlay and sets the verbosity level for Core events and custom tags.
-     * It also allows for enabling or disabling debug logs in the overlay.
-     * @param {boolean} [debugLogs=false] - Indicates whether debug logs should be shown in the debug overlay.
+     * Fetches content from the configured API URL using the provided headers. After fetching, it processes
+     * the data to extract both image pairs for the carousel and additional content information.
+     * @async
+     * @return {Promise&lt;{imagePairs: Object[], contentInfo: Object[]}>} A promise that resolves to an object containing arrays of image pairs and content information.
      */
-    enableDebugOverlay(debugLogs = false) {
-        if (typeof debugLogs !== "boolean") {
-            throw new Error("Arguments must be boolean.");
+    async fetchContent() {
+        try {
+            const response = await fetch(this.apiUrl, { method: "GET", headers: this.headers });
+            const data = await response.json();
+            return {
+                imagePairs: this.extractImagePairs(data),
+                contentInfo: this.extractInformation(data),
+            }
         }
-        this.console.setEnabled(true);
-        this.console.showDebugLogs(debugLogs);
-        // Set verbosity level for Core events and custom tags.
-        this.console.loggerLevelByEvents = {
-            "cast.framework.events.category.CORE": cast.framework.LoggerLevel.INFO,
-            "cast.framework.events.EventType.MEDIA_STATUS": cast.framework.LoggerLevel.DEBUG,
-        };
-
-        this.console.loggerLevelByTags = {
-            logTag: cast.framework.LoggerLevel.DEBUG,
-        };
+        catch (error) {
+            console.error("Failed to fetch content:", error);
+            throw error;
+        }
     }
 
     /**
-     * Sends a log message to the Cast debug logger. The type of the log message must match one of the predefined types in `DebugMessagesEnum`.
-     * @param {('info'|'debug'|'error'|'warn')} type - The type of message you want to send. Must be one of the following values: 'info', 'debug', 'error', 'warn'.
-     * @param {...any} message - The message(s) that are going to be sent. Can be of any type.
+     * Extracts pairs of landscape and titleLogo images from the fetched API data. This method processes the raw data
+     * to organize image URLs into a structured format suitable for content displays.
+     * @param {Object} data - The raw data retrieved from the API.
+     * @return {Object[]} An array of objects, each object containing `landscape` and `titleLogo` properties with their respective image URLs.
      */
-    sendLog(type, ...message) {
-        if (type == this.DebugMessagesEnum.DEBUG) {
-            this.console.debug(this, message);
-        } else if (type == this.DebugMessagesEnum.INFO) {
-            this.console.info(this.tag, message);
-        } else if (type == this.DebugMessagesEnum.ERROR) {
-            this.console.error(this.errorTag, message);
-        } else if (type == this.DebugMessagesEnum.WARN) {
-            this.console.warn(this.tag, message);
-        } else {
-            // Default to info if type is not recognized
-            this.console.info(this.tag, message);
-        }
+    extractImagePairs(data) {
+        const items = data.data.rail.items;
+        return items.map((item) => {
+            const landscapeImage = item.images.find((image) => image.type === "landscape")?.url + "&amp;format=webp";
+            const titleLogoImage = item.images.find((image) => image.type === "titleLogo")?.url + "&amp;format=webp";
+
+            return { landscape: landscapeImage, titleLogo: titleLogoImage };
+        }).filter((pair) => pair.landscape &amp;&amp; pair.titleLogo);
+    }
+
+    /**
+     * Extracts additional information about the content from the fetched API data, such as ratings, year of release, etc.
+     * This method enhances the content display with relevant information beyond just images.
+     * @param {Object} data - The raw data retrieved from the API.
+     * @return {Object[]} An array of objects, each containing detailed information about the content, structured as needed.
+     */
+    extractInformation(data) {
+        const items = data.data.rail.items;
+
+        return items.map(item => ({
+
+            type: item.type,
+            itemRating: item.fanCriticRatings?.find(source => source.fanScore)?.fanScore,
+
+            ...(item.type === ItemType.MOVIE ? {
+                year: item.year,
+                duration: item.runtime,
+            } : {
+                seasonCount: item.seasonCount
+            }),
+
+            ageRating: item.ageRating.display,
+            videoFormats: Object.keys(item.formats),
+        }));
     }
 }
 
-export default DebuggerConsole;
+export default PeacockContentFetcher;
 </code></pre>
         </article>
     </section>

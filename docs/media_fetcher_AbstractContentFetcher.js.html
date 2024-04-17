@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>utils/Debugger.js - Documentation</title>
+    <title>media/fetcher/AbstractContentFetcher.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">utils/Debugger.js</h1>
+    <h1 class="page-title">media/fetcher/AbstractContentFetcher.js</h1>
     
 
     
@@ -48,92 +48,73 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * A utility class for managing debug logging in a Google Cast application. It encapsulates the Google Cast debug logger,
- * allowing for easy control over log messages and debug overlay.
+ * Abstract base class designed to define a template for content fetchers. This class provides the basic framework
+ * that must be implemented by all derived content fetching classes. It establishes a contract that derived classes
+ * must fulfill, ensuring they implement the necessary methods for fetching and processing content.
  *
- * @example
- * // Initialize (or get existing instance of) DebuggerConsole
- * const debuggerConsole = new DebuggerConsole();
+ * The class is not meant to be instantiated directly but to be extended by more specific content fetcher implementations.
  *
- * // Enable debug overlay with debug logs visible
- * debuggerConsole.enableDebugOverlay(true);
+ *@example &lt;caption>Example of implementation:&lt;/caption>
+ * class SpecificContentFetcher extends AbstractContentFetcher {
+ *     async fetchContent() {
+ *         // Implementation for fetching content specific to an API
+ *         // Example: Fetch data from this.apiUrl using this.headers
+ *     }
  *
- * // Send an informational log message
- * debuggerConsole.sendLog(debuggerConsole.DebugMessagesEnum.INFO, "This is an info message");
+ *     extractImagePairs(data) {
+ *         // Process and extract image pairs from fetched data
+ *     }
+ *
+ *     extractInformation(data) {
+ *         // Extract additional information from data
+ *     }
+ * }
  *
  */
-class DebuggerConsole {
+class AbstractContentFetcher {
+
     /**
-     * Replacing the getInstance() method due to the getInstance method not giving correct autocomplete
-     * due to not having a type return.
+     * Constructs an AbstractContentFetcher instance, initializing with API URL and headers.
+     * Throws an error if an attempt is made to instantiate this class directly.
+     * @param {string} url - The API URL to fetch data from.
+     * @param {Object} headers - The headers to use for the API requests.
      */
-    constructor() {
-
-        if (DebuggerConsole.instance instanceof DebuggerConsole) {
-            return DebuggerConsole.instance;
+    constructor(url, headers) {
+        if (new.target === AbstractContentFetcher) {
+            throw new TypeError("Cannot construct Abstract instances directly");
         }
-
-        // Initialize your class instance here
-        this.DebugMessagesEnum = {
-            INFO: "info",
-            DEBUG: "debug",
-            ERROR: "error",
-            WARN: "warn",
-        };
-        this.console = cast.debug.CastDebugLogger.getInstance();
-        this.tag = "DebuggerConsole.LOG";
-        this.errorTag = "ErrorTag.LOG"
-        // Keep a reference to the new instance
-        DebuggerConsole.instance = this;
-
-        // Explicitly return the instance
-        return this;
+        this.apiUrl = url;
+        this.headers = headers;
     }
 
     /**
-     * Enables the debug overlay and sets the verbosity level for Core events and custom tags.
-     * It also allows for enabling or disabling debug logs in the overlay.
-     * @param {boolean} [debugLogs=false] - Indicates whether debug logs should be shown in the debug overlay.
+     * A placeholder for fetching content from the API. This method must be overridden in derived classes.
+     * @throws {Error} Always thrown to enforce implementation in derived classes.
      */
-    enableDebugOverlay(debugLogs = false) {
-        if (typeof debugLogs !== "boolean") {
-            throw new Error("Arguments must be boolean.");
-        }
-        this.console.setEnabled(true);
-        this.console.showDebugLogs(debugLogs);
-        // Set verbosity level for Core events and custom tags.
-        this.console.loggerLevelByEvents = {
-            "cast.framework.events.category.CORE": cast.framework.LoggerLevel.INFO,
-            "cast.framework.events.EventType.MEDIA_STATUS": cast.framework.LoggerLevel.DEBUG,
-        };
-
-        this.console.loggerLevelByTags = {
-            logTag: cast.framework.LoggerLevel.DEBUG,
-        };
+    async fetchContent() {
+        throw new Error("Must override fetchContent in derived class");
     }
 
     /**
-     * Sends a log message to the Cast debug logger. The type of the log message must match one of the predefined types in `DebugMessagesEnum`.
-     * @param {('info'|'debug'|'error'|'warn')} type - The type of message you want to send. Must be one of the following values: 'info', 'debug', 'error', 'warn'.
-     * @param {...any} message - The message(s) that are going to be sent. Can be of any type.
+     * A placeholder for extracting image pairs from the fetched content. This method must be overridden in derived classes.
+     * @param {Object} data - The raw data from which image pairs need to be extracted.
+     * @throws {Error} Always thrown to enforce implementation in derived classes.
      */
-    sendLog(type, ...message) {
-        if (type == this.DebugMessagesEnum.DEBUG) {
-            this.console.debug(this, message);
-        } else if (type == this.DebugMessagesEnum.INFO) {
-            this.console.info(this.tag, message);
-        } else if (type == this.DebugMessagesEnum.ERROR) {
-            this.console.error(this.errorTag, message);
-        } else if (type == this.DebugMessagesEnum.WARN) {
-            this.console.warn(this.tag, message);
-        } else {
-            // Default to info if type is not recognized
-            this.console.info(this.tag, message);
-        }
+    extractImagePairs(data) {
+        throw new Error("Must override extractImagePairs in derived class");
+    }
+
+    /**
+     * A placeholder for extracting additional information from the fetched content. This method must be overridden in derived classes.
+     * @param {Object} data - The raw data from which information needs to be extracted.
+     * @throws {Error} Always thrown to enforce implementation in derived classes.
+     */
+    extractInformation(data) {
+        throw new Error("Must override extractInformation in derived class");
     }
 }
 
-export default DebuggerConsole;
+export default AbstractContentFetcher;
 </code></pre>
         </article>
     </section>
