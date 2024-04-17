@@ -1,6 +1,6 @@
-import ItemType from "../enums/ItemTypes.js";
-import VideoFormatsEnum from "../enums/VideoFormats.js";
-import Observer from "./Observer.js";
+import ItemType from "./utils/enums/ItemTypes.js";
+import VideoFormatsEnum from "./utils/enums/VideoFormats.js";
+import Observer from "../utils/interfaces/Observer.js";
 
 /**
  * AssetManager is a subclass of Observer specifically designed to manage visual assets within a carousel.

@@ -1,6 +1,6 @@
-import ContentFetcher from "./ContentFetcher.js";
-import ImageLoader from "./ImageLoader.js";
-import Subject from "./Subject.js";
+import PeacockContentFetcher from "../fetcher/PeacockContentFetcher.js";
+import ImageLoader from "../display/ImageLoader.js";
+import Subject from "../../utils/interfaces/Subject.js";
 
 /**
  * The CarouselDisplay class manages the functionality of an image carousel that fetches and displays images in pairs (landscape and title logo) from a specified API.
@@ -111,7 +111,7 @@ class CarouselDisplay extends Subject {
     async setupCarousel(apiUrl, headers) {
 
         try {
-            const fetcher = new ContentFetcher(apiUrl, headers);
+            const fetcher = new PeacockContentFetcher(apiUrl, headers);
 
             const { imagePairs, contentInfo } = await fetcher.fetchContent();
 

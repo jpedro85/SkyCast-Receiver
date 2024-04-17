@@ -2,7 +2,7 @@ const ConfigFileValidator = require("./ConfigFileValidator.js");
 const ConfigFileFactory = require("./ConfigFileFactory.js");
 
 const CONFIG_JSON_DIR = "./config.json";
-const OUTPUT_DIR = "./public/js/Main.js";
+const OUTPUT_DIR = "./public/js/app/Main.js";
 
 module.exports = class Parser {
     constructor() {

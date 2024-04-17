@@ -1,4 +1,4 @@
-import ItemType from "../enums/ItemTypes.js";
+import ItemType from "../utils/enums/ItemTypes.js";
 
 /**
  * The ContentFetcher class is responsible for fetching both image data and additional information
@@ -23,7 +23,7 @@ import ItemType from "../enums/ItemTypes.js";
  * This class makes it easier to manage content fetching by combining image and information retrieval,
  * reducing the complexity and number of requests made to the backend.
  */
-class ContentFetcher {
+class PeacockContentFetcher {
     /**
     * Constructs a ContentFetcher instance with a specified API URL and request headers.
     * @param {string} url - The URL of the API from which to fetch content.
@@ -98,4 +98,4 @@ class ContentFetcher {
     }
 }
 
-export default ContentFetcher;
+export default PeacockContentFetcher;
