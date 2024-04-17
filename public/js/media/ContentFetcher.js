@@ -1,4 +1,5 @@
 import ItemType from "../enums/ItemTypes.js";
+
 /**
  * The ContentFetcher class is responsible for fetching both image data and additional information
  * from a specified API for use in a content display, such as an image carousel or content list.

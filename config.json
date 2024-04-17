@@ -1,10 +1,7 @@
 {
     "debuggerConsole": false,
     "debuggerOverlay": false,
-    "chromecastChannel": {
-        "NAMESPACE": "urn:x-cast:com.skycast.chromecast.communication",
-        "communicationConstants": {}
-    },
+    "chromecastChannel": {},
     "imageInterval": 5000,
     "carouselUrl": "https://mobile.clients.peacocktv.com/bff/sections/v1?segment=all_premium_users&node_id=13dba516-9722-11ea-bbcc-234acf5d5a4e",
     "carouselHeaders": {
