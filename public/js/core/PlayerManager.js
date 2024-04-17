@@ -15,7 +15,7 @@ class PlayerManager {
     }
 
     logInfo(message, data) {
-        console.log(message, JSON.stringify(data, null, 4));
+        console.log(message + ":", JSON.stringify(data, null, 4));
         this.debuggerConsole.sendLog("info", message + ": " + JSON.stringify(data));
     }
 
@@ -52,14 +52,19 @@ class PlayerManager {
     }
 
     handleEvent(event, message) {
+        const types = {
+            MEDIA_FINISHED: cast.framework.events.EventType.MEDIA_FINISHED,
+            ERROR: cast.framework.events.EventType.ERROR,
+            MEDIA_STATUS: cast.framework.events.EventType.MEDIA_STATUS,
+        }
         switch (event.type) {
-            case cast.framework.events.EventType.MEDIA_FINISHED:
+            case types.MEDIA_FINISHED:
                 if (Object.values(IdleEndReason).includes(event.endedReason)) {
                     this.mediaPlayer.hidePlayer();
                     this.carousel.startCarousel();
                 }
                 break;
-            case cast.framework.events.EventType.ERROR:
+            case types.ERROR:
                 const error = Object.values(ErrorCodes).find((e) => e.code === event.detailedErrorCode);
                 const errorMessage = error ? `Error ${error.code}: ${error.message}` : `Unknown Error Code - ${event.detailedErrorCode}`;
                 this.logError(errorMessage);
@@ -67,6 +72,10 @@ class PlayerManager {
                     this.mediaPlayer.mediaPlayer.classList.toggle("hidden");
                     this.carousel.startCarousel();
                 }
+                break;
+            case types.MEDIA_STATUS:
+                console.log(message, event);
+                this.debuggerConsole.sendLog("info", message + ": " + JSON.stringify(event));
                 break;
             default:
                 this.logInfo(message, event);
