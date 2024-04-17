@@ -1,4 +1,3 @@
-
 const ConfigFile = require("./ConfigFile.js");
 
 module.exports = class MainFile extends ConfigFile {
