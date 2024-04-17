@@ -1,13 +1,8 @@
 const gulp = require('gulp');
 const babel = require('gulp-babel');
-const terser = require('gulp-terser');
 const concat = require('gulp-concat');
 const minifyCss = require("gulp-clean-css");
-const sourcemaps = require("gulp-sourcemaps");
-const rename = require('gulp-rename');
 const uglify = require('gulp-uglify');
-const through2 = require("through2");
-const path = require("path");
 
 // const SRC_DIR = 'public/js/**/*.js';
 const SRC_DIR = [
