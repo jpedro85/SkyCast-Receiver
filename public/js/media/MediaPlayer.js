@@ -21,8 +21,6 @@ class MediaPlayer {
         // Showing the media Player
         this.mediaPlayer.classList.toggle("hidden");
 
-        console.log(media.contentUrl)
-
         // Create a MediaInfo object
         const mediaInfo = new cast.framework.messages.MediaInformation();
         mediaInfo.contentId = media.contentUrl;

@@ -149,6 +149,10 @@ body {
     border-radius: 1.2rem;
 }
 
+#description-container {
+    width: 100%;
+}
+
 #description-content {
     color: white;
     height: 0;
@@ -156,6 +160,7 @@ body {
     flex-wrap: wrap;
     flex-direction: column;
     gap: 25px;
+    justify-content: center;
 }
 
 #item-rating-icon {
@@ -163,7 +168,15 @@ body {
     display: flex;
     width: 25px;
     height: auto;
-    align-self: flex-start;
+    align-self: center;
+}
+
+#item-rating-icon img {
+    width: 25px;
+}
+
+#item-rating {
+    align-self: center;
 }
 
 #rating {
