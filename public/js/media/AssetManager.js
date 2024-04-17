@@ -1,5 +1,5 @@
-import ItemType from "../utils/enums/ItemTypes.js";
-import VideoFormatsEnum from "../utils/enums/VideoFormats.js";
+import ItemType from "../enums/ItemTypes.js";
+import VideoFormatsEnum from "../enums/VideoFormats.js";
 import Observer from "./Observer.js";
 
 /**
@@ -182,7 +182,9 @@ class AssetManager extends Observer {
         const { year, ageRating, duration, seasonCount, videoFormats } = itemDescription;
 
         const itemRating = itemDescription.itemRating ?? "";
-        const formattedItemRating = itemRating ? `${itemRating}%` : itemRating;
+        const freshTomatoTag = "<img id='item-rating-icon' src='./images/tomatometer-fresh.svg' /> ";
+        const emptyTomatoTag = "<img id='item-rating-icon' src='./images/tomatometer-empty.svg' /> ";
+        const formattedItemRating = itemRating ? `${freshTomatoTag}<span id='item-rating'>${itemRating}%</span>` : `${emptyTomatoTag}<span id='item-rating'>${itemRating}</span>`;
 
         const carouselSlideDescriptionId = this.carousel.slideDescriptionId;
         const lastElement = document.querySelector(carouselSlideDescriptionId);
@@ -213,7 +215,7 @@ class AssetManager extends Observer {
 
         itemDescriptionElement.innerHTML = `
             <div id="rating">
-                <span id="item-rating">${formattedItemRating}</span>
+                ${formattedItemRating}
             </div>
             ${detailsHTML}
         `;
