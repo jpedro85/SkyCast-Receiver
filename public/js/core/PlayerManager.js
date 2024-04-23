@@ -29,6 +29,7 @@ class PlayerManager {
         this.playerManager = this.context.getPlayerManager();
         this.debuggerConsole = new DebuggerConsole();
         this.mediaPlayer = new MediaPlayer();
+        this.isPlaying = false;
     }
 
     /**
@@ -56,7 +57,10 @@ class PlayerManager {
     initPlayerManager() {
         this.playerManager.setMessageInterceptor(cast.framework.messages.MessageType.LOAD, async (request) => {
 
-            this.carousel.stopCarousel();
+            if (!this.isPlaying) {
+                this.mediaPlayer.hidePlayer();
+                this.carousel.stopCarousel();
+            }
 
             // NOTE: For Development only
             console.log("Before modifying the request", JSON.stringify(request, null, 4));
@@ -69,6 +73,8 @@ class PlayerManager {
             // NOTE: For Development only
             console.log("After modifying the request", JSON.stringify(request, null, 4));
             this.debuggerConsole.sendLog("info", request);
+
+            this.isPlaying = true;
 
             return request;
 
@@ -113,7 +119,7 @@ class PlayerManager {
                 this.debuggerConsole.sendLog("info", message + ": " + JSON.stringify(event));
                 break;
             default:
-                this.logInfo(message, event);
+                this.logInfo("tests" + message, event);
                 break;
         }
     }
