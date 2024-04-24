@@ -69,7 +69,6 @@ class ChromecastChannel {
      */
     sendMessage(data) {
         if (!MessageProtocol.isMessageFormatted(data)) {
-            console.log("object was not formatted correctly" + data);
             this.debugger.sendLog("error", "object was not formatted correctly" + data);
             return;
         }
@@ -89,13 +88,12 @@ class ChromecastChannel {
      */
     onMessage(message) {
         const { data } = message;
-        const jsonText = this.printMessage(data);
-        console.log(jsonText);
+        const jsonText = this.formatMessage(data);
         this.debugger.sendLog("warn", "Message Received was:\n" + jsonText);
         // TODO implement the actions for the the message (messageHandler)
     }
 
-    printMessage(data) {
+    formatMessage(data) {
         let jsonText = "Message Received: {\n";
         for (let key in data) {
             jsonText += '\t "' + key + '" : ' + data[key] + ",\n";
