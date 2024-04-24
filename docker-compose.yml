@@ -1,0 +1,11 @@
+version: '3'
+services:
+  skycast:
+    build: .
+    container_name: SkyCast
+    restart: unless_stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/usr/src/app
+

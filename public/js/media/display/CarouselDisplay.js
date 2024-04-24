@@ -1,4 +1,4 @@
-import PeacockContentFetcher from "../fetcher/PeacockContentFetcher.js";
+import ContenteFetcherFactory from "../fetcher/ContentFetcherFactory.js";
 import ImageLoader from "../display/ImageLoader.js";
 import Subject from "../../utils/interfaces/Subject.js";
 
@@ -111,7 +111,7 @@ class CarouselDisplay extends Subject {
     async setupCarousel(apiUrl, headers) {
 
         try {
-            const fetcher = new PeacockContentFetcher(apiUrl, headers);
+            const fetcher = ContenteFetcherFactory.createContentFetcher("Peacock", apiUrl, headers);
 
             const { imagePairs, contentInfo } = await fetcher.fetchContent();
 

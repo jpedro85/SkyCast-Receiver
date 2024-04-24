@@ -183,8 +183,7 @@ class AssetManager extends Observer {
 
         const itemRating = itemDescription.itemRating ?? "";
         const freshTomatoTag = "<div id='item-rating-icon'><img id='item-rating-icon' src='./images/tomatometer-fresh.svg' /> </div> ";
-        const emptyTomatoTag = "<div id='item-rating-icon'><img  src='./images/tomatometer-empty.svg' /> </div> ";
-        const formattedItemRating = itemRating ? `${freshTomatoTag}<span id='item-rating'>${itemRating}%</span>` : `${emptyTomatoTag}<span id='item-rating'>${itemRating}</span>`;
+        const formattedItemRating = itemRating ? `${freshTomatoTag}<span id='item-rating'>${itemRating}%</span>` : `<span id='item-rating'>${itemRating}</span>`;
 
         const carouselSlideDescriptionId = this.carousel.slideDescriptionId;
         const lastElement = document.querySelector(carouselSlideDescriptionId);
