@@ -1,4 +1,5 @@
 import ItemType from "../utils/enums/ItemTypes.js";
+import DebuggerConsole from "../../utils/Debugger.js";
 
 /**
  * The ContentFetcher class is responsible for fetching both image data and additional information
@@ -32,6 +33,7 @@ class PeacockContentFetcher {
     constructor(url, headers) {
         this.apiUrl = url;
         this.headers = headers;
+        this.debuggerConsole = new DebuggerConsole();
     }
 
     /**
@@ -50,7 +52,7 @@ class PeacockContentFetcher {
             }
         }
         catch (error) {
-            console.error("Failed to fetch content:", error);
+            this.debuggerConsole.sendLog("error", "Failed to fetch content:" + error);
             throw error;
         }
     }

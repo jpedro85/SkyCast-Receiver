@@ -1,6 +1,7 @@
 import ItemType from "./utils/enums/ItemTypes.js";
 import VideoFormatsEnum from "./utils/enums/VideoFormats.js";
 import Observer from "../utils/interfaces/Observer.js";
+import DebuggerConsole from "../utils/Debugger.js";
 
 /**
  * AssetManager is a subclass of Observer specifically designed to manage visual assets within a carousel.
@@ -17,6 +18,7 @@ class AssetManager extends Observer {
         this.castLogoDiv = null;
         this.slideDescription = null;
         this.assetsLoaded = false;
+        this.debuggerConsole = new DebuggerConsole();
     }
 
     /**
@@ -64,7 +66,7 @@ class AssetManager extends Observer {
         this.carousel.container.style.backgroundColor = "black";
 
         this.assetsLoaded = true;
-        console.log("Assets Loaded");
+        this.debuggerConsole.sendLog("debug", "Assets Loaded");
     }
 
     /**
@@ -123,7 +125,7 @@ class AssetManager extends Observer {
     // Logging the time it takes to see if its not loading images again
     checkLoadingPerformance(imagePair, pairInformation) {
 
-        console.log("Slide: ", this.carousel.currentIndex);
+        this.debuggerConsole.sendLog("info", "Slide: " + this.carousel.currentIndex);
 
         const lastBackgroundElement = this.carousel.container.querySelector(this.carousel.backgroundImageId);
         const lastTitleElement = this.carousel.container.querySelector(this.carousel.titleImageId);
@@ -142,7 +144,7 @@ class AssetManager extends Observer {
                 backgroundElement.src = imagePair.landscape;
                 backgroundElement.onload = () => {
                     durationBackground = performance.now() - backgroundStartTime;
-                    console.log(`Background image loaded in ${durationBackground.toFixed(2)} ms`);
+                    this.debuggerConsole.sendLog("info", `Background image loaded in ${durationBackground.toFixed(2)} ms`);
                     resolve();
                 };
             }),
@@ -150,7 +152,7 @@ class AssetManager extends Observer {
                 titleImageElement.src = imagePair.titleLogo;
                 titleImageElement.onload = () => {
                     const duration = performance.now() - titleStartTime - durationBackground;
-                    console.log(`Title image loaded in ${duration.toFixed(2)} ms`);
+                    this.debuggerConsole.sendLog("info", `Title image loaded in ${duration.toFixed(2)} ms`);
                     resolve();
                 };
             })
@@ -167,7 +169,7 @@ class AssetManager extends Observer {
             carouselElement.classList.add("slide-in");
             this.loadSlideDescription(pairInformation);
         }).catch(error => {
-            console.error("Error loading images:", error);
+            this.debuggerConsole.sendLog("error", "Error loading images:" + error);
         });
 
     }

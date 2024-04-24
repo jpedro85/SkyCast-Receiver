@@ -38,8 +38,6 @@ class PlayerManager {
     * @param {Object} data - Additional data to include in the log.
     */
     logInfo(message, data) {
-        console.log(message + ":", JSON.stringify(data, null, 4));
-        this.debuggerConsole.sendLog("info", message + ": " + JSON.stringify(data));
     }
 
     /**
@@ -63,16 +61,14 @@ class PlayerManager {
             }
 
             // NOTE: For Development only
-            console.log("Before modifying the request", JSON.stringify(request, null, 4));
-            this.debuggerConsole.sendLog("info", request);
+            this.debuggerConsole.sendLog("info", "Before modifying the request " + JSON.stringify(request, null, 4));
 
             const { media } = request;
             const mediaInfo = this.mediaPlayer.playMedia(media);
             request.media = mediaInfo;
 
             // NOTE: For Development only
-            console.log("After modifying the request", JSON.stringify(request, null, 4));
-            this.debuggerConsole.sendLog("info", request);
+            this.debuggerConsole.sendLog("info", "Before modifying the request " + JSON.stringify(request, null, 4));
 
             this.isPlaying = true;
 
@@ -108,18 +104,16 @@ class PlayerManager {
             case types.ERROR:
                 const error = Object.values(ErrorCodes).find((e) => e.code === event.detailedErrorCode);
                 const errorMessage = error ? `Error ${error.code}: ${error.message}` : `Unknown Error Code - ${event.detailedErrorCode}`;
-                this.logError(errorMessage);
+                this.debuggerConsole.sendLog("error", errorMessage);
                 if (!this.carousel.isPlaying()) {
                     this.mediaPlayer.mediaPlayer.classList.toggle("hidden");
                     this.carousel.startCarousel();
                 }
                 break;
             case types.MEDIA_STATUS:
-                console.log(message, event);
-                this.debuggerConsole.sendLog("info", message + ": " + JSON.stringify(event));
+                this.debuggerConsole.sendLog("debug", message + ": " + JSON.stringify(event, null, 4));
                 break;
             default:
-                this.logInfo("tests" + message, event);
                 break;
         }
     }

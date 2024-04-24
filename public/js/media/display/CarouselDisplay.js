@@ -1,6 +1,7 @@
 import ContenteFetcherFactory from "../fetcher/ContentFetcherFactory.js";
 import ImageLoader from "../display/ImageLoader.js";
 import Subject from "../../utils/interfaces/Subject.js";
+import DebuggerConsole from "../../utils/Debugger.js";
 
 /**
  * The CarouselDisplay class manages the functionality of an image carousel that fetches and displays images in pairs (landscape and title logo) from a specified API.
@@ -65,6 +66,7 @@ class CarouselDisplay extends Subject {
         this.isCarouselPlaying = false;
         this.slideInterval = slideInterval;
         this.intervalId = null;
+        this.debuggerConsole = new DebuggerConsole();
     }
 
     /**
@@ -117,7 +119,7 @@ class CarouselDisplay extends Subject {
 
             ImageLoader.preloadImages(imagePairs)
                 .then(() => {
-                    console.log("All images preloaded");
+                    this.debuggerConsole.sendLog("info", "All images preloaded");
 
                     this.carouselItems = imagePairs.map((pair, index) => ({
                         imagePair: pair,

@@ -1,4 +1,9 @@
 
+import DebuggerConsole from "../utils/Debugger.js";
+
+const debuggerConsole = new DebuggerConsole();
+debuggerConsole.enableDebugOverlay(true);
+
 import CarouselDisplay from "../media/display/CarouselDisplay.js";
 import AssetManager from "../media/AssetManager.js";
 

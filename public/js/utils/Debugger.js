@@ -68,18 +68,23 @@ class DebuggerConsole {
      * @param {('info'|'debug'|'error'|'warn')} type - The type of message you want to send. Must be one of the following values: 'info', 'debug', 'error', 'warn'.
      * @param {...any} message - The message(s) that are going to be sent. Can be of any type.
      */
-    sendLog(type, ...message) {
+    sendLog(type, message) {
         if (type == this.DebugMessagesEnum.DEBUG) {
-            this.console.debug(this, message);
+            this.console.debug(this.tag, message);
+            console.debug(message);
         } else if (type == this.DebugMessagesEnum.INFO) {
             this.console.info(this.tag, message);
+            console.info(message);
         } else if (type == this.DebugMessagesEnum.ERROR) {
             this.console.error(this.errorTag, message);
+            console.error(message);
         } else if (type == this.DebugMessagesEnum.WARN) {
             this.console.warn(this.tag, message);
+            console.warn(message);
         } else {
             // Default to info if type is not recognized
             this.console.info(this.tag, message);
+            console.info(message);
         }
     }
 }
