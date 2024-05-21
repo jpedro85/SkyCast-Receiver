@@ -5,7 +5,6 @@ SkyCast-Receiver is a Chromecast receiver application developed to enhance the m
 
 ## Features
 - **Media Playback**: Support for streaming high-quality video and audio content.
-- **Custom User Interface**: A tailored UI for easy navigation and control of media playback on the big screen.
 - **Adaptive Streaming**: Integration with adaptive streaming technologies to ensure the best possible quality based on the user's connection speed.
 - **Device Compatibility**: Optimized for a wide range of Chromecast-enabled devices, ensuring a broad audience reach.
 
