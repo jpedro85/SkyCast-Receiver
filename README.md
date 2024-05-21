@@ -9,6 +9,9 @@ SkyCast-Receiver is a Chromecast receiver application developed to enhance the m
 - **Adaptive Streaming**: Integration with adaptive streaming technologies to ensure the best possible quality based on the user's connection speed.
 - **Device Compatibility**: Optimized for a wide range of Chromecast-enabled devices, ensuring a broad audience reach.
 
+### Requirements
+- Node.js
+
 ## Getting Started
 To get a local copy up and running, follow these simple steps:
 
@@ -16,4 +19,9 @@ To get a local copy up and running, follow these simple steps:
    ```sh
    git clone https://github.com/jpedro85/SkyCast-Receiver.git
    cd SkyCast-Receiver
+   ```
+2. **Start the app**
+   ```sh
+   npm install
+   npm start
    ```
