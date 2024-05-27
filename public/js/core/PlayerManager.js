@@ -98,6 +98,7 @@ class PlayerManager {
             case types.MEDIA_FINISHED:
                 if (Object.values(IdleEndReason).includes(event.endedReason)) {
                     this.mediaPlayer.hidePlayer();
+                    this.isPlaying = false;
                     this.carousel.startCarousel();
                 }
                 break;
